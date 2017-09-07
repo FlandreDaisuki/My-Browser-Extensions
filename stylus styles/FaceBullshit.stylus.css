@@ -1,0 +1,103 @@
+@-moz-document regexp('https://www.facebook.com/(?!messages).*') {
+	:root {
+		/* 預設 calc(100vh - 100px) */
+		--小聊天室高: calc(100vh - 100px);
+	}
+
+	#globalContainer {
+		position: absolute;
+		left: 24px;
+	}
+
+	/* 右邊廣告欄吃光光 */
+	#rightCol * {
+		display: none;
+	}
+
+	/* 訊息圖示點開後的 "到 Messenger 察看全部" */
+	#MercuryJewelFooter {
+		display: none;
+	}
+
+	/* 右朋友欄 */
+	.fbChatSidebar {
+		right: -159px;
+	}
+
+	/* 右朋友欄 > 下搜尋欄 */
+	._4oes {
+		display: none;
+	}
+
+	/* 右朋友欄 > 上朋友列表 */
+	.fbChatSidebarBody {
+		height: auto;
+	}
+
+	/* 大頭 */
+	._55lq {
+		margin-left: 0px;
+	}
+
+	/* 上線/離線格 */
+	._5bon {
+		position: absolute;
+		left: 2px;
+		top: -14px;
+		margin: 0;
+	}
+
+	/* 綠燈樣式 */
+	._568z > span {
+		margin: 0 !important;
+		height: 8px !important;
+		width: 8px !important;
+	}
+
+	/* 最後上線時間 */
+	._568- {
+		display: none;
+	}
+
+	/* 更多聯絡人 */
+	._55ob {
+		display: none;
+	}
+
+	/* 聊天欄基底 */
+	.sidebarMode .fbDockWrapperRight {
+		right: 46px;
+	}
+
+	._50mz.opened .fbDockChatTabFlyout,
+	.conversationContainer {
+		min-height: var(--小聊天室高);
+	}
+
+	._2sz2 {
+		height: var(--小聊天室高) !important;
+	}
+
+	/* 貼圖大小 */
+	#pagelet_dock
+		.conversationContainer
+		._4tdt._ua1
+		._3e7u._n4o
+		> span
+		> div[role='img'] {
+		transform-origin: center center;
+		transform: scale(0.5);
+		margin: -25%;
+	}
+
+	#pagelet_dock
+		.conversationContainer
+		._4tdt._ua0
+		._3e7u._n4o
+		> span
+		> div[role='img'] {
+		transform-origin: center center;
+		transform: scale(0.5) translateX(100%);
+		margin: -25%;
+	}
+}
