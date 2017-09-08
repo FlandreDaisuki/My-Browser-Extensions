@@ -1,0 +1,35 @@
+@-moz-document domain('ani.gamer.com.tw') {
+	section.old_list div.order > i,
+	section.index_new button.newanime__order > i {
+		position: absolute;
+		font-size: 0;
+		margin: 0;
+		left: 1.4rem;
+		top: 0.4rem;
+	}
+
+	section.old_list div.order > i::after,
+	section.index_new button.newanime__order > i::after {
+		content: '';
+		background-image: url('//i.imgur.com/DPOmcxf.png');
+		background-repeat: no-repeat;
+		background-size: 32px;
+		height: 32px;
+		width: 32px;
+		position: absolute;
+	}
+
+	section.index_new button.newanime__order.is-order,
+	section.index_new button.newanime__order:hover,
+	section.old_list div.order.yes,
+	section.old_list div.order:hover {
+		background-color: #fcdba4;
+	}
+
+	section.index_new button.newanime__order:hover > i::after,
+	section.index_new button.newanime__order.is-order > i::after,
+	section.old_list div.order:hover > i::after,
+	section.old_list div.order.yes > i::after {
+		background-position: 0 -32px;
+	}
+}
