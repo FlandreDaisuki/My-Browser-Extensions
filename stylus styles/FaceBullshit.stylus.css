@@ -1,7 +1,15 @@
 @-moz-document regexp('https://www.facebook.com/(?!messages).*') {
+	/**
+	 * 使用說明：
+	 * 1. 安裝 Stylus
+	 * 2. 點圖示 > ( 管理已安裝樣式 > ) 編寫新樣式 > 複製貼上
+	 * 3. 下方設定 指定 > [匹配正則表示式的網址] https://www.facebook.com/(?!messages).*
+	 * 4. 左邊輸入名稱後 > 保存
+	 * 5. :root 可以改小聊天室高度
+	 */
 	:root {
 		/* 預設 calc(100vh - 100px) */
-		--小聊天室高: calc(100vh - 100px);
+		--chatroom-height: calc(100vh - 100px);
 	}
 
 	#globalContainer {
@@ -25,13 +33,29 @@
 	}
 
 	/* 右朋友欄 > 下搜尋欄 */
+	/* 拿到上面去 平常用不到 */
 	._4oes {
+		position: fixed;
+		top: 44px;
+		right: 50px;
+		max-width: 200px;
+		opacity: 0.2;
+		transition: opacity 0.15s;
+	}
+
+	._4oes:hover {
+		opacity: 1;
+	}
+
+	/* 右朋友欄 > 上垃圾 */
+	.fbSidebarGripper,
+	.fbChatOrderedList > div[data-testid='chat_sidebar'] > div:nth-of-type(2) {
 		display: none;
 	}
 
 	/* 右朋友欄 > 上朋友列表 */
 	.fbChatSidebarBody {
-		height: auto;
+		height: 100% !important;
 	}
 
 	/* 大頭 */
@@ -71,11 +95,11 @@
 
 	._50mz.opened .fbDockChatTabFlyout,
 	.conversationContainer {
-		min-height: var(--小聊天室高);
+		min-height: var(--chatroom-height);
 	}
 
 	._2sz2 {
-		height: var(--小聊天室高) !important;
+		height: var(--chatroom-height) !important;
 	}
 
 	/* 貼圖大小 */
