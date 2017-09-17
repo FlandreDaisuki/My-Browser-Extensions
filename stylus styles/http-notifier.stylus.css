@@ -1,44 +1,45 @@
-@-moz-document url-prefix("http://") {
-body::before {
-	content: "Not https";
-	position: fixed;
-	top: 0;
-	left: 0;
-	display: flex;
-	width: 50px;
-	height: 50px;
-	padding: 2px;
-	margin: 4px;
-	background-color: red;
-	color: white;
-	text-align: center;
-	line-height: 1;
-	border-radius: 50%;
-	align-items: center;
-	justify-content: center;
-	font-size: 16px;
-	font-family: Helvetica, sans-serif;
-	letter-spacing: 0;
-	border: 2px white solid;
-	z-index: 2147483647;
-	animation: http-notifier-animation 1s cubic-bezier(0.5, 0.0, 1.0, 1.0);
-}
-
-@keyframes http-notifier-animation {
-	from {
-		width: 100vh;
-		height: 100vh;
-		font-size: 30vh;
-		left: 50%;
-		transform: translatex(-50%);
-	}
-
-	to {
+@-moz-document url-prefix('http://') {
+	body::before {
+		content: 'Not https';
+		position: fixed;
+		top: 0;
+		left: 0;
+		display: flex;
 		width: 50px;
 		height: 50px;
-		left: 0%;
-		transform: translatex(0);
+		padding: 2px;
+		margin: 4px;
+		background-color: red;
+		color: white;
+		text-align: center;
+		line-height: 1;
+		border-radius: 50%;
+		align-items: center;
+		justify-content: center;
 		font-size: 16px;
+		font-family: Helvetica, sans-serif;
+		letter-spacing: 0;
+		border: 2px white solid;
+		z-index: 2147483647;
+		/* 如果不要縮小的動畫可以把下面這行註解掉 */
+		animation: http-notifier-animation 1s cubic-bezier(0.5, 0, 1, 1);
 	}
-}
+
+	@keyframes http-notifier-animation {
+		from {
+			width: 100vh;
+			height: 100vh;
+			font-size: 30vh;
+			left: 50%;
+			transform: translatex(-50%);
+		}
+
+		to {
+			width: 50px;
+			height: 50px;
+			left: 0%;
+			transform: translatex(0);
+			font-size: 16px;
+		}
+	}
 }
