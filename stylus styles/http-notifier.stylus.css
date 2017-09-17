@@ -1,3 +1,4 @@
+@-moz-document url-prefix("http://") {
 body::before {
 	content: "Not https";
 	position: fixed;
@@ -39,4 +40,5 @@ body::before {
 		transform: translatex(0);
 		font-size: 16px;
 	}
+}
 }
