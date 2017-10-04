@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Unlock Hath Perks
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.1.1
 // @description  Unlock Hath Perks and other helpers
 // @author       FlandreDaisuki
 // @match        *://e-hentai.org/*
@@ -160,105 +160,6 @@ function main() {
 		uhpPanelEl.appendChild(uhpFWRow);
 	}
 
-	/* Setup UHP Style */
-	const uhpCSS = `
-#uhp-btn {
-	cursor: pointer;
-}
-#uhp-panel-container {
-	position:fixed;
-	top: 0;
-	height: 100vh;
-	width: 100vw;
-	background-color: rgba(200, 200, 200, 0.7);
-	z-index: 2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-#uhp-panel-container.hidden {
-	visibility: hidden;
-	opacity: 0;
-}
-#uhp-panel {
-	padding: 1.2rem;
-	border-radius: 1rem;
-	background-color: floralwhite;
-	font-size: 1rem;
-	color: darkred;
-}
-#uhp-full-width-container.fullwidth,
-#uhp-full-width-container.fullwidth div.itg {
-	max-width: none;
-}
-#uhp-full-width-container div.itg {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-}
-#uhp-full-width-container div.id1 {
-	height: 345px;
-	float: none;
-	display: flex;
-	flex-direction: column;
-	margin: 4px;
-	padding: 4px;
-}
-#uhp-full-width-container div.id2 {
-	overflow: visible;
-	height: initial;
-	padding: 4px;
-}
-#uhp-full-width-container div.id3 {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.uhp-row {
-	margin: 0.8rem;
-}
-.uhp-row>input,
-.uhp-row>label {
-	cursor: pointer;
-}
-.uhp-row>label[for="uhp-conf-it"]:hover::before {
-	content: "This option will disable popular section.";
-    padding: 6px;
-    border: 1px solid black;
-    border-radius: 10px 10px 0;
-    position: absolute;
-    background-color: black;
-    transform: translate(-101%, -70%);
-    transform-origin: bottom right;
-    color: white;
-}
-}
-.uhp-list-parent-eh tr:nth-of-type(2n+1){
-	background-color: #EDEBDF;
-}
-.uhp-list-parent-eh tr:nth-of-type(2n+2){
-	background-color: #F2F0E4;
-}
-.uhp-list-parent-exh tr:nth-of-type(2n+1) {
-	background-color: #363940;
-}
-.uhp-list-parent-exh tr:nth-of-type(2n+2){
-	background-color: #4F535B;
-}
-#uhp-status {
-	text-align: center;
-	font-size: 3rem;
-	clear: both;
-	padding: 2rem 0;
-}`;
-
-	document.head.appendChild(
-		$el('style', {
-			textContent: uhpCSS,
-		}),
-	);
-
 	if ($('#searchbox')) {
 		const ido = $('div.ido');
 		ido.id = 'uhp-full-width-container';
@@ -403,4 +304,113 @@ function main() {
 		);
 		observer.observe($('#cdiv'));
 	}
+
+	/* Setup UHP Style */
+	const uhpCSS = `
+#uhp-btn {
+	cursor: pointer;
+}
+#uhp-panel-container {
+	position:fixed;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(200, 200, 200, 0.7);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#uhp-panel-container.hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+#uhp-panel {
+	padding: 1.2rem;
+	border-radius: 1rem;
+	background-color: floralwhite;
+	font-size: 1rem;
+	color: darkred;
+}
+#uhp-full-width-container.fullwidth,
+#uhp-full-width-container.fullwidth div.itg {
+	max-width: none;
+}
+#uhp-full-width-container div.itg {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+#uhp-full-width-container div.id1 {
+	height: 345px;
+	float: none;
+	display: flex;
+	flex-direction: column;
+	margin: 3px 0;
+	padding: 4px 0;
+}
+#uhp-full-width-container div.id2 {
+	overflow: visible;
+	height: initial;
+	margin: 4px auto;
+}
+#uhp-full-width-container div.id3 {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.uhp-row {
+	margin: 0.8rem;
+}
+.uhp-row>input,
+.uhp-row>label {
+	cursor: pointer;
+	position: relative;
+}
+.uhp-row>label[for="uhp-conf-it"]:hover::before {
+	content: "This option will disable popular section.";
+	padding: 6px;
+	border-radius: 8px;
+	position: absolute;
+	background-color: black;
+	color: white;
+	right: 110%;
+	top: -30%;
+	width: 350px;
+}
+.uhp-row>label[for="uhp-conf-fw"]:hover::before {
+	content: "This option affects on only thumbnails mode.";
+	padding: 6px;
+	border-radius: 8px;
+	position: absolute;
+	background-color: black;
+	color: white;
+	right: 110%;
+	top: -30%;
+	width: 350px;
+}
+.uhp-list-parent-eh tr:nth-of-type(2n+1){
+	background-color: #EDEBDF;
+}
+.uhp-list-parent-eh tr:nth-of-type(2n+2){
+	background-color: #F2F0E4;
+}
+.uhp-list-parent-exh tr:nth-of-type(2n+1) {
+	background-color: #363940;
+}
+.uhp-list-parent-exh tr:nth-of-type(2n+2){
+	background-color: #4F535B;
+}
+#uhp-status {
+	text-align: center;
+	font-size: 3rem;
+	clear: both;
+	padding: 2rem 0;
+}`;
+	document.head.appendChild(
+		$el('style', {
+			textContent: uhpCSS,
+		}),
+	);
 }
