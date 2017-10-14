@@ -1,22 +1,38 @@
 @-moz-document domain('ani.gamer.com.tw') {
-	section.old_list div.order > i,
-	section.index_new button.newanime__order > i {
-		position: absolute;
-		font-size: 0;
-		margin: 0;
-		left: 1.4rem;
-		top: 0.4rem;
+	@font-face {
+		font-family: 'japarifont';
+		src: url('https://cdn.rawgit.com/aratama/kemonogen/417db197/docs/japarifont.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
 	}
 
-	section.old_list div.order > i::after,
-	section.index_new button.newanime__order > i::after {
-		content: '';
-		background-image: url('//i.imgur.com/DPOmcxf.png');
-		background-repeat: no-repeat;
-		background-size: 32px;
-		height: 32px;
-		width: 32px;
-		position: absolute;
+	section.old_list div.order > i,
+	section.index_new button.newanime__order > i {
+		display: none;
+	}
+
+	.newanime,
+	ul.anime_list,
+	li[name='oldanimeli'] {
+		overflow: visible;
+	}
+
+	section.old_list div.order,
+	section.index_new button.newanime__order {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: visible;
+	}
+
+	section.old_list div.order::after,
+	section.index_new button.newanime__order::after {
+		content: 'の';
+		font-size: 32px;
+		font-family: japarifont;
+		transform: rotate(10deg);
+		display: block;
+		padding-left: 6px;
 	}
 
 	section.index_new button.newanime__order.is-order,
@@ -24,12 +40,70 @@
 	section.old_list div.order.yes,
 	section.old_list div.order:hover {
 		background-color: #fcdba4;
+		color: #f39800;
 	}
 
-	section.index_new button.newanime__order:hover > i::after,
-	section.index_new button.newanime__order.is-order > i::after,
-	section.old_list div.order:hover > i::after,
-	section.old_list div.order.yes > i::after {
-		background-position: 0 -32px;
+	section.index_new button.newanime__order:not(.is-order):hover::before,
+	section.old_list div.order:not(.yes):hover::before {
+		opacity: 0;
+		content: 'たーのしー！';
+		font-family: japarifont;
+		color: #f39800;
+		text-shadow: 1px 1px 1px black;
+		letter-spacing: 5px;
+		position: absolute;
+		white-space: nowrap;
+		animation: 🐈-🎒 2s infinite;
+		animation-delay: 0.1s;
+	}
+
+	@keyframes 🐈-🎒 {
+		0% {
+			opacity: 0;
+			content: 'たーのしー！';
+			font-size: 24px;
+			transform: translate(0px, -20px) rotate(0deg);
+		}
+
+		1% {
+			opacity: 1;
+			content: 'たーのしー！';
+			font-size: 24px;
+			transform: translate(0px, -20px) rotate(0deg);
+		}
+
+		40% {
+			opacity: 0;
+			content: 'たーのしー！';
+			font-size: 36px;
+			transform: translate(-100px, -40px) rotate(-10deg);
+		}
+
+		50% {
+			opacity: 0;
+			content: 'すごーい！';
+			font-size: 24px;
+			transform: translate(0px, -20px) rotate(0deg);
+		}
+
+		51% {
+			opacity: 1;
+			content: 'すごーい！';
+			font-size: 24px;
+			transform: translate(0px, -20px) rotate(0deg);
+		}
+
+		90% {
+			opacity: 0;
+			content: 'すごーい！';
+			font-size: 36px;
+			transform: translate(100px, -40px) rotate(10deg);
+		}
+		100% {
+			opacity: 0;
+			content: 'たーのしー！';
+			font-size: 24px;
+			transform: translate(0px, -20px) rotate(0deg);
+		}
 	}
 }

@@ -9,7 +9,7 @@
 | Name | Thumbnail |
 | ---- | --------- |
 | FaceBullshit | ![](FaceBullshit.png) |
-| 動畫瘋 フレンズ | ![](動畫瘋%20フレンズ.png) |
+| 動畫瘋 フレンズ | ![](動畫瘋%20フレンズ.gif) |
 | tab-size-on-github | ![](tab-size-on-github.gif) |
 | Pixiv フレンズ | ![](Pixiv%20フレンズ.png) |
 | http-notifier | ![](http-notifier.png) |
