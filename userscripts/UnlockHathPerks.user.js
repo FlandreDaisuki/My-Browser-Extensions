@@ -1,25 +1,40 @@
 // ==UserScript==
 // @name         Unlock Hath Perks
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1.1
+// @version      0.1.3
 // @description  Unlock Hath Perks and other helpers
 // @author       FlandreDaisuki
 // @match        *://e-hentai.org/*
 // @match        *://exhentai.org/*
 // @run-at       document-start
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
 // ==/UserScript==
+
+'use strict';
 
 /************************************/
 /*****     Before DOM Ready     *****/
 /************************************/
 
+function $find(el, selector, cb = () => {}) {
+	const found = el.querySelector(selector);
+	cb(found);
+	return found;
+}
+
+function $findAll(el, selector, cb = () => {}) {
+	const found = Array.from(el.querySelectorAll(selector));
+	cb(found);
+	return found;
+}
+
 function $(selector) {
-	return document.querySelector(selector);
+	return $find(document, selector);
 }
 
 function $$(selector) {
-	return Array.from(document.querySelectorAll(selector));
+	return $findAll(document, selector);
 }
 
 function $el(name, attr = {}, cb = () => {}) {
@@ -27,6 +42,64 @@ function $el(name, attr = {}, cb = () => {}) {
 	Object.assign(el, attr);
 	cb(el);
 	return el;
+}
+
+function $style(textContent) {
+	$el('style', {textContent}, el => document.head.appendChild(el));
+}
+
+// sessionStorage namespace:
+// in tab && in domain
+function $scrollYTo(n) {
+	n = parseFloat(n | 0);
+	const id = setInterval(() => {
+		scrollTo(scrollX, n);
+		if (scrollY >= n) {
+			clearInterval(id);
+		}
+	}, 100);
+}
+
+class API {
+	// ref: https://github.com/tommy351/ehreader-android/wiki/E-Hentai-JSON-API
+
+	static gInfo(href) {
+	// pathname = '/g/{gallery_id}/{gallery_token}/'
+		const a = $el('a', {href});
+		const path = a.pathname.split('/').filter(x => x);
+		if (path[0] !== 'g') {
+			return null;
+		}
+		// [{gallery_id}, {gallery_token}]
+		return path.slice(1);
+	}
+
+	static async gdata(gInfos) {
+		const r = await fetch('/api.php', {
+			method: 'POST',
+			credentials: 'same-origin',
+			body: JSON.stringify({
+				method: 'gdata',
+				gidlist: gInfos,
+			}),
+		});
+		const json = await r.json();
+		if (json.error) {
+			console.error('API.gdata(): gInfos', gInfos);
+			throw new Error(json.error);
+		} else {
+			return json.gmetadata;
+		}
+	}
+
+	static async sPage(href) {
+		const r = await fetch(href, {credentials: 'same-origin'});
+		const html = await r.text();
+		const imgsrc = html.replace(/[\s\S]*id="img" src="([^"]+)"[\s\S]*/g, '$1');
+		return {
+			imgsrc,
+		};
+	}
 }
 
 const uhpConfig = {
@@ -37,11 +110,11 @@ const uhpConfig = {
 };
 
 function uhpSetConfig() {
-	localStorage.setItem('uhp', JSON.stringify(uhpConfig));
+	GM_setValue('uhp', uhpConfig);
 }
 
 function uhpGetConfig() {
-	return JSON.parse(localStorage.getItem('uhp') || '{}');
+	return GM_getValue('uhp', {});
 }
 
 Object.assign(uhpConfig, uhpGetConfig());
@@ -57,22 +130,26 @@ if (uhpConfig.abg) {
 }
 
 document.onreadystatechange = function() {
-	if (document.readyState == 'interactive') {
+	if (document.readyState === 'interactive') {
 		main();
+		$style(cssText);
 	}
 };
 
 /*****************************/
 /*****     DOM Ready     *****/
 /*****************************/
+
 function main() {
 	if (!location.pathname.startsWith('/s/')) {
-		/* Make nav button */
+	/* Make nav button */
 		const nb = $('#nb');
-		const mr = new Image();
-		mr.src =
-			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAYAAADAp4fuAAAASUlEQVQImWXNMQ7AIAxDUa4WBuLTEilUmbnZ79YW1eOTZTdJVBXtG0mMMYg5OdDdMTMykwclYWb03lnr4sBfc0a8m+7O3vt4vwHmyjLMROhYUAAAAABJRU5ErkJggg==';
-		const uhpBtnEl = $el('a', { textContent: 'Unlock Hath Perks', id: 'uhp-btn' }, el => {
+		const mr = $el('img', {src: '//ehgt.org/g/mr.gif'});
+		const uhpBtnEl =
+		$el('a', {
+			textContent: 'Unlock Hath Perks',
+			id: 'uhp-btn',
+		}, el => {
 			el.addEventListener('click', () => {
 				$('#uhp-panel-container').classList.remove('hidden');
 			});
@@ -82,82 +159,120 @@ function main() {
 		nb.appendChild(uhpBtnEl);
 
 		/* Setup UHP Panel */
-		const uhpPanelContainerEl = $el('div', { className: 'hidden', id: 'uhp-panel-container' }, el => {
-			el.addEventListener('click', () => {
-				el.classList.add('hidden');
-			});
+		const uhpPanelContainerEl = $el('div', {
+			className: 'hidden',
+			id: 'uhp-panel-container',
+		}, el => {
+			el.addEventListener('click', () => { el.classList.add('hidden'); });
 		});
 		document.body.appendChild(uhpPanelContainerEl);
 
-		const uhpPanelEl = $el('div', { id: 'uhp-panel' }, el => {
-			el.addEventListener('click', event => {
-				event.stopPropagation();
-			});
+		const uhpPanelEl = $el('div', {
+			id: 'uhp-panel',
+		}, el => {
+			el.addEventListener('click', event => { event.stopPropagation(); });
 		});
 		uhpPanelContainerEl.appendChild(uhpPanelEl);
 
 		/* Setup UHP Configs */
-		uhpPanelEl.appendChild($el('h1', { textContent: 'Hath Perks' }));
+		uhpPanelEl.appendChild($el('h1', {
+			textContent: 'Hath Perks',
+		}));
 
-		const uhpABGLabel = $el('label', { textContent: 'Ads-Be-Gone', htmlFor: 'uhp-conf-abg' });
-		const uhpABGInput = $el('input', { type: 'checkbox', id: 'uhp-conf-abg', checked: uhpConfig.abg }, el => {
-			el.addEventListener('change', () => {
-				uhpConfig.abg = el.checked;
-				uhpSetConfig();
+		$el('div', {
+			className: 'uhp-row',
+		}, row => {
+			const uhpLabel = $el('label', {
+				textContent: 'Ads-Be-Gone',
+				htmlFor: 'uhp-conf-abg',
 			});
+			const uhpInput = $el('input', {
+				type: 'checkbox',
+				id: 'uhp-conf-abg',
+				checked: uhpConfig.abg,
+			}, el => {
+				el.addEventListener('change', () => {
+					uhpConfig.abg = el.checked;
+					uhpSetConfig();
+				});
+			});
+			row.appendChild(uhpLabel);
+			row.appendChild(uhpInput);
+			uhpPanelEl.appendChild(row);
 		});
-		const uhpABGRow = $el('div', { className: 'uhp-row' }, el => {
-			el.appendChild(uhpABGLabel);
-			el.appendChild(uhpABGInput);
-		});
-		uhpPanelEl.appendChild(uhpABGRow);
 
-		const uhpITLabel = $el('label', { textContent: 'Infinity Thumbs', htmlFor: 'uhp-conf-it' });
-		const uhpITInput = $el('input', { type: 'checkbox', id: 'uhp-conf-it', checked: uhpConfig.it }, el => {
-			el.addEventListener('change', () => {
-				uhpConfig.it = el.checked;
-				uhpSetConfig();
+		$el('div', {
+			className: 'uhp-row',
+		}, row => {
+			const uhpLabel = $el('label', {
+				textContent: 'Infinity Thumbs',
+				htmlFor: 'uhp-conf-it',
 			});
+			const uhpInput = $el('input', {
+				type: 'checkbox',
+				id: 'uhp-conf-it',
+				checked: uhpConfig.it,
+			}, el => {
+				el.addEventListener('change', () => {
+					uhpConfig.it = el.checked;
+					uhpSetConfig();
+				});
+			});
+			row.appendChild(uhpLabel);
+			row.appendChild(uhpInput);
+			uhpPanelEl.appendChild(row);
 		});
-		const uhpITRow = $el('div', { className: 'uhp-row' }, el => {
-			el.appendChild(uhpITLabel);
-			el.appendChild(uhpITInput);
-		});
-		uhpPanelEl.appendChild(uhpITRow);
 
-		const uhpPELabel = $el('label', { textContent: 'Paging Enlargement', htmlFor: 'uhp-conf-pe' });
-		const uhpPEInput = $el('input', { type: 'checkbox', id: 'uhp-conf-pe', checked: uhpConfig.pe }, el => {
-			el.addEventListener('change', () => {
-				uhpConfig.pe = el.checked;
-				uhpSetConfig();
+		$el('div', {
+			className: 'uhp-row',
+		}, row => {
+			const uhpLabel = $el('label', {
+				textContent: 'Paging Enlargement',
+				htmlFor: 'uhp-conf-pe',
 			});
+			const uhpInput = $el('input', {
+				type: 'checkbox',
+				id: 'uhp-conf-pe',
+				checked: uhpConfig.pe,
+			}, el => {
+				el.addEventListener('change', () => {
+					uhpConfig.pe = el.checked;
+					uhpSetConfig();
+				});
+			});
+			row.appendChild(uhpLabel);
+			row.appendChild(uhpInput);
+			uhpPanelEl.appendChild(row);
 		});
-		const uhpPERow = $el('div', { className: 'uhp-row' }, el => {
-			el.appendChild(uhpPELabel);
-			el.appendChild(uhpPEInput);
-		});
-		uhpPanelEl.appendChild(uhpPERow);
 
 		/* Setup Special UHP Configs */
-		uhpPanelEl.appendChild($el('h1', { textContent: 'Others' }));
+		uhpPanelEl.appendChild($el('h1', {
+			textContent: 'Others',
+		}));
 
-		const uhpFWLabel = $el('label', { textContent: 'Full Width', htmlFor: 'uhp-conf-fw' });
-		const uhpFWInput = $el('input', { type: 'checkbox', id: 'uhp-conf-fw', checked: uhpConfig.fw }, el => {
-			el.addEventListener('change', () => {
-				uhpConfig.fw = el.checked;
-				uhpSetConfig();
-				if (uhpConfig.fw) {
-					$('#uhp-full-width-container').classList.add('fullwidth');
-				} else {
-					$('#uhp-full-width-container').classList.remove('fullwidth');
-				}
+		$el('div', {
+			className: 'uhp-row',
+		}, row => {
+			const uhpLabel = $el('label', {
+				textContent: 'Full Width',
+				htmlFor: 'uhp-conf-fw',
 			});
+			const uhpInput = $el('input', {
+				type: 'checkbox',
+				id: 'uhp-conf-fw',
+				checked: uhpConfig.fw,
+			}, el => {
+				el.addEventListener('change', () => {
+					uhpConfig.fw = el.checked;
+					uhpSetConfig();
+					const fn = uhpConfig.fw ? 'add' : 'remove';
+					$('#uhp-full-width-container').classList[fn]('fullwidth');
+				});
+			});
+			row.appendChild(uhpLabel);
+			row.appendChild(uhpInput);
+			uhpPanelEl.appendChild(row);
 		});
-		const uhpFWRow = $el('div', { className: 'uhp-row' }, el => {
-			el.appendChild(uhpFWLabel);
-			el.appendChild(uhpFWInput);
-		});
-		uhpPanelEl.appendChild(uhpFWRow);
 	}
 
 	if ($('#searchbox')) {
@@ -169,16 +284,20 @@ function main() {
 	}
 
 	/* Main Functions by Configs */
+
+	/**************/
+	/* Ad-Be-Gone */
+	/**************/
 	if (uhpConfig.abg) {
 		if ($('#searchbox')) {
 			const mode = $('#dmi>span').textContent === 'Thumbnails' ? 't' : 'l';
-			const parent = mode === 't' ? $('div.itg') : $('table.itg tbody');
 			if (mode === 'l') {
-				$$('table.itg tr:nth-of-type(n+2)').forEach(el => {
-					if (!el.className) {
-						el.remove();
-					}
-				});
+				$$('table.itg tr:nth-of-type(n+2)')
+					.forEach(el => {
+						if (!el.className) {
+							el.remove();
+						}
+					});
 			}
 		}
 
@@ -186,8 +305,12 @@ function main() {
 		$$('iframe').forEach(el => el.remove());
 	}
 
+	/*******************/
+	/* Infinity Thumbs */
+	/*******************/
 	async function getNextPage(nextURL, mode) {
 		const selector = mode === 't' ? 'div.id1' : 'table.itg tr:nth-of-type(n+2)';
+
 		const result = {
 			elements: [],
 			nextURL: null,
@@ -195,70 +318,95 @@ function main() {
 		if (!nextURL) {
 			return result;
 		}
-		const response = await fetch(nextURL, { credentials: 'same-origin' });
+		const response = await fetch(nextURL, {
+			credentials: 'same-origin',
+		});
 		if (response.ok) {
 			const html = await response.text();
 			const doc = new DOMParser().parseFromString(html, 'text/html');
-			result.elements = Array.from(doc.querySelectorAll(selector));
+			result.elements = Array.from($findAll(doc, selector));
 			if (uhpConfig.abg) {
 				result.elements = result.elements.filter(el => el.className);
 			}
-			result.elements = result.elements.map(el => {
-				el.style = '';
+			result.elements =
+		result.elements
+			.filter(el => {
+				if (mode === 't') {
+					return !$find(el, '.id3 img').src.endsWith('blank.gif');
+				}
+				return true;
+			})
+			.map(el => {
+				el.removeAttribute('style');
 				return el;
 			});
-			const nextEl = doc.querySelector('.ptb td:last-child > a');
+
+			const nextEl = $find(doc, '.ptb td:last-child > a');
 			result.nextURL = nextEl ? nextEl.href : null;
 		}
 		return result;
 	}
 
 	if (uhpConfig.it && $('#searchbox')) {
-		const nextEl = $('.ptb td:last-child > a');
-		let nextURL = nextEl ? nextEl.href : null;
-		const mode = $('#dmi>span').textContent === 'Thumbnails' ? 't' : 'l';
-		const parent = mode === 't' ? $('div.itg') : $('table.itg tbody');
-		const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
-		$('table.ptb').replaceWith(status);
-		const urlSet = new Set();
-
-		if (mode === 'l') {
-			if (location.hostname.startsWith('exh')) {
-				parent.classList.add('uhp-list-parent-exh');
-			} else {
-				parent.classList.add('uhp-list-parent-eh');
-			}
-		} else {
-			parent.style.borderBottom = 'none';
-			$$('div.c, #pt, #pp').forEach(el => el.remove());
-			$$('div.id1').forEach(el => {
-				el.style = '';
+		(async() => {
+			const nextEl = $('.ptb td:last-child > a');
+			let nextURL = nextEl ? nextEl.href : null;
+			const mode = $('#dmi>span').textContent === 'Thumbnails' ? 't' : 'l';
+			const parent = mode === 't' ? $('div.itg') : $('table.itg tbody');
+			const status = $el('h1', {
+				textContent: 'Loading...',
+				id: 'uhp-status',
 			});
-		}
+			$('table.ptb').replaceWith(status);
+			const urlSet = new Set();
 
-		const observer = new IntersectionObserver(
-			async (entrys, self) => {
-				if (entrys[0].isIntersecting) {
-					if (urlSet.has(nextURL)) {
-						return;
-					} else {
-						urlSet.add(nextURL);
-					}
+			if (mode === 'l') {
+				if (location.hostname.startsWith('exh')) {
+					parent.classList.add('uhp-list-parent-exh');
+				} else {
+					parent.classList.add('uhp-list-parent-eh');
+				}
+			} else {
+				parent.style.borderBottom = 'none';
+				$$('div.id1').forEach(el => el.removeAttribute('style'));
+			}
+
+			// remove popular section
+			$$('div.c, #pt, #pp').forEach(el => el.remove());
+
+			// this page
+			const thisPage = await getNextPage(location.href, mode);
+			while (parent.firstChild) {
+				parent.firstChild.remove();
+			}
+			thisPage.elements.forEach(el => parent.appendChild(el));
+
+			// next page
+			document.addEventListener('scroll', async() => {
+				const anchorTop = status.getBoundingClientRect().top;
+				const windowHeight = window.innerHeight;
+
+				if (anchorTop < windowHeight * 2 && !urlSet.has(nextURL)) {
+					urlSet.add(nextURL);
 					const nextPage = await getNextPage(nextURL, mode);
 					console.log(nextPage);
 					nextPage.elements.forEach(el => parent.appendChild(el));
 					nextURL = nextPage.nextURL;
 					if (!nextURL) {
-						self.disconnect();
 						status.textContent = 'End';
 					}
 				}
-			},
-			{ rootMargin: '0px 0px 300px 0px' },
-		);
-		observer.observe(status);
+			});
+
+			// emit once
+			// $scrollYTo(1);
+			// $scrollYTo(0);
+		})();
 	}
 
+	/**********************/
+	/* Paging Enlargement */
+	/**********************/
 	async function getNextGallaryPage(nextURL) {
 		const result = {
 			elements: [],
@@ -267,46 +415,72 @@ function main() {
 		if (!nextURL) {
 			return result;
 		}
-		const response = await fetch(nextURL, { credentials: 'same-origin' });
+		const response = await fetch(nextURL, {
+			credentials: 'same-origin',
+		});
 		if (response.ok) {
 			const html = await response.text();
 			const doc = new DOMParser().parseFromString(html, 'text/html');
-			result.elements = Array.from(doc.querySelectorAll('#gdt > div'));
-			const nextEl = doc.querySelector('.ptb td:last-child > a');
+			result.elements = $findAll(doc, '#gdt > div');
+			const nextEl = $findAll(doc, '.ptb td:last-child > a');
 			result.nextURL = nextEl ? nextEl.href : null;
 		}
 		return result;
 	}
 
 	if (uhpConfig.pe && location.pathname.startsWith('/g/')) {
-		const urlSet = new Set();
-		$('#gdo1').style.display = 'none';
-		const nextEl = $('.ptb td:last-child > a');
-		let nextURL = nextEl ? nextEl.href : null;
-		const parent = $('#gdt');
-		const observer = new IntersectionObserver(
-			async (entrys, self) => {
-				if (urlSet.has(nextURL)) {
-					return;
-				} else {
+		(async() => {
+			$('#gdo1').style.display = 'none';
+			const nextEl = $('.ptb td:last-child > a');
+			let nextURL = nextEl ? nextEl.href : null;
+			const parent = $('#gdt');
+			parent.classList.add('uhp-page-parent');
+			const urlSet = new Set();
+
+			// this page
+			const thisPage = await getNextGallaryPage(location.href);
+			while (parent.firstChild) {
+				parent.firstChild.remove();
+			}
+			thisPage.elements.forEach(el => parent.appendChild(el));
+
+			// next page
+			document.addEventListener('scroll', async() => {
+				const anchorTop = $('#cdiv').getBoundingClientRect().top;
+				const windowHeight = window.innerHeight;
+
+				if (anchorTop < windowHeight * 2 && !urlSet.has(nextURL)) {
 					urlSet.add(nextURL);
+					const nextPage = await getNextGallaryPage(nextURL);
+					console.log(nextPage);
+					nextPage.elements.forEach(el => parent.appendChild(el));
+					nextURL = nextPage.nextURL;
 				}
-				console.log(urlSet, nextURL);
-				const nextPage = await getNextGallaryPage(nextURL);
-				console.log(nextPage);
-				nextPage.elements.forEach(el => parent.appendChild(el));
-				nextURL = nextPage.nextURL;
-				if (!nextURL) {
-					self.disconnect();
-				}
-			},
-			{ rootMargin: '0px 0px 100px 0px' },
-		);
-		observer.observe($('#cdiv'));
+			});
+
+			// emit once
+			// $scrollYTo(1);
+			// $scrollYTo(0);
+		})();
 	}
 
-	/* Setup UHP Style */
-	const uhpCSS = `
+	/**********************/
+	/* Scroll Restoration */
+	/**********************/
+	history.scrollRestoration = 'manual';
+
+	window.addEventListener('beforeunload', () => {
+		history.replaceState(scrollY, null);
+	});
+
+	window.addEventListener('load', () => {
+		if (history.state) {
+			$scrollYTo(history.state);
+		}
+	});
+}
+
+var cssText = `
 #uhp-btn {
 	cursor: pointer;
 }
@@ -407,10 +581,12 @@ function main() {
 	font-size: 3rem;
 	clear: both;
 	padding: 2rem 0;
-}`;
-	document.head.appendChild(
-		$el('style', {
-			textContent: uhpCSS,
-		}),
-	);
 }
+/* replace */
+div#gdt.uhp-page-parent {
+	display: flex;
+	flex-wrap: wrap;
+}
+div#gdt.uhp-page-parent>div{
+	float: initial;
+}`;
