@@ -18,7 +18,7 @@
 此功能會覆蓋官方的 `Tag Flagging` 功能，推薦使用官方的(如果有的話)。
 
 打開後下面會多一些輸入框和一個開關，輸入框用來打 tags 的，開關是控制隱藏搜尋結果的封面預覽。
-<details open>
+<details>
   <summary>詳細 Tag Flagging 使用方法</summary>
   <h4>合法標籤</h4>
   <ol>
@@ -92,7 +92,7 @@ Nothing special, you can use `uBlock Origin` instead.
 This will overwrite official `Tag Flagging`, recommend using official's (if you can)。
 
 If you turn on, there are more options for you. The input fields you can type some tags, and the switch can hide preview of search results when it's on.
-<details open>
+<details>
   <summary>Details of Tag Flagging</summary>
   <h4>Valid tags</h4>
   <ol>
