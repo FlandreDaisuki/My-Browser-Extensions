@@ -4,7 +4,7 @@
 
 [[中文](#zh)] [[English](#en)]
 
-## <a name="zh"> 解鎖 Hath Perks
+## <a name="zh"></a> 解鎖 Hath Perks
 給沒有 Hath 的人用的 Hath Perks。
 
 僅支援以下瀏覽器：
@@ -78,7 +78,7 @@
 ### Thumb Page Flow
 此為 `Paging Enlargement` 及 `Page Indicator` 的輔助功能，讓搜尋結果不要因為添加頁數連結而分開。
 
-## <a name="en"> Unlock Hath Perks
+## <a name="en"></a> Unlock Hath Perks
 Unlock Hath Perks for who has no hath.
 
 Only support following browsers:
