@@ -1,27 +1,29 @@
 // ==UserScript==
-// @name           Unlock Hath Perks
-// @name:zh        解鎖 Hath Perks
-// @description    Unlock Hath Perks and add other helpers
-// @description:zh 解鎖 Hath Perks 及增加一些小工具
-// @namespace      https://github.com/FlandreDaisuki
-// @version        1.0.2
-// @match          *://e-hentai.org/*
-// @match          *://exhentai.org/*
-// @icon           https://i.imgur.com/JsU0vTd.png
-// @run-at         document-start
-// @grant          GM_setValue
-// @grant          GM_getValue
+// @name               Unlock Hath Perks
+// @name:zh-TW         解鎖 Hath Perks
+// @name:zh-CN         解锁 Hath Perks
+// @description        Unlock Hath Perks and add other helpers
+// @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
+// @description:zh-CN  解锁 Hath Perks 及增加一些小工具
+// @namespace          https://github.com/FlandreDaisuki
+// @version            1.0.3
+// @match              *://e-hentai.org/*
+// @match              *://exhentai.org/*
+// @icon               https://i.imgur.com/JsU0vTd.png
+// @run-at             document-start
+// @grant              GM_setValue
+// @grant              GM_getValue
 // @noframes
 //
 // Addition metas
 //
-// @supportURL     https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
-// @homepageURL    https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks.md
-// @author         FlandreDaisuki
-// @license        MPLv2
-// @compatible     firefox 52+
-// @compatible     chrome 55+
-// @incompatible   any not support async/await, CSS-grid browsers
+// @supportURL    https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
+// @homepageURL   https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks.md
+// @author        FlandreDaisuki
+// @license       MPLv2
+// @compatible    firefox 52+
+// @compatible    chrome 55+
+// @incompatible  any not support async/await, CSS-grid browsers
 // ==/UserScript==
 
 'use strict';
