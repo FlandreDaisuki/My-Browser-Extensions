@@ -4,7 +4,7 @@
 // @description    Unlock Hath Perks and add other helpers
 // @description:zh 解鎖 Hath Perks 及增加一些小工具
 // @namespace      https://github.com/FlandreDaisuki
-// @version        1.0.1
+// @version        1.0.2
 // @match          *://e-hentai.org/*
 // @match          *://exhentai.org/*
 // @icon           https://i.imgur.com/JsU0vTd.png
@@ -359,10 +359,7 @@ function main() {
 			nextURL: null,
 		};
 
-		console.assert(nextURL, `nextURL should be string but is ${nextURL}`);
-
 		if (!nextURL) {
-			console.warn('nextURL:', nextURL);
 			return result;
 		}
 
@@ -383,7 +380,7 @@ function main() {
 						if (mode === 't') {
 							return !$find(el, '.id3 img').src.endsWith('blank.gif');
 						} else {
-							return !$find(el, '.it5 > a').onmouseover;
+							return $find(el, '.it5 > a').getAttribute('onmouseover');
 						}
 					}
 					return true;
@@ -396,6 +393,7 @@ function main() {
 			const nextEl = $find(doc, '.ptb td:last-child > a');
 			result.nextURL = nextEl ? nextEl.href : null;
 		}
+		console.log(result);
 		return result;
 	}
 
@@ -443,19 +441,16 @@ function main() {
 				}
 			}
 		}
-		console.info('before', page.elements);
 		page.elements = page.elements.filter(el => {
 			if(uhpConfig.rth) {
 				if (page.mode === 't') {
 					return !$find(el, '.id3 img').src.endsWith('blank.gif');
 				} else {
-					console.log($find(el, '.it5 > a'), $find(el, '.it5 > a').getAttribute('onmouseover'));
 					return $find(el, '.it5 > a').getAttribute('onmouseover');
 				}
 			}
 			return true;
 		});
-		console.info('after', page.elements);
 	}
 
 	// if "No hits found", there is no mode
@@ -491,6 +486,7 @@ function main() {
 			while (parent.firstChild) {
 				parent.firstChild.remove();
 			}
+
 			thisPage.elements.forEach(el => parent.appendChild(el));
 			nextURL = thisPage.nextURL;
 			if (!nextURL) {
@@ -514,7 +510,6 @@ function main() {
 						if(uhpConfig.tf) {
 							await addTagFlags(nextPage);
 						}
-						console.log(nextPage);
 
 						//// work around first ////
 						if(uhpConfig.pi) {
@@ -578,9 +573,10 @@ function main() {
 			const html = await response.text();
 			const doc = new DOMParser().parseFromString(html, 'text/html');
 			result.elements = $$find(doc, '#gdt > div');
-			const nextEl = $$find(doc, '.ptb td:last-child > a');
+			const nextEl = $find(doc, '.ptb td:last-child > a');
 			result.nextURL = nextEl ? nextEl.href : null;
 		}
+		console.log(result);
 		return result;
 	}
 
@@ -608,7 +604,6 @@ function main() {
 				if (anchorTop < windowHeight * 2 && !urlSet.has(nextURL)) {
 					urlSet.add(nextURL);
 					const nextPage = await getNextGallaryPage(nextURL);
-					console.log(nextPage);
 					nextPage.elements.forEach(el => parent.appendChild(el));
 					nextURL = nextPage.nextURL;
 				}
