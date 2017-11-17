@@ -1,0 +1,3 @@
+[submodule "userscripts/Patchouli"]
+	path = userscripts/Patchouli
+	url = git@github.com:FlandreDaisuki/Patchouli.git
