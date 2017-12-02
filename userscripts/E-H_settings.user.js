@@ -11,27 +11,29 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-	'use strict';
-	window.store = store;
-	const c = Cookies.get('uconfig') || '';
-	const s = store.get('uconfig') || '';
+/* globals store, Cookies */
 
-	if (s && !c) {
-		Cookies.set('uconfig', s);
-		location.assign(location.href);
-	} else if (!s && c) {
-		store.set('uconfig', c);
-	} else if (s && c) {
-		// conflict, I have no idea which is newer.
-	} else {
-		//!s && !c, keep empty
-	}
+(function () {
+  'use strict'
+  window.store = store
+  const c = Cookies.get('uconfig') || ''
+  const s = store.get('uconfig') || ''
 
-	if (location.pathname === '/uconfig.php') {
-		const submit = document.querySelector('#apply input');
-		submit.addEventListener('click', () => {
-			store.set('uconfig', c);
-		});
-	}
-})();
+  if (s && !c) {
+    Cookies.set('uconfig', s)
+    location.assign(location.href)
+  } else if (!s && c) {
+    store.set('uconfig', c)
+  } else if (s && c) {
+    // conflict, I have no idea which is newer.
+  } else {
+    //! s && !c, keep empty
+  }
+
+  if (location.pathname === '/uconfig.php') {
+    const submit = document.querySelector('#apply input')
+    submit.addEventListener('click', () => {
+      store.set('uconfig', c)
+    })
+  }
+})()

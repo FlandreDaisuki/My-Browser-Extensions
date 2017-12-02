@@ -1,22 +1,22 @@
-@-moz-document url-prefix('https://github.com/'),
-	url-prefix('https://gist.github.com/'),
-	url-prefix('https://raw.githubusercontent.com/'),
-	url-prefix('https://gist.githubusercontent.com/') {
-	:root {
-		--ts: 4;
-	}
+@-moz-document url-prefix("https://github.com/"),
+  url-prefix("https://gist.github.com/"),
+  url-prefix("https://raw.githubusercontent.com/"),
+  url-prefix("https://gist.githubusercontent.com/") {
+  :root {
+    --ts: 4;
+  }
 
-	.tab-size[data-tab-size='2'],
-	.tab-size[data-tab-size='4'],
-	.tab-size[data-tab-size='8'],
-	.inline-review-comment,
-	.gist table.lines,
-	table.diff-table,
-	.markdown-body pre,
-	body > pre {
-		tab-size: var(--ts) !important;
-		-moz-tab-size: var(--ts) !important;
-		tab-size: 4 !important;
-		-moz-tab-size: 4 !important;
-	}
+  .tab-size[data-tab-size="2"],
+  .tab-size[data-tab-size="4"],
+  .tab-size[data-tab-size="8"],
+  .inline-review-comment,
+  .gist table.lines,
+  table.diff-table,
+  .markdown-body pre,
+  body > pre {
+    tab-size: var(--ts) !important;
+    -moz-tab-size: var(--ts) !important;
+    tab-size: 4 !important;
+    -moz-tab-size: 4 !important;
+  }
 }

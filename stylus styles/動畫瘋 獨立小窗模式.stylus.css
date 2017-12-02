@@ -1,0 +1,43 @@
+@-moz-document url-prefix("https://ani.gamer.com.tw/animeVideo.php?sn=") {
+  /* 主要搭配 popup 套件使用 */
+  /* 1. Popup Tab(推薦): https://addons.mozilla.org/firefox/addon/popup-tab/ */
+  /* 2. Popup window: https://addons.mozilla.org/firefox/addon/popup-window/ */
+
+  @media (max-width: 1200px), (max-height: 720px) {
+    body {
+      overflow: hidden;
+    }
+    .sky,
+    .mainmenu,
+    .whilebg,
+    .footer,
+    .player ~ * {
+      display: none;
+    }
+    .video,
+    #video-container,
+    #ani_video,
+    #ani_video_html5_api {
+      height: 100vh;
+    }
+    #ani_video {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #ani_video_html5_api {
+      object-fit: contain;
+    }
+    #ani_video > .vjs-control-bar {
+      position: relative;
+      align-self: flex-end;
+      width: 100%;
+    }
+    #BH_background,
+    .container-player,
+    .player {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

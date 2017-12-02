@@ -1,15 +1,15 @@
-@-moz-document domain('ani.gamer.com.tw') {
-	/* 不要新聞 */
-	.news_list {
-		display: none;
-	}
+@-moz-document domain("ani.gamer.com.tw") {
+  /* 不要新聞 */
+  .news_list {
+    display: none;
+  }
 
-	/* 不要彈幕 */
-	.subtitle,
-	.bullet-send {
-		display: none !important;
-	}
-	.videoframe {
-		width: 100%;
-	}
+  /* 不要彈幕 */
+  .subtitle,
+  .bullet-send {
+    display: none !important;
+  }
+  .videoframe {
+    width: 100%;
+  }
 }

@@ -1,115 +1,124 @@
-@-moz-document regexp('https://www.facebook.com/(?!messages).*') {
-	/**
+@-moz-document regexp("https://www.facebook.com/(?!messages).*") {
+  /**
 	  * 使用說明：
 	  *   :root 可以改小聊天室高度
 	  */
-	:root {
-		/* 預設 calc(100vh - 100px) */
-		--chatroom-height: calc(100vh - 100px);
-	}
+  :root {
+    /* 預設 calc(100vh - 100px) */
+    --chatroom-height: calc(100vh - 100px);
+  }
 
-	#globalContainer {
-		position: absolute;
-		left: 24px;
-	}
+  #globalContainer {
+    position: absolute;
+    left: 24px;
+  }
 
-	/* 右邊廣告欄吃光光 */
-	#rightCol *,
-	._1qku._1qkq._5v6d._5rzs {
-		display: none;
-	}
+  /* 右邊廣告欄吃光光 */
+  #rightCol *,
+  ._1qku._1qkq._5v6d._5rzs {
+    display: none;
+  }
 
-	/* 訊息圖示點開後的 "到 Messenger 察看全部" */
-	#MercuryJewelFooter {
-		display: none;
-	}
+  /* 訊息圖示點開後的 "到 Messenger 察看全部" */
+  #MercuryJewelFooter {
+    display: none;
+  }
 
-	/* 右朋友欄 */
-	.fbChatSidebar {
-		right: -159px;
-	}
+  /* 右朋友欄 */
+  .fbChatSidebar {
+    right: -159px;
+  }
 
-	/* 右朋友欄 > 下搜尋欄 */
+  /* 右朋友欄 > 下搜尋欄 */
+  /* 拿到上面去 平常用不到 */
+  ._4oes {
+    position: fixed;
+    top: 44px;
+    right: 50px;
+    max-width: 200px;
+    opacity: 0.2;
+    transition: opacity 0.15s;
+  }
 
-	/* 拿到上面去 平常用不到 */
-	._4oes {
-		position: fixed;
-		top: 44px;
-		right: 50px;
-		max-width: 200px;
-		opacity: 0.2;
-		transition: opacity 0.15s;
-	}
+  ._4oes:hover {
+    opacity: 1;
+  }
 
-	._4oes:hover {
-		opacity: 1;
-	}
+  /* 右朋友欄 > 上垃圾 */
+  .fbSidebarGripper,
+  .fbChatOrderedList > div[data-testid="chat_sidebar"] > div:nth-of-type(2) {
+    display: none;
+  }
 
-	/* 右朋友欄 > 上垃圾 */
-	.fbSidebarGripper,
-	.fbChatOrderedList > div[data-testid='chat_sidebar'] > div:nth-of-type(2) {
-		display: none;
-	}
+  /* 右朋友欄 > 上朋友列表 */
+  .fbChatSidebarBody {
+    height: 100% !important;
+  }
 
-	/* 右朋友欄 > 上朋友列表 */
-	.fbChatSidebarBody {
-		height: 100% !important;
-	}
+  /* 大頭 */
+  ._55lq {
+    margin-left: 0px;
+  }
 
-	/* 大頭 */
-	._55lq {
-		margin-left: 0px;
-	}
+  /* 上線/離線格 */
+  ._5bon {
+    position: absolute;
+    left: 2px;
+    top: -14px;
+    margin: 0;
+  }
 
-	/* 上線/離線格 */
-	._5bon {
-		position: absolute;
-		left: 2px;
-		top: -14px;
-		margin: 0;
-	}
+  /* 綠燈樣式 */
+  ._568z > span {
+    margin: 0 !important;
+    height: 8px !important;
+    width: 8px !important;
+  }
 
-	/* 綠燈樣式 */
-	._568z > span {
-		margin: 0 !important;
-		height: 8px !important;
-		width: 8px !important;
-	}
+  /* 最後上線時間 */
+  ._568- {
+    display: none;
+  }
 
-	/* 最後上線時間 */
-	._568- {
-		display: none;
-	}
+  /* 更多聯絡人 */
+  ._55ob {
+    display: none;
+  }
 
-	/* 更多聯絡人 */
-	._55ob {
-		display: none;
-	}
+  /* 聊天欄基底 */
+  .sidebarMode .fbDockWrapperRight {
+    right: 46px;
+  }
 
-	/* 聊天欄基底 */
-	.sidebarMode .fbDockWrapperRight {
-		right: 46px;
-	}
+  ._50mz.opened .fbDockChatTabFlyout,
+  .conversationContainer {
+    min-height: var(--chatroom-height);
+  }
 
-	._50mz.opened .fbDockChatTabFlyout,
-	.conversationContainer {
-		min-height: var(--chatroom-height);
-	}
+  ._2sz2 {
+    height: var(--chatroom-height) !important;
+  }
 
-	._2sz2 {
-		height: var(--chatroom-height) !important;
-	}
+  /* 貼圖大小 */
+  #pagelet_dock
+    .conversationContainer
+    ._4tdt._ua1
+    ._3e7u._n4o
+    > span
+    > div[role="img"] {
+    transform-origin: center center;
+    transform: scale(0.5);
+    margin: -25%;
+  }
 
-	/* 貼圖大小 */
-	#pagelet_dock .conversationContainer ._4tdt._ua1 ._3e7u._n4o > span > div[role='img'] {
-		transform-origin: center center;
-		transform: scale(0.5);
-		margin: -25%;
-	}
-
-	#pagelet_dock .conversationContainer ._4tdt._ua0 ._3e7u._n4o > span > div[role='img'] {
-		transform-origin: center center;
-		transform: scale(0.5) translateX(100%);
-		margin: -25%;
-	}
+  #pagelet_dock
+    .conversationContainer
+    ._4tdt._ua0
+    ._3e7u._n4o
+    > span
+    > div[role="img"] {
+    transform-origin: center center;
+    transform: scale(0.5) translateX(100%);
+    margin: -25%;
+  }
 }

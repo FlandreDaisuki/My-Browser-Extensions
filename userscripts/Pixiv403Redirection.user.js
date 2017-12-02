@@ -8,10 +8,10 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-	'use strict';
-	if(document.title === '403 Forbidden') {
-		const illustId = location.pathname.replace(/.*\/(\d+)_.*/, '$1');
-		location.assign(`https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`);
-	}
-})();
+(function () {
+  'use strict'
+  if (document.title === '403 Forbidden') {
+    const illustId = location.pathname.replace(/.*\/(\d+)_.*/, '$1')
+    location.assign(`https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`)
+  }
+})()

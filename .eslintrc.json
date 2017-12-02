@@ -1,31 +1,14 @@
 {
-	"env": {
-		"browser": true,
-		"es6": true,
-		"greasemonkey": true
-	},
-	"parserOptions": {
-		"ecmaVersion": 2017
-	},
-	"extends": "eslint:recommended",
-	"rules": {
-		"comma-dangle": ["error", "always-multiline"],
-		"comma-spacing": ["error", { "after": true, "before": false }],
-		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "unix"],
-		"multiline-ternary": ["error", "always-multiline"],
-		"no-console": "warn",
-		"no-unused-vars": "warn",
-		"object-curly-newline": ["error", { "consistent": true }],
-		"object-property-newline": ["error", { "allowMultiplePropertiesPerLine": true }],
-		"prefer-const": "error",
-		"prefer-template": "error",
-		"quotes": ["error", "single"],
-		"rest-spread-spacing": ["error", "never"],
-		"semi": ["error", "always"],
-		"space-before-function-paren": ["error", "never"],
-		"space-in-parens": ["error", "never"],
-		"space-infix-ops": "error",
-		"space-unary-ops": "error"
-	}
+  "env": {
+    "browser": true,
+    "es6": true,
+    "greasemonkey": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "extends": ["eslint:recommended", "standard"],
+  "rules": {
+    "no-console": "off"
+  }
 }
