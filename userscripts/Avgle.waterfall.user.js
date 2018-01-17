@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Avgle.waterfall
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.2
 // @description  Make Avgle waterfall
 // @author       FlandreDaisuki
 // @match        https://avgle.com/videos*
@@ -25,7 +25,7 @@
     $(window).scroll(eventCallback);
 
     async function eventCallback() {
-        if(nextlink && !history.includes(nextlink) && (scrollMaxY - pageYOffset) < 1000) {
+        if(nextlink && !history.includes(nextlink) && (document.body.scrollHeight - pageYOffset) < 1000) {
             history.push(nextlink);
             const nextPage = await getNextPage(nextlink);
             $parent.append(nextPage.thumbnails);
