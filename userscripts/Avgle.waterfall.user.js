@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Avgle.waterfall
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.2
+// @version      0.3
 // @description  Make Avgle waterfall
 // @author       FlandreDaisuki
 // @match        https://avgle.com/videos*
@@ -18,6 +18,7 @@
     debug(`jQuery version: ${jQuery.fn.jquery}`);
 
     const $parent = $('#wrapper>.container .row .row');
+    const footer = $('.footer-container')[0];
     const history = [];
     let nextlink = $('.pagination a.prevnext')[1];
 
@@ -25,7 +26,7 @@
     $(window).scroll(eventCallback);
 
     async function eventCallback() {
-        if(nextlink && !history.includes(nextlink) && (document.body.scrollHeight - pageYOffset) < 1000) {
+        if(nextlink && !history.includes(nextlink) && (footer.getBoundingClientRect().top - window.innerHeight) < 1000) {
             history.push(nextlink);
             const nextPage = await getNextPage(nextlink);
             $parent.append(nextPage.thumbnails);
