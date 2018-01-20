@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Avgle.waterfall
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.3
+// @version      0.4
 // @description  Make Avgle waterfall
 // @author       FlandreDaisuki
 // @match        https://avgle.com/videos*
@@ -19,17 +19,28 @@
 
     const $parent = $('#wrapper>.container .row .row');
     const footer = $('.footer-container')[0];
-    const history = [];
+    const history = new Set();
+    const chidSet = new Set();
     let nextlink = $('.pagination a.prevnext')[1];
 
     $(document.body).on('wheel', eventCallback);
     $(window).scroll(eventCallback);
 
     async function eventCallback() {
-        if(nextlink && !history.includes(nextlink) && (footer.getBoundingClientRect().top - window.innerHeight) < 1000) {
-            history.push(nextlink);
+        if(nextlink && !history.has(nextlink) && (footer.getBoundingClientRect().top - window.innerHeight) < 1000) {
+            history.add(nextlink);
             const nextPage = await getNextPage(nextlink);
-            $parent.append(nextPage.thumbnails);
+            for(const thumbnail of nextPage.thumbnails) {
+                const chid = $(thumbnail)
+                    .find('a[href^="/video/"]')
+                    .attr('href')
+                    .replace(/.*\/(\d+)\/.*/, '$1');
+
+                if(!chidSet.has(chid)) {
+                    chidSet.add(chid);
+                    $parent.append(thumbnail);
+                }
+            }
             nextlink = nextPage.nextlink;
         }
     }
