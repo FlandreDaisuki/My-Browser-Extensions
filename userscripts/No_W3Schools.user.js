@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         No W3Schools
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.2
 // @description  http://www.w3fools.com/
 // @author       FlandreDaisuki
 // @include      *://*.google.com*/search*
@@ -15,6 +15,7 @@
     const W3S = [
         'w3schools.com',
         'w3school.com',
+        'w3c-schools.com',
     ];
 
     if (location.hostname.includes('google.com')) {
