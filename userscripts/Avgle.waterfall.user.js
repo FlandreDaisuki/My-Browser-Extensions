@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Avgle.waterfall
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.4
+// @version      0.5
 // @description  Make Avgle waterfall
 // @author       FlandreDaisuki
 // @match        https://avgle.com/videos*
@@ -12,15 +12,15 @@
 (function() {
     'use strict';
     const log = console.log.bind(console, `[${GM_info.script.name}]`);
-    const debug = console.debug.bind(console, `[${GM_info.script.name} debug]`);
 
     log(`version: ${GM_info.script.version}`);
-    debug(`jQuery version: ${jQuery.fn.jquery}`);
 
     const $parent = $('#wrapper>.container .row .row');
     const footer = $('.footer-container')[0];
     const history = new Set();
-    const chidSet = new Set();
+    const chidSet = new Set($('a[href^="/video/"]')
+                            .map((i, e) => $(e).attr('href').replace(/.*\/(\d+)\/.*/, '$1'))
+                            .toArray());
     let nextlink = $('.pagination a.prevnext')[1];
 
     $(document.body).on('wheel', eventCallback);
