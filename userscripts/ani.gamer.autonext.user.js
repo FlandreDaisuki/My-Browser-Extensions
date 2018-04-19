@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         動畫瘋自動播放下一集
-// @description  動畫瘋自動播放下一集
+// @description  動畫瘋自動播放下一集，若有動漫通問答則不動作
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.2
 // @author       FlandreDaisuki
 // @match        https://ani.gamer.com.tw/animeVideo.php?sn=*
 // @require      https://cdnjs.cloudflare.com/ajax/libs/store.js/1.3.20/store.min.js
@@ -39,14 +39,14 @@ function main(video) {
 
   video.addEventListener('playing', (event) => {
     state.isAd = video.player.adIsPlaying;
-    console.log('playing', 'state', state);
   });
 
   video.addEventListener('ended', (event) => {
-    console.log('ended', 'state', state);
-    if(!state.isAd && nextSn) {
-      store.set('autonext', videoSn);
-      location.assign(`?sn=${nextSn}`);
-    }
+    setTimeout(() => {
+        if(!state.isAd && nextSn && !$('.anime-quiz')) {
+            store.set('autonext', videoSn);
+            location.assign(`?sn=${nextSn}`);
+        }
+    }, 1000);
   });
 }
