@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.0
+@version     1.0.1
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -13,18 +13,12 @@
 @var checkbox friends-col '右邊朋友欄減肥' 1
 @var checkbox smaller-stickers '小聊天室貼圖變小' 1
 @var color chatroom-self-bgcolor '小聊天室自己的顏色' #4267b2
-@var checkbox no-need-color '我不需要顏色' 0
 ==/UserStyle== */
 
 @-moz-document regexp("https://www.facebook.com/(?!messages).*") {
   :root {
     /* 小聊天室高度：預設 calc(100vh - 100px) */
     --chatroom-height: chatroom-headspace;
-  }
-  if no-need-color {
-    * {
-      filter: grayscale(1);
-    }
   }
   if to-left {
     #globalContainer {
