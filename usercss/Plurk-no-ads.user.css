@@ -7,23 +7,22 @@
 @license     CC-BY-SA-4.0
 ==/UserStyle== */
 
-#cbox_response,
-.cbox_right {
-    display: flex !important;
-    flex-flow: column;
-}
-
-#cbox_response,
-.response_box {
-    flex: 1;
-}
-
-#resp_banner_ads,
-.native-ads {
-    display: none !important;
-}
-
-div[data-respcount="贊助"] {
-    /* 各國語言 */
-    display: none !important;
+@-moz-document domain("www.plurk.com") {
+    #cbox_response,
+    .cbox_right {
+        display: flex !important;
+        flex-flow: column;
+    }
+    #cbox_response,
+    .response_box {
+        flex: 1;
+    }
+    #resp_banner_ads,
+    .native-ads {
+        display: none !important;
+    }
+    div[data-respcount="贊助"] {
+        /* 各國語言 */
+        display: none !important;
+    }
 }
