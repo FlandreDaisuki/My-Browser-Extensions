@@ -1,11 +1,12 @@
 /* ==UserStyle==
 @name        tab-size-on-github
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.0
+@version     1.0.1
 @description Modify your favorite tab size on GitHub
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
 
+@preprocessor stylus
 @var text tab-size 'Tab size' 4
 ==/UserStyle== */
 
