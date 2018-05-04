@@ -1,0 +1,73 @@
+/* ==UserStyle==
+@name        Pixiv フレンズ
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description すごーい！君はイラストが上手いフレンズだね〜
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
+==/UserStyle== */
+
+@-moz-document url-prefix("https://www.pixiv.net/member_illust.php?mode=medium&illust_id="),
+regexp("https:\\/\\/www.pixiv.net\\/member_illust.php\\?illust_id=\\d+&mode=medium") {
+  html[lang='en'] {
+    --result-content: '(You can すごーい！ once a day)';
+  }
+  html[lang='ja'] {
+    --result-content: '（すごーい！できるのは1日1回です）';
+  }
+  html[lang='zh-tw'],
+  html[lang='zh'] {
+    --result-content: '（すごーい！功能1天只能使用1次）';
+  }
+  html[lang='ko'] {
+    --result-content: '(すごーい！는 하루 한 번 할 수 있습니다)';
+  }
+  .score dt:nth-of-type(2) {
+    font-size: 0px;
+  }
+  .score dt:nth-of-type(2)::before {
+    font-size: 12px;
+    content: 'すごーい！:';
+  }
+  .score ._nice-button {
+    background-color: #bbb;
+  }
+  .score ._nice-button.rated {
+    background-color: #fcdba4;
+  }
+  .score ._nice-button .description {
+    font-size: 0px;
+  }
+  .score ._nice-button .description::before {
+    color: #fce6d1;
+    content: 'すごーい！';
+    font-size: 12px;
+  }
+  .score ._nice-button.rated .description {
+    font-size: 0px;
+  }
+  .score ._nice-button.rated .description::before {
+    color: #f39801;
+    content: 'すごーい！';
+    font-size: 12px;
+  }
+  .score ._nice-button .smile-icon {
+    background-image: url('//i.imgur.com/hv80wid.png');
+    height: 12px;
+    background-position: top;
+    vertical-align: baseline;
+  }
+  .score ._nice-button.rated .smile-icon {
+    background-position: bottom;
+  }
+  .score ._nice-button .smile {
+    background-image: url('//i.imgur.com/I7mA6GI.png');
+  }
+  .score .result {
+    font-size: 0px;
+  }
+  .score .result::before {
+    content: var(--result-content);
+    font-size: 12px;
+  }
+}

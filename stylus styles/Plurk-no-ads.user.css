@@ -1,0 +1,29 @@
+/* ==UserStyle==
+@name        Plurk 去廣告
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description 隱藏貼文廣告、河道廣告、贊助貼文
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
+==/UserStyle== */
+
+#cbox_response,
+.cbox_right {
+    display: flex !important;
+    flex-flow: column;
+}
+
+#cbox_response,
+.response_box {
+    flex: 1;
+}
+
+#resp_banner_ads,
+.native-ads {
+    display: none !important;
+}
+
+div[data-respcount="贊助"] {
+    /* 各國語言 */
+    display: none !important;
+}

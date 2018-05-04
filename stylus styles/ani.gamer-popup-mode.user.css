@@ -1,9 +1,18 @@
-@-moz-document url-prefix("https://ani.gamer.com.tw/animeVideo.php?sn=") {
-  /* 主要搭配 popup 套件使用 */
-  /* 1. Popup Tab(推薦): https://addons.mozilla.org/firefox/addon/popup-tab/ */
-  /* 2. Popup window: https://addons.mozilla.org/firefox/addon/popup-window/ */
+/* ==UserStyle==
+@name        動畫瘋 獨立小窗模式
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description 主要搭配 popup 套件使用，讓小窗只顯示影片
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
 
-  @media (max-width: 1200px), (max-height: 720px) {
+@preprocessor stylus
+@var text max-width '觸發寬度' 1200px
+@var text max-height '觸發高度' 720px
+==/UserStyle== */
+
+@-moz-document url-prefix("https://ani.gamer.com.tw/animeVideo.php?sn=") {
+  @media (max-width: max-width), (max-height: max-height) {
     body {
       overflow: hidden;
     }
@@ -11,7 +20,7 @@
     .mainmenu,
     .whilebg,
     .footer,
-    .player ~ * {
+    .player~* {
       display: none;
     }
     .video,
@@ -28,7 +37,7 @@
     #ani_video_html5_api {
       object-fit: contain;
     }
-    #ani_video > .vjs-control-bar {
+    #ani_video>.vjs-control-bar {
       position: relative;
       align-self: flex-end;
       width: 100%;

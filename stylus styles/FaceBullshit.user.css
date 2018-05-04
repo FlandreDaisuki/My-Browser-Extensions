@@ -1,0 +1,133 @@
+/* ==UserStyle==
+@name        FaceBullshit
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description 個人對垃圾的怨念...
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
+
+@preprocessor stylus
+@var text chatroom-headspace '小聊天室高度' calc(100vh - 100px)
+@var checkbox to-left '動態欄偏左避免小聊天室擋住' 1
+@var checkbox no-right-col '右邊廣告欄吃光光' 1
+@var checkbox friends-col '右邊朋友欄減肥' 1
+@var checkbox smaller-stickers '小聊天室貼圖變小' 1
+@var color chatroom-self-bgcolor '小聊天室自己的顏色' #4267b2
+@var checkbox no-need-color '我不需要顏色' 0
+==/UserStyle== */
+
+@-moz-document regexp("https://www.facebook.com/(?!messages).*") {
+  :root {
+    /* 小聊天室高度：預設 calc(100vh - 100px) */
+    --chatroom-height: chatroom-headspace;
+  }
+  if no-need-color {
+    * {
+      filter: grayscale(1);
+    }
+  }
+  if to-left {
+    #globalContainer {
+      position: absolute;
+      left: 24px;
+    }
+  }
+  if no-right-col {
+    /* 右邊廣告欄吃光光 */
+    #rightCol *,
+    ._1qku._1qkq._5v6d._5rzs {
+      display: none;
+    }
+  }
+  /* 訊息圖示點開後的 "到 Messenger 察看全部" */
+  #MercuryJewelFooter {
+    display: none;
+  }
+  if friends-col {
+    /* 右朋友欄 */
+    .fbChatSidebar {
+      right: -159px;
+    }
+    /* 右朋友欄 > 下搜尋欄 */
+    /* 拿到上面去 平常用不到 */
+    ._4oes {
+      position: fixed;
+      top: 44px;
+      right: 52px;
+      max-width: 200px;
+      opacity: 0.4;
+      transition: opacity 0.15s;
+    }
+    ._4oes:hover {
+      opacity: 1;
+    }
+    /* 右朋友欄 > 上垃圾 */
+    .fbSidebarGripper,
+    .fbChatOrderedList>div[data-testid="chat_sidebar"]>div:nth-of-type(2) {
+      display: none;
+    }
+    /* 右朋友欄 > 上朋友列表 */
+    .fbChatSidebarBody {
+      height: 100% !important;
+    }
+    /* 大頭 */
+    ._55lq {
+      margin-left: 0px;
+    }
+    /* 上線/離線格 */
+    ._5bon {
+      position: absolute;
+      left: 2px;
+      top: -14px;
+      margin: 0;
+    }
+    /* 綠燈樣式 */
+    ._568z>span {
+      margin: 0 !important;
+      height: 8px !important;
+      width: 8px !important;
+    }
+    /* 揮什麼手啦神經病 = = */
+    ._2ob8 {
+      display: none;
+    }
+    /* 最後上線時間 */
+    ._568- {
+      display: none;
+    }
+    /* 更多聯絡人 */
+    ._55ob {
+      display: none;
+    }
+  }
+  /* 聊天欄基底 */
+  .sidebarMode .fbDockWrapperRight {
+    right: 46px;
+  }
+  ._50mz.opened .fbDockChatTabFlyout,
+  .conversationContainer {
+    min-height: var(--chatroom-height);
+  }
+  ._2sz2 {
+    height: var(--chatroom-height) !important;
+  }
+  ._1nc6 ._d97._d97._31xy {
+    background: none;
+  }
+  ._1nc6 ._d97._d97 {
+    background-color: chatroom-self-bgcolor;
+  }
+  if smaller-stickers {
+    /* 貼圖大小 */
+    #pagelet_dock .conversationContainer ._4tdt._ua1 ._3e7u._n4o>span>div[role="img"] {
+      transform-origin: center center;
+      transform: scale(0.5);
+      margin: -25%;
+    }
+    #pagelet_dock .conversationContainer ._4tdt._ua0 ._3e7u._n4o>span>div[role="img"] {
+      transform-origin: center center;
+      transform: scale(0.5) translateX(100%);
+      margin: -25%;
+    }
+  }
+}

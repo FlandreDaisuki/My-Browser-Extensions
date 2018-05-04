@@ -1,23 +1,28 @@
+/* ==UserStyle==
+@name        動畫瘋 フレンズ
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description たーのしー！すごーい！
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
+==/UserStyle== */
+
 @-moz-document domain("ani.gamer.com.tw") {
   @font-face {
     font-family: "japarifont";
-    src: url("https://cdn.rawgit.com/aratama/kemonogen/417db197/docs/japarifont.woff")
-      format("woff");
+    src: url("https://cdn.rawgit.com/aratama/kemonogen/417db197/docs/japarifont.woff") format("woff");
     font-weight: normal;
     font-style: normal;
   }
-
-  section.old_list div.order > i,
-  section.index_new button.newanime__order > i {
+  section.old_list div.order>i,
+  section.index_new button.newanime__order>i {
     display: none;
   }
-
   .newanime,
   ul.anime_list,
   li[name="oldanimeli"] {
     overflow: visible;
   }
-
   section.old_list div.order,
   section.index_new button.newanime__order {
     display: flex;
@@ -25,7 +30,6 @@
     align-items: center;
     overflow: visible;
   }
-
   section.old_list div.order::after,
   section.index_new button.newanime__order::after {
     content: "の";
@@ -35,7 +39,6 @@
     display: block;
     padding-left: 6px;
   }
-
   section.index_new button.newanime__order.is-order,
   section.index_new button.newanime__order:hover,
   section.old_list div.order.yes,
@@ -43,7 +46,6 @@
     background-color: #fcdba4;
     color: #f39800;
   }
-
   section.index_new button.newanime__order:not(.is-order):hover::before,
   section.old_list div.order:not(.yes):hover::before {
     opacity: 0;
@@ -57,7 +59,6 @@
     animation: 🐈-🎒 2s infinite;
     animation-delay: 0.1s;
   }
-
   @keyframes 🐈-🎒 {
     0% {
       opacity: 0;
