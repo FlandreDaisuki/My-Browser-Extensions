@@ -14,6 +14,7 @@
 * [Pixiv フレンズ](#pixiv-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
 * [tab-size-on-github](#tab-size-on-github)
 * [Plurk 去廣告](#plurk-%E5%8E%BB%E5%BB%A3%E5%91%8A)
+* [原價屋估價頁](#%E5%8E%9F%E5%83%B9%E5%B1%8B%E4%BC%B0%E5%83%B9%E9%A0%81)
 
 ## FaceBullshit
 
@@ -68,3 +69,11 @@ Modify your favorite tab size on GitHub
 [![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/Plurk-no-ads.user.css)
 
 隱藏貼文廣告、河道廣告、贊助貼文
+
+## 原價屋估價頁
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/coolpc-evaluate.user.css)
+
+乾淨的原價屋估價頁
+
+![](coolpc-evaluate.png)

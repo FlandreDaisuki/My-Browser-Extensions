@@ -1,0 +1,21 @@
+/* ==UserStyle==
+@name        原價屋估價頁
+@namespace   https://github.com/FlandreDaisuki
+@version     1.0.0
+@description 乾淨的原價屋估價頁
+@author      FlandreDaisuki
+@license     CC-BY-SA-4.0
+==/UserStyle== */
+
+@-moz-document url-prefix("http://www.coolpc.com.tw/evaluate.php") {
+  body {
+    overflow: auto !important;
+  }
+  #Psu,
+  #doc,
+  #hid,
+  #logo,
+  form[action="eva-excel.php"] table caption {
+    display: none !important;
+  }
+}
