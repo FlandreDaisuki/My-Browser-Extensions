@@ -15,7 +15,7 @@
 
 ## FaceBullshit
 
-[![Install directly with Stylus](usercss-badge.svg)](FaceBullshit.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css)
 
 自己習慣的 FB 樣式，有開一些選項可自行調整
 
@@ -23,7 +23,7 @@
 
 ## 動畫瘋 フレンズ
 
-[![Install directly with Stylus](usercss-badge.svg)](ani.gamer-japari-friends.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/ani.gamer-japari-friends.user.css)
 
 たーのしー！すごーい！
 
@@ -31,13 +31,13 @@
 
 ## 動畫瘋 不要不要
 
-[![Install directly with Stylus](usercss-badge.svg)](ani.gamer-no-news-no-danmaku.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/ani.gamer-no-news-no-danmaku.user.css)
 
 不要新聞！不要彈幕！ (避免一點進頁面就被劇透)
 
 ## 動畫瘋 獨立小窗模式
 
-[![Install directly with Stylus](usercss-badge.svg)](ani.gamer-popup-mode.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/ani.gamer-popup-mode.user.css)
 
 主要搭配 popup 套件使用，讓小窗只顯示影片
 
@@ -47,7 +47,7 @@
 
 ## Pixiv フレンズ
 
-[![Install directly with Stylus](usercss-badge.svg)](Pixiv-japari-friends.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/Pixiv-japari-friends.user.css)
 
 すごーい！君はイラストが上手いフレンズだね〜
 
@@ -55,7 +55,7 @@
 
 ## tab-size-on-github
 
-[![Install directly with Stylus](usercss-badge.svg)](tab-size-on-github.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/tab-size-on-github.user.css)
 
 Modify your favorite tab size on GitHub
 
@@ -63,6 +63,6 @@ Modify your favorite tab size on GitHub
 
 ## Plurk 去廣告
 
-[![Install directly with Stylus](usercss-badge.svg)](Plurk-no-ads.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/Plurk-no-ads.user.css)
 
 隱藏貼文廣告、河道廣告、贊助貼文
