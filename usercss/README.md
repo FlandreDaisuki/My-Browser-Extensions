@@ -13,7 +13,7 @@
 * [動畫瘋 フレンズ](#%E5%8B%95%E7%95%AB%E7%98%8B-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
 * [動畫瘋 不要不要](#%E5%8B%95%E7%95%AB%E7%98%8B-%E4%B8%8D%E8%A6%81%E4%B8%8D%E8%A6%81)
 * [動畫瘋 獨立小窗模式](#%E5%8B%95%E7%95%AB%E7%98%8B-%E7%8D%A8%E7%AB%8B%E5%B0%8F%E7%AA%97%E6%A8%A1%E5%BC%8F)
-* [Pixiv フレンズ](#pixiv-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
+* [pixiv フレンズ](#pixiv-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
 * [tab-size-on-github](#tab-size-on-github)
 * [Plurk 去廣告](#plurk-%E5%8E%BB%E5%BB%A3%E5%91%8A)
 * [原價屋估價頁](#%E5%8E%9F%E5%83%B9%E5%B1%8B%E4%BC%B0%E5%83%B9%E9%A0%81)
@@ -49,13 +49,13 @@
 1. [Popup Tab](https://addons.mozilla.org/firefox/addon/popup-tab/) (推薦)
 2. [Popup window](https://addons.mozilla.org/firefox/addon/popup-window/)
 
-### Pixiv フレンズ
+### pixiv フレンズ
 
-[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/Pixiv-japari-friends.user.css)
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/pixiv-japari-friends.user.css)
 
 すごーい！君はイラストが上手いフレンズだね〜
 
-![preview](Pixiv-japari-friends.png)
+![preview](pixiv-japari-friends.png)
 
 ### tab-size-on-github
 
