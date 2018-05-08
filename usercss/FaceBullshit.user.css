@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.2
+@version     1.0.3
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -47,7 +47,8 @@
     ._4oes {
       position: fixed;
       top: 44px;
-      right: 52px;
+      /* 原本應該可以 right: 100% 就好的，都 Chrome 在雷 */
+      transform: translateX(-105%);
       max-width: 200px;
       opacity: 0.4;
       transition: opacity 0.15s;
