@@ -7,7 +7,7 @@
   "parserOptions": {
     "ecmaVersion": 2017
   },
-  "extends": ["eslint:recommended", "standard"],
+  "extends": ["eslint:recommended", "airbnb"],
   "rules": {
     "no-console": "off"
   }
