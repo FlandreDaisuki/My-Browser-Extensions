@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.3
+@version     1.0.5
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -33,6 +33,10 @@
       display: none;
     }
   }
+  /* 點開別人的照片下的廣告 */
+  ._5ciw.rhcFooter {
+    display: none !important;
+  }
   /* 訊息圖示點開後的 "到 Messenger 察看全部" */
   #MercuryJewelFooter {
     display: none;
@@ -47,14 +51,17 @@
     ._4oes {
       position: fixed;
       top: 44px;
-      /* 原本應該可以 right: 100% 就好的，都 Chrome 在雷 */
-      transform: translateX(-105%);
+      /* 原本應該可以 right: 100% 就好的，都 Chrome 在雷 */
+      transform: translateX(-103%);
       max-width: 200px;
       opacity: 0.4;
       transition: opacity 0.15s;
     }
     ._4oes:hover {
       opacity: 1;
+    }
+    ._5iwm ._58al {
+      border-radius: 0;
     }
     /* 右朋友欄 > 上垃圾 */
     .fbSidebarGripper,
@@ -107,12 +114,14 @@
   ._2sz2 {
     height: var(--chatroom-height) !important;
   }
-  ._1nc6 ._d97._d97._31xy {
-    background: none;
-  }
   /* 小聊天室自己的顏色 */
-  ._1nc6 ._d97._d97 {
-    background-color: chatroom-self-bgcolor;
+  ._1nc6 ._d97,
+  ._1nc6 ._1aa6 {
+    background-color: chatroom-self-bgcolor !important;
+  }
+  ._1nc6 ._1aa6._31xy,
+  ._1nc6 ._d97._31xy {
+    background-color: transparent !important;
   }
   if smaller-stickers {
     /* 貼圖大小 */
