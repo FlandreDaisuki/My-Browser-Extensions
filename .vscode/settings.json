@@ -8,5 +8,6 @@
       "strings": true
     }
   },
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "editor.tabSize": 2
 }
