@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        Plurk 去廣告
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.1
+@version     1.0.2
 @description 隱藏貼文廣告、河道廣告、贊助貼文
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -21,8 +21,9 @@
   .native-ads {
     display: none !important;
   }
-  div[data-respcount="贊助"] {
-    /* 各國語言 */
+  .timeline #timeline_holder div.banana_plurk,
+  .timeline #timeline_holder.banana_show div.banana_plurk {
+    /* 贊助 */
     display: none !important;
   }
 }
