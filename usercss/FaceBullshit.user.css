@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.5
+@version     1.0.6
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -62,6 +62,24 @@
     }
     ._5iwm ._58al {
       border-radius: 0;
+    }
+    /* 搜尋結果 */
+    ._225b {
+      /* 聯絡人 */
+      display: none;
+    }
+    .navigationFocus+div {
+      position: absolute;
+      right: 206px;
+      bottom: 0px;
+      opacity: 1;
+    }
+    .fbChatTypeahead ._4p-s {
+      background-color: transparent;
+    }
+    .fbChatTypeahead ._5l37 ._5l39 {
+      padding: 4px;
+      padding-left: 6px;
     }
     /* 右朋友欄 > 上垃圾 */
     .fbSidebarGripper,
