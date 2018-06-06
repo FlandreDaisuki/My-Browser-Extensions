@@ -78,3 +78,11 @@ Modify your favorite tab size on GitHub
 乾淨的原價屋估價頁
 
 ![preview](coolpc-evaluate.png)
+
+### github-xp
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/github-xp.user.css)
+
+A userstyle version of [github-xp](https://github.com/martenbjork/github-xp)
+
+![preview](github-xp.jpg)
