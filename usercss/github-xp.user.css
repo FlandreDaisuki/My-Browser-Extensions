@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           github-xp
 @namespace      https://github.com/FlandreDaisuki
-@version        0.1.0-99da99d
+@version        0.1.1-99da99d
 @description    A userstyle version of https://github.com/martenbjork/github-xp
 @author         FlandreDaisuki
 ==/UserStyle== */
@@ -36,6 +36,7 @@
   }
   /* Start icon */
   .header-logo-invertocat {
+    white-space: normal;
     display: block;
     position: absolute;
     top: 0;
