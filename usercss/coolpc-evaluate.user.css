@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        原價屋估價頁
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.1
+@version     1.0.2
 @description 乾淨的原價屋估價頁
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -14,7 +14,7 @@
   #Psu,
   #doc,
   #hid,
-  #logo,
+  #logo > iframe,
   form[action="eva-excel.php"] table caption {
     display: none !important;
   }
