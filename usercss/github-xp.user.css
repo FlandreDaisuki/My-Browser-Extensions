@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           github-xp
 @namespace      https://github.com/FlandreDaisuki
-@version        0.1.1-99da99d
+@version        0.1.2-99da99d
 @description    A userstyle version of https://github.com/martenbjork/github-xp
 @author         FlandreDaisuki
 ==/UserStyle== */
@@ -170,6 +170,9 @@
     -ms-user-select: none;
     user-select: none;
     line-height: 18px;
+    overflow-x: hidden;
+    max-width: 900px;
+    white-space: nowrap;
   }
   /* BSOD-style 404s */
   @keyframes flicker {
@@ -279,6 +282,7 @@
     font-weight: normal;
     cursor: default;
     pointer-events: none;
+    z-index: 1;
   }
   .js-issue-row:first-child:before,
   .repository-meta-content:before,

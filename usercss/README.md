@@ -1,5 +1,18 @@
 # UserCSS (The userstyle format of Stylus)
 
+- [UserCSS (The userstyle format of Stylus)](#usercss-the-userstyle-format-of-stylus)
+  - [使用+安裝方法](#使用安裝方法)
+  - [列表](#列表)
+    - [FaceBullshit](#facebullshit)
+    - [動畫瘋 フレンズ](#動畫瘋-フレンズ)
+    - [動畫瘋 不要不要](#動畫瘋-不要不要)
+    - [動畫瘋 獨立小窗模式](#動畫瘋-獨立小窗模式)
+    - [pixiv フレンズ](#pixiv-フレンズ)
+    - [tab-size-on-github](#tab-size-on-github)
+    - [Plurk 去廣告](#plurk-去廣告)
+    - [原價屋估價頁](#原價屋估價頁)
+    - [github-xp](#github-xp)
+
 ## 使用+安裝方法
 
 1. 安裝 Stylus [ [Firefox](https://addons.mozilla.org/en-US/firefox/addon/styl-us/) / [Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne) ]
@@ -8,15 +21,6 @@
 有些樣式我有設定 CSS 選項，點 ![stylus](stylus-icon-16.png) (或進入**管理已安裝樣式**界面)，樣式旁有齒輪圖示即表示有自訂選項
 
 ## 列表
-
-* [FaceBullshit](#facebullshit)
-* [動畫瘋 フレンズ](#%E5%8B%95%E7%95%AB%E7%98%8B-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
-* [動畫瘋 不要不要](#%E5%8B%95%E7%95%AB%E7%98%8B-%E4%B8%8D%E8%A6%81%E4%B8%8D%E8%A6%81)
-* [動畫瘋 獨立小窗模式](#%E5%8B%95%E7%95%AB%E7%98%8B-%E7%8D%A8%E7%AB%8B%E5%B0%8F%E7%AA%97%E6%A8%A1%E5%BC%8F)
-* [pixiv フレンズ](#pixiv-%E3%83%95%E3%83%AC%E3%83%B3%E3%82%BA)
-* [tab-size-on-github](#tab-size-on-github)
-* [Plurk 去廣告](#plurk-%E5%8E%BB%E5%BB%A3%E5%91%8A)
-* [原價屋估價頁](#%E5%8E%9F%E5%83%B9%E5%B1%8B%E4%BC%B0%E5%83%B9%E9%A0%81)
 
 ### FaceBullshit
 
