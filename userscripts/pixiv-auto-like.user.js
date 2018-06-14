@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.1
+// @version      1.0.2
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*&mode=medium
 // @include      *://www.pixiv.net/member_illust.php?mode=medium&*
@@ -20,10 +20,10 @@ const liked = new Set();
 
 // wait until React ready... fucking slow...
 const tid = setInterval(() => {
-  const h1Title = document.querySelector('figcaption > h1');
-  if (h1Title) {
+  const mainImgA = document.querySelector('figure a');
+  if (mainImgA) {
     clearInterval(tid);
-    main(h1Title);
+    main(mainImgA);
   }
 }, 500);
 
