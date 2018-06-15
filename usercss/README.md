@@ -8,6 +8,7 @@
     - [動畫瘋 不要不要](#動畫瘋-不要不要)
     - [動畫瘋 獨立小窗模式](#動畫瘋-獨立小窗模式)
     - [pixiv フレンズ](#pixiv-フレンズ)
+    - [pixiv 作品頁面新設計](#pixiv-作品頁面新設計)
     - [tab-size-on-github](#tab-size-on-github)
     - [Plurk 去廣告](#plurk-去廣告)
     - [原價屋估價頁](#原價屋估價頁)
@@ -60,6 +61,17 @@
 すごーい！君はイラストが上手いフレンズだね〜
 
 ![preview](pixiv-japari-friends.png)
+
+### pixiv 作品頁面新設計
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/pixiv-custom-new-illust-page.user.css)
+
+調整一些區塊位置、自訂背景跟一些字色，注意網址需要用單引號`'`夾起來
+
+|x|預設|首頁樣式|
+|:-:|:-:|:-:|
+|預覽圖| <img src="pixiv-custom-new-illust-page.default.jpg" height="150"> |<img src="pixiv-custom-new-illust-page.index.jpg" height="150">|
+|設定值| 背景種類: 圖片網址 <br> 背景色: #fff9<br> 背景圖網址: `'https://i.imgur.com/V9wgOwA.jpg'` <br> 背景圖大小: 延展不重複大圖 <br> 背景混成: color | 背景種類: 圖片網址 <br> 背景色: #00000000 (透明)<br> 背景圖網址: `'https://s.pximg.net/common/images/bg/uchu01.jpg'` <br> 背景圖大小: 原圖重複小圖 |
 
 ### tab-size-on-github
 
