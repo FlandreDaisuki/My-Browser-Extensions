@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           pixiv 作品頁面新設計
 @namespace      https://github.com/FlandreDaisuki
-@version        0.1.0
+@version        0.1.1
 @description    自定 pixiv 作品新頁面
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -36,6 +36,10 @@
   "luminosity"
 ]
 @var color recommended-link-color '關聯作品連結色' #177082
+@var select user-block-position '畫師區塊位置' {
+  "置左": "left",
+  "置右": "right"
+}
 ==/UserStyle== */
 @-moz-document url-prefix("https://www.pixiv.net/member_illust.php?mode=medium&illust_id="),
 regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
@@ -75,6 +79,12 @@ regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
   div._3mXmB-F,
   nav._2qiYXlt {
     margin-bottom: 0;
+  }
+  /* 作者區塊 位置 */
+  div._3mgRzAF > article {
+    if user-block-position=="left" {
+      order: 1;
+    }
   }
   /* 關聯作品區 */
   div._29PXgaP {
