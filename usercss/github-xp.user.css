@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           github-xp
 @namespace      https://github.com/FlandreDaisuki
-@version        0.3.1-cc82a38
+@version        0.3.2-cc82a38
 @description    A userstyle version of https://github.com/martenbjork/github-xp
 @author         FlandreDaisuki
 ==/UserStyle== */
@@ -255,10 +255,9 @@
     right: 0 !important;
     bottom: 0 !important;
     margin: auto !important;
-    filter: brightness(100%);
+    filter: brightness(100%) contrast(50);
     image-rendering: pixelated;
     transform: none !important;
-    filter: contrast(50);
     mix-blend-mode: hard-light;
     animation: flicker 3s both infinite;
   }
