@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           github-xp
 @namespace      https://github.com/FlandreDaisuki
-@version        0.3.2-cc82a38
+@version        0.3.3-cc82a38
 @description    A userstyle version of https://github.com/martenbjork/github-xp
 @author         FlandreDaisuki
 ==/UserStyle== */
@@ -62,8 +62,8 @@
     font-size: inherit !important;
     padding-left: 140px;
     background: linear-gradient( to top, #1941a5 0%, #2663e0 12%, #245dd7 88%, #3888e9 95%, #3168d5 100%) !important;
-    z-index: 102 !important;
     /* Fix #65 */
+    z-index: 102 !important;
   }
   .Header .d-flex {
     max-width: 100% !important;
@@ -345,8 +345,8 @@
     height: 12px;
     background: #ffffe1;
     transform: rotate(-45deg);
-    z-index: 101;
     /* Fix #58 */
+    z-index: 101;
     box-shadow: -1px 1px black;
   }
   .js-issue-row:first-child:after {
