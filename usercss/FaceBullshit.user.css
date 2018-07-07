@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.6
+@version     1.0.7
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -14,11 +14,16 @@
 @var checkbox smaller-stickers '小聊天室貼圖變小' 1
 @var color chatroom-self-bgcolor '小聊天室自己的顏色' #4267b2
 ==/UserStyle== */
-
 @-moz-document regexp("https://www.facebook.com/(?!messages).*") {
   :root {
     /* 小聊天室高度：預設 calc(100vh - 100px) */
     --chatroom-height: chatroom-headspace;
+    --poo-url: url("data:image/png;base64,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");
+  }
+  /* 大便 */
+  ._2md {
+    background: var(--poo-url);
+    background-size: 24px;
   }
   if to-left {
     #globalContainer {
@@ -68,7 +73,7 @@
       /* 聯絡人 */
       display: none;
     }
-    .navigationFocus+div {
+    .navigationFocus + div {
       position: absolute;
       right: 206px;
       bottom: 0px;
@@ -83,7 +88,7 @@
     }
     /* 右朋友欄 > 上垃圾 */
     .fbSidebarGripper,
-    .fbChatOrderedList>div[data-testid="chat_sidebar"]>div:nth-of-type(2) {
+    .fbChatOrderedList > div[data-testid="chat_sidebar"] > div:nth-of-type(2) {
       display: none;
     }
     /* 右朋友欄 > 上朋友列表 */
@@ -102,7 +107,7 @@
       margin: 0;
     }
     /* 綠燈樣式 */
-    ._568z>span {
+    ._568z > span {
       margin: 0 !important;
       height: 8px !important;
       width: 8px !important;
@@ -143,12 +148,12 @@
   }
   if smaller-stickers {
     /* 貼圖大小 */
-    #pagelet_dock .conversationContainer ._4tdt._ua1 ._3e7u._n4o>span>div[role="img"] {
+    #pagelet_dock .conversationContainer ._4tdt._ua1 ._3e7u._n4o > span > div[role="img"] {
       transform-origin: center center;
       transform: scale(0.5);
       margin: -25%;
     }
-    #pagelet_dock .conversationContainer ._4tdt._ua0 ._3e7u._n4o>span>div[role="img"] {
+    #pagelet_dock .conversationContainer ._4tdt._ua0 ._3e7u._n4o > span > div[role="img"] {
       transform-origin: center center;
       transform: scale(0.5) translateX(100%);
       margin: -25%;
