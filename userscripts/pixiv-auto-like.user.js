@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.2
+// @version      1.0.3
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*&mode=medium
 // @include      *://www.pixiv.net/member_illust.php?mode=medium&*
@@ -13,7 +13,7 @@
 // @compatible   chrome
 // @noframes
 // ==/UserScript==
-/* eslint-disable no-restricted-globals, camelcase, no-param-reassign */
+/* eslint-disable camelcase, no-param-reassign */
 /* global globalInitData */
 
 const liked = new Set();

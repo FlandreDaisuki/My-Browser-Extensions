@@ -2,12 +2,11 @@
 // @name         pixiv 403 redirection
 // @description  pixiv 403 redirection
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.0
+// @version      1.0.1
 // @author       FlandreDaisuki
 // @match        *://i.pximg.net/*
 // @grant        none
 // ==/UserScript==
-/* eslint-disable no-restricted-globals */
 
 (() => {
   if (document.title === '403 Forbidden') {

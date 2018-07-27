@@ -2,7 +2,7 @@
 // @name         Bypass 18+
 // @description  Bypass 18+ checking forever
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.0
+// @version      1.0.1
 // @author       FlandreDaisuki
 // @match        *://www.amazon.co.jp/*
 // @match        *://gyutto.com/*
@@ -14,7 +14,7 @@
 // @noframes
 // ==/UserScript==
 
-/* eslint-disable no-restricted-globals, no-unused-expressions */
+/* eslint-disable no-unused-expressions */
 
 class CookieBuilder {
   constructor(k, v) {
