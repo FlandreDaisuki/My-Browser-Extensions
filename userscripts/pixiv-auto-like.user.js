@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.3
+// @version      1.1.0
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*&mode=medium
 // @include      *://www.pixiv.net/member_illust.php?mode=medium&*
@@ -20,10 +20,10 @@ const liked = new Set();
 
 // wait until React ready... fucking slow...
 const tid = setInterval(() => {
-  const mainImgA = document.querySelector('figure a');
-  if (mainImgA) {
+  const mainTarget = document.querySelector('figure');
+  if (mainTarget) {
     clearInterval(tid);
-    main(mainImgA);
+    main(mainTarget);
   }
 }, 500);
 
@@ -36,8 +36,14 @@ function main(targetElement) {
     characterData: true,
     subtree: true,
   };
-  const observer = new MutationObserver(postLike);
-  observer.observe(targetElement, config);
+
+  const wrapperObserver = new MutationObserver((mrs) => {
+    if (mrs.length === 1) {
+      postLike();
+    }
+  });
+
+  wrapperObserver.observe(targetElement, config);
 }
 
 async function postLike() {
@@ -81,8 +87,8 @@ function changeLikedStyle(likeBtn, likeSVG) {
     likeSVG.classList.add('_1YUwQdz');
     likeSVG.innerHTML = `
 <path d="M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
-  2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
-  7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
-  5.40236893 3.70710678,5.79289322 L5,7.08578644 Z"></path>`;
+2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
+7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
+5.40236893 3.70710678,5.79289322 L5,7.08578644 Z"></path>`;
   }
 }
