@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           pixiv 作品頁面新設計
 @namespace      https://github.com/FlandreDaisuki
-@version        0.1.1
+@version        0.1.2
 @description    自定 pixiv 作品新頁面
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -42,7 +42,8 @@
 }
 ==/UserStyle== */
 @-moz-document url-prefix("https://www.pixiv.net/member_illust.php?mode=medium&illust_id="),
-regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
+regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium"),
+regexp("https://www.pixiv.net/member.php\\?id=\\d+") {
   #root {
     if background-kind=="imgurl" {
       /* 會做 blend */
@@ -61,6 +62,16 @@ regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
     }
     background-blend-mode: background-blend;
   }
+  /*********
+   * 作者頁 *
+   *********/
+  /* 上廣告 */
+  ._3LRpBFn {
+    display: none;
+  }
+  /*********
+   * 作品頁 *
+   *********/
   /* 圖片區 */
   div.fH6n8FE {
     max-height: calc(100vh - 190px);
@@ -70,7 +81,8 @@ regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
     max-height: inherit;
   }
   /* 作者區塊 */
-  section._3mXmB-F {
+  section._3mXmB-F,
+  section.css-2xe1mn {
     margin: 10px;
     padding: 6px;
     margin-top: 0;
@@ -80,7 +92,7 @@ regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
   nav._2qiYXlt {
     margin-bottom: 0;
   }
-  /* 作者區塊 位置 */
+  /* 作者區塊 置左 */
   div._3mgRzAF > article {
     if user-block-position=="left" {
       order: 1;
@@ -101,5 +113,9 @@ regexp("https://www.pixiv.net/member_illust.php\\?illust_id=\\d+&mode=medium") {
   a._7SoG2-V,
   a._35e8i62 {
     color: recommended-link-color;
+  }
+  /* 加入收藏 廣告 */
+  ._2NeW0Vf {
+    display: none;
   }
 }
