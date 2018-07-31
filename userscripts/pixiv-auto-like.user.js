@@ -4,10 +4,11 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.1.0
+// @version      1.1.1
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*&mode=medium
 // @include      *://www.pixiv.net/member_illust.php?mode=medium&*
+// @include      *://www.pixiv.net/member.php?id=*
 // @grant        none
 // @compatible   firefox
 // @compatible   chrome
