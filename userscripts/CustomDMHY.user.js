@@ -4,7 +4,7 @@
 // @namespace   FlandreDaisuki
 // @include     https://share.dmhy.org/*
 // @author      FlandreDaisuki
-// @version     2018.05.06.2
+// @version     2018.08.01
 // @require     https://code.jquery.com/jquery-3.3.1.slim.min.js
 // @grant       none
 // ==/UserScript==
@@ -51,13 +51,18 @@
 
   const store = new Storage();
 
+  let tabState = 'o';
+  if (localStorage.CustomDMHYTab) {
+    tabState = localStorage.CustomDMHYTab;
+  }
+
   const $mainContainer = $('#custom-dmhy-origin-tab').parent();
   $mainContainer.attr('id', 'custom-dmhy-main-container');
   const $customTab = $('<div id="custom-dmhy-custom-tab" class="custom-dmhy-tab"></div>');
-  const $originTabCheckbox = $('<input id="custom-dmhy-origin-tab-checkbox" name="custom-dmhy-tab" type="radio" checked/>');
-  const $originTabCheckboxLabel = $('<label for="custom-dmhy-origin-tab-checkbox">原始番劇頁</label>');
-  const $customTabCheckbox = $('<input id="custom-dmhy-custom-tab-checkbox" name="custom-dmhy-tab" type="radio"/>');
-  const $customTabCheckboxLabel = $('<label for="custom-dmhy-custom-tab-checkbox">自訂番劇頁</label>');
+  const $originTabCheckbox = $(`<input id="custom-dmhy-origin-tab-checkbox" name="custom-dmhy-tab" type="radio" ${(tabState === 'o') ? 'checked' : ''}/>`);
+  const $originTabCheckboxLabel = $('<label for="custom-dmhy-origin-tab-checkbox">原始番劇頁</label>').on('click', () => { localStorage.CustomDMHYTab = 'o'; });
+  const $customTabCheckbox = $(`<input id="custom-dmhy-custom-tab-checkbox" name="custom-dmhy-tab" type="radio" ${(tabState === 'c') ? 'checked' : ''}/>`);
+  const $customTabCheckboxLabel = $('<label for="custom-dmhy-custom-tab-checkbox">自訂番劇頁</label>').on('click', () => { localStorage.CustomDMHYTab = 'c'; });
 
   const $subList = $('<ul id="custom-dmhy-sub-list"></ul>');
   const $inputs = $('<div id="custom-dmhy-inputs"></div>');
@@ -65,15 +70,13 @@
   const $inputCustomName = $('<input id="custom-dmhy-input-custom-name" placeholder="取個名字，例：\'[魯邦聯會] 魯邦三世第五季\'" style="width: 300px;"/>');
   const $inputKeyword = $('<input id="custom-dmhy-input-keyword" placeholder="真正的關鍵字，例：\'魯邦聯會 魯邦三世 big5 720p\'" style="width: 350px;"/>');
 
-  const createSubEl = ($aInputCustomName, $aInputKeyword) => {
-    const name = $aInputCustomName.val();
-    const keyword = $aInputKeyword.val();
+  const createSubEl = (name, keyword) => {
     const $li = $('<li class="custom-dmhy-sub"></li>');
     const $link = $(`<a href="/topics/list?keyword=${encodeURIComponent(keyword)}">${name}</a>`);
     const $edit = $('<a role="button" href="javascript:;">修改</a>').on('click', () => {
       store.delete(name);
-      $aInputCustomName.val(name);
-      $aInputKeyword.val(keyword);
+      $inputCustomName.val(name);
+      $inputKeyword.val(keyword);
       $li.remove();
     });
     const $delete = $('<a role="button" href="javascript:;">刪除</a>').on('click', () => {
@@ -89,7 +92,7 @@
     } else if (!$inputKeyword.val()) {
       alert('關鍵字不可為空');
     } else {
-      $subList.append(createSubEl($inputCustomName, $inputKeyword));
+      $subList.append(createSubEl($inputCustomName.val(), $inputKeyword.val()));
       store.push($inputCustomName.val(), $inputKeyword.val());
       $inputCustomName.val('');
       $inputKeyword.val('');
