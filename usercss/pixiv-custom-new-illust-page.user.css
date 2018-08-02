@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           pixiv 作品頁面新設計
 @namespace      https://github.com/FlandreDaisuki
-@version        0.1.2
+@version        0.1.3
 @description    自定 pixiv 作品新頁面
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -81,8 +81,7 @@ regexp("https://www.pixiv.net/member.php\\?id=\\d+") {
     max-height: inherit;
   }
   /* 作者區塊 */
-  section._3mXmB-F,
-  section.css-2xe1mn {
+  aside > section[class^="css-"] {
     margin: 10px;
     padding: 6px;
     margin-top: 0;
