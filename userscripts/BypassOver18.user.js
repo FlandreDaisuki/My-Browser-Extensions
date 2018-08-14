@@ -2,7 +2,7 @@
 // @name         Bypass 18+
 // @description  Bypass 18+ checking forever
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.1
+// @version      1.0.2
 // @author       FlandreDaisuki
 // @match        *://www.amazon.co.jp/*
 // @match        *://gyutto.com/*
@@ -10,6 +10,7 @@
 // @match        *://www.getchu.com/*
 // @match        *://ec.toranoana.jp/*
 // @match        *://www.ptt.cc/*
+// @match        *://www.melonbooks.co.jp/*
 // @grant        none
 // @noframes
 // ==/UserScript==
@@ -83,6 +84,9 @@ class CookieBuilder {
       break;
     case 'www.ptt.cc':
       bake('over18', 1)['⏰'];
+      break;
+    case 'www.melonbooks.co.jp':
+      bake('AUTH_ADULT', 1)['⏰'];
       break;
     default:
       break;
