@@ -1,18 +1,19 @@
 # Userscripts
 
 - [Userscripts](#userscripts)
-  - [使用+安裝方法](#使用安裝方法)
-  - [列表](#列表)
-    - [Patchouli](#patchouli)
-    - [Bypass 18+](#bypass-18)
-    - [CustomDMHY](#customdmhy)
-    - [ExTaglink](#extaglink)
-    - [javbus.waterfall](#javbuswaterfall)
-    - [No W3Schools](#no-w3schools)
-    - [pixiv 403 redirection](#pixiv-403-redirection)
-    - [Pixiv Auto Like](#pixiv-auto-like)
-    - [Plurk.click_with_mute](#plurkclick_with_mute)
-    - [Unlock Hath Perks](#unlock-hath-perks)
+    - [使用+安裝方法](#使用安裝方法)
+    - [列表](#列表)
+        - [Patchouli](#patchouli)
+        - [Bypass 18+](#bypass-18)
+        - [CustomDMHY](#customdmhy)
+        - [ExTaglink](#extaglink)
+        - [javbus.waterfall](#javbuswaterfall)
+        - [javbooks.waterfall](#javbookswaterfall)
+        - [No W3Schools](#no-w3schools)
+        - [pixiv 403 redirection](#pixiv-403-redirection)
+        - [Pixiv Auto Like](#pixiv-auto-like)
+        - [Plurk.click_with_mute](#plurkclick_with_mute)
+        - [Unlock Hath Perks](#unlock-hath-perks)
 
 ## 使用+安裝方法
 
@@ -53,6 +54,10 @@
 ### javbus.waterfall
 
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/javbus.waterfall.user.js)
+
+### javbooks.waterfall
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/javbooks.waterfall.user.js)
 
 ### No W3Schools
 
