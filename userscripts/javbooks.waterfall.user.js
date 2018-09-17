@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         javbooks.waterfall
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.2
 // @description  Infinite scroll @ javbooks
 // @author       FlandreDaisuki
 // @match        https://jmvbt.com/*
@@ -16,6 +16,10 @@
 (($) => {
   const $container = $('#PoShow_Box');
   const targetClassName = $('#PoShow_Box > div').get(0).className;
+
+  // No result, exit
+  if (!targetClassName) { return; }
+
   const ancher = $('#Bottom_main').get(0);
   const getNextUrl = (() => {
     let p = 1;
@@ -27,16 +31,33 @@
 
   $(`#PoShow_Box > *:not(.${targetClassName})`).remove();
 
-  window.addEventListener('scroll', throttle(() => {
+  const serialSet = new Set($('.Po_topic_Date_Serial').toArray().map(el => el.textContent));
+
+  const scrollCallback = throttle(() => {
     if (ancher.getBoundingClientRect().top < 1500) {
       fetch(getNextUrl())
         .then(resp => resp.text())
         .then(html => new DOMParser().parseFromString(html, 'text/html'))
         .then((doc) => {
-          $container.append($(doc).find(`.${targetClassName}`));
+          const targets = $(doc).find(`.${targetClassName}`);
+          let added = 0;
+
+          for (const target of targets) {
+            const serial = $(target).find('.Po_topic_Date_Serial').text();
+            if (!serialSet.has(serial)) {
+              $container.append(target);
+              added += 1;
+            }
+          }
+
+          if (targets.length > added) {
+            window.removeEventListener('scroll', scrollCallback);
+          }
         });
     }
-  }, 500));
+  }, 500);
+
+  window.addEventListener('scroll', scrollCallback);
 
   injectCSS($);
 })($.noConflict());
@@ -94,5 +115,3 @@ function throttle(func, wait, options) {
     return result;
   };
 }
-
-
