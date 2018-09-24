@@ -11,6 +11,7 @@
     - [pixiv 作品頁面新設計](#pixiv-作品頁面新設計)
     - [tab-size-on-github](#tab-size-on-github)
     - [github-xp](#github-xp)
+    - [GitHub unfold](#github-unfold)
     - [Plurk 去廣告](#plurk-去廣告)
     - [原價屋估價頁](#原價屋估價頁)
     - [Right Click Save Images on Twitter](#right-click-save-images-on-twitter)
@@ -89,6 +90,12 @@ Modify your favorite tab size on GitHub
 A userstyle version of [github-xp](https://github.com/martenbjork/github-xp)
 
 ![preview](github-xp.jpg)
+
+### GitHub unfold
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/github-unfold.user.css)
+
+Unfold GitHub news in new UI
 
 ### Plurk 去廣告
 

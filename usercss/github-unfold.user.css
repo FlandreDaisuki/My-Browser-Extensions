@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name           GitHub unfold
+@namespace      https://github.com/FlandreDaisuki
+@version        1.0.0
+@description    Unfold GitHub news in new UI
+@author         FlandreDaisuki
+==/UserStyle== */
+@-moz-document domain("github.com") {
+  #dashboard .Details:not(.Details--on) .Details-content--hidden {
+    display: block !important;
+  }
+  #dashboard .btn-link {
+    display: none;
+  }
+}
