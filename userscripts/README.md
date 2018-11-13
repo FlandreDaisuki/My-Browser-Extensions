@@ -6,6 +6,7 @@
         - [Patchouli](#patchouli)
         - [Bypass 18+](#bypass-18)
         - [CustomDMHY](#customdmhy)
+        - [DLSite Search Result Ranking Filter](#dlsite-search-result-ranking-filter)
         - [ExTaglink](#extaglink)
         - [javbus.waterfall](#javbuswaterfall)
         - [javbooks.waterfall](#javbookswaterfall)
@@ -44,6 +45,12 @@
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/CustomDMHY.user.js)
 
 詳見 [CustomDMHY.md](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/CustomDMHY.md)
+
+### DLSite Search Result Ranking Filter
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/DLSite-Search-Result-Ranking-Filter.user.js)
+
+加一個排名(👑)的過濾器
 
 ### ExTaglink
 
