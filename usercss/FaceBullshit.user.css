@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.9
+@version     1.0.10
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -78,6 +78,15 @@
       right: 206px;
       bottom: 0px;
       opacity: 1;
+      background-color: aliceblue;
+      height: calc(100vh - 42px);
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: flex-end;
+    }
+    #js_xd:hover > .navigationFocus + div {
+      right: 165px !important;
+      width: 100px;
     }
     .fbChatTypeahead ._4p-s {
       background-color: transparent;
@@ -87,6 +96,7 @@
       padding-left: 6px;
     }
     /* 右朋友欄 > 上垃圾 */
+    #pagelet_canvas_nav_content,
     .fbSidebarGripper,
     .fbChatOrderedList > div[data-testid="chat_sidebar"] > div:nth-of-type(2) {
       display: none;
@@ -138,6 +148,9 @@
   ._2sz2 {
     height: var(--chatroom-height) !important;
   }
+  ._4poa ._4po5 {
+    min-height: 105%;
+  }
   /* 小聊天室自己的顏色 */
   ._1nc6 ._d97,
   ._1nc6 ._1aa6 {
@@ -149,12 +162,12 @@
   }
   if smaller-stickers {
     /* 貼圖大小 */
-    #pagelet_dock .conversationContainer ._4tdt._ua1 ._3e7u._n4o > span > div[role="img"] {
+    #pagelet_dock ._4tdt._ua1 ._3e7u._n4o > span > div[role="img"] {
       transform-origin: center center;
       transform: scale(0.5);
       margin: -25%;
     }
-    #pagelet_dock .conversationContainer ._4tdt._ua0 ._3e7u._n4o > span > div[role="img"] {
+    #pagelet_dock ._4tdt._ua0 ._3e7u._n4o > span > div[role="img"] {
       transform-origin: center center;
       transform: scale(0.5) translateX(100%);
       margin: -25%;
