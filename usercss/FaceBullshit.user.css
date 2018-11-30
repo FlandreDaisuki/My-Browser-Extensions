@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.10
+@version     1.0.11
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -97,6 +97,7 @@
     }
     /* 右朋友欄 > 上垃圾 */
     #pagelet_canvas_nav_content,
+    ._5qqe,
     .fbSidebarGripper,
     .fbChatOrderedList > div[data-testid="chat_sidebar"] > div:nth-of-type(2) {
       display: none;
