@@ -1,20 +1,21 @@
 # Userscripts
 
 - [Userscripts](#userscripts)
-    - [使用+安裝方法](#使用安裝方法)
-    - [列表](#列表)
-        - [Patchouli](#patchouli)
-        - [Bypass 18+](#bypass-18)
-        - [CustomDMHY](#customdmhy)
-        - [DLSite Search Result Ranking Filter](#dlsite-search-result-ranking-filter)
-        - [ExTaglink](#extaglink)
-        - [javbus.waterfall](#javbuswaterfall)
-        - [javbooks.waterfall](#javbookswaterfall)
-        - [No W3Schools](#no-w3schools)
-        - [pixiv 403 redirection](#pixiv-403-redirection)
-        - [Pixiv Auto Like](#pixiv-auto-like)
-        - [Plurk.click_with_mute](#plurkclick_with_mute)
-        - [Unlock Hath Perks](#unlock-hath-perks)
+  - [使用+安裝方法](#使用安裝方法)
+  - [列表](#列表)
+    - [Patchouli](#patchouli)
+    - [Bypass 18+](#bypass-18)
+    - [CustomDMHY](#customdmhy)
+    - [DLSite Search Result Ranking Filter](#dlsite-search-result-ranking-filter)
+    - [ExTaglink](#extaglink)
+    - [F❍ck Facebook Sponsor](#fck-facebook-sponsor)
+    - [javbus.waterfall](#javbuswaterfall)
+    - [javbooks.waterfall](#javbookswaterfall)
+    - [No W3Schools](#no-w3schools)
+    - [pixiv 403 redirection](#pixiv-403-redirection)
+    - [Pixiv Auto Like](#pixiv-auto-like)
+    - [Plurk.click_with_mute](#plurkclick_with_mute)
+    - [Unlock Hath Perks](#unlock-hath-perks)
 
 ## 使用+安裝方法
 
@@ -57,6 +58,12 @@
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/ExTaglink.user.js)
 
 在原本 tag 區新增 torrent/magnet/pixiv 連結
+
+### F❍ck Facebook Sponsor
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/F❍ck-Facebook-Sponsor.user.js)
+
+移除<sub>被</sub>Facebook<sub>強迫</sub>贊助的動態
 
 ### javbus.waterfall
 
