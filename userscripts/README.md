@@ -15,6 +15,7 @@
     - [pixiv 403 redirection](#pixiv-403-redirection)
     - [Pixiv Auto Like](#pixiv-auto-like)
     - [Plurk.click_with_mute](#plurkclick_with_mute)
+    - [Shorten Medium URL](#shorten-medium-url)
     - [Unlock Hath Perks](#unlock-hath-perks)
 
 ## 使用+安裝方法
@@ -98,6 +99,16 @@ Pixiv 自動點讚
 在噗浪點開即靜音。若該噗有愛心則不靜音。
 
 🐛 已知有些已靜音的噗會莫名其妙跳回未靜音，感覺是噗浪的問題
+
+### Shorten Medium URL
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/Shorten-Medium-URL.user.js)
+
+- 使用前
+  - https://medium.com/@p5d12000/工程師應該放心大膽地創造技術負債-a8022d85810
+
+- 使用後
+  - https://medium.com/@p5d12000/a8022d85810
 
 ### Unlock Hath Perks
 
