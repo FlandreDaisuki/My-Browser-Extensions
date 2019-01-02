@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.11
+@version     1.0.12
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -104,7 +104,8 @@
     }
     /* 右朋友欄 > 上朋友列表 */
     .fbChatSidebarBody {
-      height: 100% !important;
+      height: calc(100% - 32px) !important;
+      top: 32px;
     }
     /* 大頭 */
     ._55lq {
