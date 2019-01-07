@@ -4,81 +4,42 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.1.1
+// @version      1.2
 // @author       FlandreDaisuki
-// @include      *://www.pixiv.net/member_illust.php?*&mode=medium
-// @include      *://www.pixiv.net/member_illust.php?mode=medium&*
-// @include      *://www.pixiv.net/member.php?id=*
+// @include      *://www.pixiv.net/member_illust.php?*mode=medium*
+// @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACw0lEQVRYhe2YvU9TURjGDxGMX4lhZDK6ACGObv4BJixEggvuxNHJ3egKpb3FtooLpjAYXWyoyEAMCYNoYiLGQEKoiXyJQPko9D3nvI/DvdWCh9NzSYMdeJN3aNP79Hefc97n5F4hTitMecU2Eae8GCCcSMcpL7ximw1m+cRg/kItm6FO0hmTU//U/4Ip9SlQVYA8gugPOhp8DvtHXnBtSecojYpAUcKNlxILW4ylXcZ8ntE6LCGihDoHkLoBH6B1WOLbhq+xsMW49UZCxMICRQmjOQVTPf+q/DuuBNVPGJkza4zlNC4lXIE8ws3X0ihUqitD0r58HuH6iF3jzttDGkcCRQi/9tgqtrjDEBELUISQ27JrbBYZTSkXoD6C0naxbWKIXgtQL2GzaNdQzGhKOgIVpF1sfZ8h+ixAfYTVgl1jX7kCRQn3J82bsVS3s8o8KWUad8ftGo+mD2nYpuxskrBwxB6YXNQQcYcpixM+r2mjxuyGxuVnIXPo4lPCvfcaFGjuSaBrTOHMEweYoBsShK4xhd1g4EgDD6Y0LqQMv68EVLpLEfOXQMTIzZnjajgBlYt6QYeBCnOdM1Cc0Dgo0ZlV6JlQaE5L/0yqBNNPaE5L9EwodGYVGgelHSqMQ3ObGhzs8S9rjI5R5QejKa09gogQOkYVfuz4FzEDD6e1/Qx03UMtaQnmgxNXkEByRvtuRehAN6clUjMa6/sHJ+vDKuPaC4tLrg7VJ8xByQzsKWClAGRyjEyOsVLwvzMF/at5Rr1tQp2XzCN0v5NY2rUnr61WC4yW4QoHcqgpi/mZkv3O2CZ3sKJifPrJaEiQPdlDA5XlSXtGYj5vh9IMTC0x2jPSPb9CA5W5dXWI0D0uMbtRmiL+06QZjz8qnE85uFIVoHLHgtA7l/T7WOFZNaBqd+0D1dyjdM29bPgLVSOvY07LXL8BZ79TYIQHQXsAAAAASUVORK5CYII=
 // @grant        none
 // @compatible   firefox
 // @compatible   chrome
 // @noframes
 // ==/UserScript==
-/* eslint-disable camelcase, no-param-reassign */
-/* global globalInitData */
+/* global globalInitData, sentinel */
+const $ = (s) => document.querySelector(s);
 
-const liked = new Set();
+sentinel.on('button.Ki5EGTG:not(._2iDv0r8)', async () => {
+  const likeBtn = $('button.Ki5EGTG');
+  const likeSVG = $('svg.v2zpsfm');
+  const sp = new URLSearchParams(location.search);
 
-// wait until React ready... fucking slow...
-const tid = setInterval(() => {
-  const mainTarget = document.querySelector('figure');
-  if (mainTarget) {
-    clearInterval(tid);
-    main(mainTarget);
-  }
-}, 500);
-
-function main(targetElement) {
-  postLike();
-
-  const config = {
-    attributes: true,
-    childList: true,
-    characterData: true,
-    subtree: true,
-  };
-
-  const wrapperObserver = new MutationObserver((mrs) => {
-    if (mrs.length === 1) {
-      postLike();
-    }
+  const resp = await fetch('/ajax/illusts/like', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-csrf-token': globalInitData.token,
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      illust_id: sp.get('illust_id'),
+    }),
   });
 
-  wrapperObserver.observe(targetElement, config);
-}
-
-async function postLike() {
-  const likeBtn = document.querySelector('button.Ki5EGTG');
-  const likeSVG = document.querySelector('svg.v2zpsfm');
-  const sp = new URLSearchParams(location.search);
-  const illust_id = sp.get('illust_id');
-
-  if (liked.has(illust_id)) {
+  const data = await resp.json();
+  if (!data.error) {
     changeLikedStyle(likeBtn, likeSVG);
-    return;
   }
-
-  if (likeBtn && !likeBtn.classList.contains('_2iDv0r8')) {
-    const resp = await fetch('/ajax/illusts/like', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-csrf-token': globalInitData.token,
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        illust_id,
-      }),
-    });
-
-    const data = await resp.json();
-    if (!data.error) {
-      changeLikedStyle(likeBtn, likeSVG);
-      liked.add(illust_id);
-    }
-  }
-}
+});
 
 function changeLikedStyle(likeBtn, likeSVG) {
   if (likeBtn) {
@@ -86,10 +47,14 @@ function changeLikedStyle(likeBtn, likeSVG) {
   }
   if (likeSVG) {
     likeSVG.classList.add('_1YUwQdz');
-    likeSVG.innerHTML = `
-<path d="M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
-2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
-7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
-5.40236893 3.70710678,5.79289322 L5,7.08578644 Z"></path>`;
+    const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    svgPath.setAttribute('d', `M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
+    2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
+    7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
+    5.40236893 3.70710678,5.79289322 L5,7.08578644 Z`);
+    while (likeSVG.firstChild) {
+      likeSVG.firstChild.remove();
+    }
+    likeSVG.appendChild(svgPath);
   }
 }
