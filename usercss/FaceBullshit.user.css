@@ -1,10 +1,11 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.1.2
+@version     1.1.3
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
+@updateURL   https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 
 @preprocessor stylus
 @var text chatroom-headspace '小聊天室高度' calc(100vh - 100px)
