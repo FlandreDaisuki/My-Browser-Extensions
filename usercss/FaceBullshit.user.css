@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.1.1
+@version     1.1.2
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -196,6 +196,10 @@
       transform-origin: center center;
       transform: scale(0.5) translateX(100%);
       margin: -25%;
+      z-index: 0;
+    }
+    ._3hx- ._ua1 {
+      z-index: 1;
     }
   }
   /* 2018-08-17 似乎正在頁面改版，小聊天室一直縮下去，小 patch */
