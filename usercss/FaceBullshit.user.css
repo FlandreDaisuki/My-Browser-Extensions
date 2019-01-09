@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        FaceBullshit
 @namespace   https://github.com/FlandreDaisuki
-@version     1.1.0
+@version     1.1.1
 @description 個人對垃圾的怨念...
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -150,6 +150,8 @@
   }
   ._2sz2 {
     height: var(--chatroom-height) !important;
+    /* 這邊要跟小聊天室背景底色對應 */
+    background-color: #fff !important;
   }
   ._4poa ._4po5 {
     min-height: 105%;
@@ -171,6 +173,17 @@
   ._3hx- ._n4o ._3_om ._1aa6,
   ._3hx- ._n4o ._3_om ._1aa6::after {
     border-radius: var(--chatroom-chatting-border-radius) !important;
+  }
+  ._3hx- ._n4o ._3_om ._1aa6 {
+    /* FB 預設別人的對話底色 */
+    background-color: #f1f0f0;
+  }
+  ._1nc7 ._5w1r {
+    background-color: initial !important;
+  }
+  /* 小聊天室對話奇怪的上下白邊 */
+  ._3hx- ._2cnu:only-of-type ._5wdf {
+    border: 0;
   }
   if smaller-stickers {
     /* 貼圖大小 */
