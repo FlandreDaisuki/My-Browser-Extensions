@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.2
+// @version      1.2.1
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*mode=medium*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -17,9 +17,9 @@
 /* global globalInitData, sentinel */
 const $ = (s) => document.querySelector(s);
 
-sentinel.on('button.Ki5EGTG:not(._2iDv0r8)', async () => {
-  const likeBtn = $('button.Ki5EGTG');
-  const likeSVG = $('svg.v2zpsfm');
+sentinel.on('button._35vRH4a:not(._1vHxmVH)', async () => {
+  const likeBtn = $('button._35vRH4a');
+  const likeSVG = $('svg._3eF4D7o');
   const sp = new URLSearchParams(location.search);
 
   const resp = await fetch('/ajax/illusts/like', {
@@ -43,10 +43,10 @@ sentinel.on('button.Ki5EGTG:not(._2iDv0r8)', async () => {
 
 function changeLikedStyle(likeBtn, likeSVG) {
   if (likeBtn) {
-    likeBtn.classList.add('_2iDv0r8');
+    likeBtn.classList.add('_1vHxmVH');
   }
   if (likeSVG) {
-    likeSVG.classList.add('_1YUwQdz');
+    likeSVG.classList.add('_2sram-m');
     const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     svgPath.setAttribute('d', `M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
     2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
