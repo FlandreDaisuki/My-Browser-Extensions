@@ -7,11 +7,18 @@
   "parserOptions": {
     "ecmaVersion": 2017
   },
-  "extends": ["eslint:recommended", "airbnb"],
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
   "rules": {
     "no-console": "off",
     "no-use-before-define": "off",
     "no-restricted-globals": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "arrow-parens": [
+      "error",
+      "always"
+    ]
   }
 }
