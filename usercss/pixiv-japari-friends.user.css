@@ -1,38 +1,38 @@
 /* ==UserStyle==
 @name        pixiv フレンズ
 @namespace   https://github.com/FlandreDaisuki
-@version     2.0.0
+@version     2.0.1
 @description すごーい！君はイラストが上手いフレンズだね〜
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
 ==/UserStyle== */
-
 @-moz-document url-prefix("https://www.pixiv.net/member_illust.php?mode=medium&illust_id="),
 regexp("https:\\/\\/www.pixiv.net\\/member_illust.php\\?illust_id=\\d+&mode=medium") {
-  @font-face {
-    font-family: "japarifont";
-    src: url("https://cdn.rawgit.com/aratama/kemonogen/417db197/docs/japarifont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-  button.Ki5EGTG svg {
+  button._35vRH4a svg {
     display: none;
   }
-  button.Ki5EGTG._2iDv0r8 {
+  button._35vRH4a._1vHxmVH {
     color: #f39801;
   }
-  span._3fPkdds {
+  span._3uX7m3X {
     font-size: 0px;
     display: inline-flex;
   }
-  span._3fPkdds::before {
+  span._3uX7m3X::before {
     content: "の";
     font-size: 16px;
-    font-family: japarifont, sans-serif;
-    transform: translate(-3px, 3px);
+    color: transparent;
+    transform-origin: center;
+    transform: translateX(-3px);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 44'%3E%3Cpath d='M45.47 13.38a1.39 1.39 0 0 1 .23-1.74C49.78 7.7 47.26.74 45.56.22S40.73 2 36.91 4.38a2.28 2.28 0 0 1-2.08.12A26.5 26.5 0 0 0 21 2.75a25.14 25.14 0 0 0-6.08 1.65 2.33 2.33 0 0 1-2.15-.09C9 1.86 5.78-.43 4.13.07 2.31.61-.5 8.49 4.81 12.26c0 0 0 .06.07 0l-.06.09A24.15 24.15 0 0 0 .57 25.11a21.54 21.54 0 0 0 .8 7.89 15 15 0 0 0 6.11 8.31c.29.19.59.38.9.55a16 16 0 0 0 16.87-1.16 14.26 14.26 0 0 0 5.59-8.31 15 15 0 0 0 .08-6.4 6.67 6.67 0 0 0-13.08 2.61 1.74 1.74 0 0 1-.62 1.73 2.26 2.26 0 0 1-2.5-.18C14 29.61 13.5 28 13.66 25.9v-.14a9.7 9.7 0 0 1 6.08-8.94 12.44 12.44 0 0 1 12.44 1.44c3.17 2.56 4.41 6.75 3.63 12.18a.29.29 0 0 1 0 .09 4.25 4.25 0 0 1-1 2l-.24.29-.2.23a6.67 6.67 0 0 0 10.29 8.55 15.14 15.14 0 0 0 3.9-6.68 29.23 29.23 0 0 0 .85-9.58 26 26 0 0 0-3.94-11.96z' /%3E%3C/svg%3E");
   }
-  span._3fPkdds::after {
+  span._3uX7m3X::after {
     content: "すごーい！";
     font-size: 16px;
+  }
+  button._35vRH4a._1vHxmVH span._3uX7m3X::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 44'%3E%3Cpath d='M45.47 13.38a1.39 1.39 0 0 1 .23-1.74C49.78 7.7 47.26.74 45.56.22S40.73 2 36.91 4.38a2.28 2.28 0 0 1-2.08.12A26.5 26.5 0 0 0 21 2.75a25.14 25.14 0 0 0-6.08 1.65 2.33 2.33 0 0 1-2.15-.09C9 1.86 5.78-.43 4.13.07 2.31.61-.5 8.49 4.81 12.26c0 0 0 .06.07 0l-.06.09A24.15 24.15 0 0 0 .57 25.11a21.54 21.54 0 0 0 .8 7.89 15 15 0 0 0 6.11 8.31c.29.19.59.38.9.55a16 16 0 0 0 16.87-1.16 14.26 14.26 0 0 0 5.59-8.31 15 15 0 0 0 .08-6.4 6.67 6.67 0 0 0-13.08 2.61 1.74 1.74 0 0 1-.62 1.73 2.26 2.26 0 0 1-2.5-.18C14 29.61 13.5 28 13.66 25.9v-.14a9.7 9.7 0 0 1 6.08-8.94 12.44 12.44 0 0 1 12.44 1.44c3.17 2.56 4.41 6.75 3.63 12.18a.29.29 0 0 1 0 .09 4.25 4.25 0 0 1-1 2l-.24.29-.2.23a6.67 6.67 0 0 0 10.29 8.55 15.14 15.14 0 0 0 3.9-6.68 29.23 29.23 0 0 0 .85-9.58 26 26 0 0 0-3.94-11.96z' fill='%23f39801'/%3E%3C/svg%3E");
   }
 }
