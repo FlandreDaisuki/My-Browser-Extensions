@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.2.1
+// @version      1.2.2
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/member_illust.php?*mode=medium*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -14,47 +14,50 @@
 // @compatible   chrome
 // @noframes
 // ==/UserScript==
+
 /* global globalInitData, sentinel */
+
 const $ = (s) => document.querySelector(s);
 
-sentinel.on('button._35vRH4a:not(._1vHxmVH)', async () => {
-  const likeBtn = $('button._35vRH4a');
-  const likeSVG = $('svg._3eF4D7o');
-  const sp = new URLSearchParams(location.search);
+registerReactiveEvent('_35vRH4a', '_3eF4D7o', '_1vHxmVH', '_2sram-m');
+registerReactiveEvent('Ki5EGTG', 'v2zpsfm', '_2iDv0r8', '_1YUwQdz');
 
-  const resp = await fetch('/ajax/illusts/like', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'x-csrf-token': globalInitData.token,
-    },
-    credentials: 'same-origin',
-    body: JSON.stringify({
-      illust_id: sp.get('illust_id'),
-    }),
-  });
+function registerReactiveEvent(btnClass, svgClass, btnActiveClass, svgActiveClass) {
+  sentinel.on(`button.${btnClass}:not(.${btnActiveClass})`, async () => {
+    const likeBtn = $(`button.${btnClass}`);
+    const likeSVG = $(`svg.${svgClass}`);
+    const sp = new URLSearchParams(location.search);
 
-  const data = await resp.json();
-  if (!data.error) {
-    changeLikedStyle(likeBtn, likeSVG);
-  }
-});
+    const resp = await fetch('/ajax/illusts/like', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-csrf-token': globalInitData.token,
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        illust_id: sp.get('illust_id'),
+      }),
+    });
 
-function changeLikedStyle(likeBtn, likeSVG) {
-  if (likeBtn) {
-    likeBtn.classList.add('_1vHxmVH');
-  }
-  if (likeSVG) {
-    likeSVG.classList.add('_2sram-m');
-    const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    svgPath.setAttribute('d', `M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
-    2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
-    7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
-    5.40236893 3.70710678,5.79289322 L5,7.08578644 Z`);
-    while (likeSVG.firstChild) {
-      likeSVG.firstChild.remove();
+    const data = await resp.json();
+    if (!data.error) {
+      if (likeBtn) {
+        likeBtn.classList.add(btnActiveClass);
+      }
+      if (likeSVG) {
+        likeSVG.classList.add(svgActiveClass);
+        const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        svgPath.setAttribute('d', `M5,7.08578644 L9.29289322,2.79289322 C9.68341751,2.40236893 10.3165825,2.40236893 10.7071068,
+2.79289322 C11.0976311,3.18341751 11.0976311,3.81658249 10.7071068,4.20710678 L5,9.91421356 L2.29289322,
+7.20710678 C1.90236893,6.81658249 1.90236893,6.18341751 2.29289322,5.79289322 C2.68341751,5.40236893 3.31658249,
+5.40236893 3.70710678,5.79289322 L5,7.08578644 Z`);
+        while (likeSVG.firstChild) {
+          likeSVG.firstChild.remove();
+        }
+        likeSVG.appendChild(svgPath);
+      }
     }
-    likeSVG.appendChild(svgPath);
-  }
+  });
 }
