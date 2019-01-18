@@ -15,6 +15,7 @@
     - [Plurk 去廣告](#plurk-去廣告)
     - [原價屋估價頁](#原價屋估價頁)
     - [Right Click Save Images on Twitter](#right-click-save-images-on-twitter)
+    - [Youtube 小窗](#youtube-小窗)
 
 ## 使用+安裝方法
 
@@ -116,3 +117,9 @@ Unfold GitHub news in new UI
 [![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/right-click-save-image-on-twitter.user.css)
 
 ["Right Click Save Images on Twitter"](https://greasyfork.org/scripts/20717) 的 usercss 版本
+
+### Youtube 小窗
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/youtube-better-popup.user.css)
+
+需搭配 [eight04/popup-tab](https://github.com/eight04/popup-tab) 及 [xxzefgh/youtube-classic-extension](https://github.com/xxzefgh/youtube-classic-extension) 取得最佳體驗
