@@ -1,21 +1,18 @@
 /* ==UserStyle==
 @name        動畫瘋 フレンズ
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.0
+@version     1.0.1
 @description たーのしー！すごーい！
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
 ==/UserStyle== */
-
 @-moz-document domain("ani.gamer.com.tw") {
-  @font-face {
-    font-family: "japarifont";
-    src: url("https://cdn.rawgit.com/aratama/kemonogen/417db197/docs/japarifont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
+  :root {
+    --white-japari-no: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 44'%3E%3Cpath d='M45.47 13.38a1.39 1.39 0 0 1 .23-1.74C49.78 7.7 47.26.74 45.56.22S40.73 2 36.91 4.38a2.28 2.28 0 0 1-2.08.12A26.5 26.5 0 0 0 21 2.75a25.14 25.14 0 0 0-6.08 1.65 2.33 2.33 0 0 1-2.15-.09C9 1.86 5.78-.43 4.13.07 2.31.61-.5 8.49 4.81 12.26c0 0 0 .06.07 0l-.06.09A24.15 24.15 0 0 0 .57 25.11a21.54 21.54 0 0 0 .8 7.89 15 15 0 0 0 6.11 8.31c.29.19.59.38.9.55a16 16 0 0 0 16.87-1.16 14.26 14.26 0 0 0 5.59-8.31 15 15 0 0 0 .08-6.4 6.67 6.67 0 0 0-13.08 2.61 1.74 1.74 0 0 1-.62 1.73 2.26 2.26 0 0 1-2.5-.18C14 29.61 13.5 28 13.66 25.9v-.14a9.7 9.7 0 0 1 6.08-8.94 12.44 12.44 0 0 1 12.44 1.44c3.17 2.56 4.41 6.75 3.63 12.18a.29.29 0 0 1 0 .09 4.25 4.25 0 0 1-1 2l-.24.29-.2.23a6.67 6.67 0 0 0 10.29 8.55 15.14 15.14 0 0 0 3.9-6.68 29.23 29.23 0 0 0 .85-9.58 26 26 0 0 0-3.94-11.96z' fill='%23fff'/%3E%3C/svg%3E");
+    --f39800-japari-no: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 44'%3E%3Cpath d='M45.47 13.38a1.39 1.39 0 0 1 .23-1.74C49.78 7.7 47.26.74 45.56.22S40.73 2 36.91 4.38a2.28 2.28 0 0 1-2.08.12A26.5 26.5 0 0 0 21 2.75a25.14 25.14 0 0 0-6.08 1.65 2.33 2.33 0 0 1-2.15-.09C9 1.86 5.78-.43 4.13.07 2.31.61-.5 8.49 4.81 12.26c0 0 0 .06.07 0l-.06.09A24.15 24.15 0 0 0 .57 25.11a21.54 21.54 0 0 0 .8 7.89 15 15 0 0 0 6.11 8.31c.29.19.59.38.9.55a16 16 0 0 0 16.87-1.16 14.26 14.26 0 0 0 5.59-8.31 15 15 0 0 0 .08-6.4 6.67 6.67 0 0 0-13.08 2.61 1.74 1.74 0 0 1-.62 1.73 2.26 2.26 0 0 1-2.5-.18C14 29.61 13.5 28 13.66 25.9v-.14a9.7 9.7 0 0 1 6.08-8.94 12.44 12.44 0 0 1 12.44 1.44c3.17 2.56 4.41 6.75 3.63 12.18a.29.29 0 0 1 0 .09 4.25 4.25 0 0 1-1 2l-.24.29-.2.23a6.67 6.67 0 0 0 10.29 8.55 15.14 15.14 0 0 0 3.9-6.68 29.23 29.23 0 0 0 .85-9.58 26 26 0 0 0-3.94-11.96z' fill='%23f39800'/%3E%3C/svg%3E");
   }
-  section.old_list div.order>i,
-  section.index_new button.newanime__order>i {
+  section.old_list div.order > i,
+  section.index_new button.newanime__order > i {
     display: none;
   }
   .newanime,
@@ -32,75 +29,28 @@
   }
   section.old_list div.order::after,
   section.index_new button.newanime__order::after {
+    display: block;
+
     content: "の";
     font-size: 32px;
-    font-family: japarifont, sans-serif;
-    transform: rotate(10deg);
-    display: block;
-    padding-left: 6px;
+    color: transparent;
+
+    background: var(--white-japari-no);
+    background-repeat: no-repeat;
+    background-size: 32px;
+    transform: rotate(10deg) translate(3px);
+  }
+  section.index_new button.newanime__order.is-order::after,
+  section.old_list div.order.yes::after,
+  section.old_list div.order:hover::after,
+  section.index_new button.newanime__order:hover::after {
+    background: var(--f39800-japari-no);
+    background-repeat: no-repeat;
   }
   section.index_new button.newanime__order.is-order,
   section.index_new button.newanime__order:hover,
   section.old_list div.order.yes,
   section.old_list div.order:hover {
-    background-color: #fcdba4;
-    color: #f39800;
-  }
-  section.index_new button.newanime__order:not(.is-order):hover::before,
-  section.old_list div.order:not(.yes):hover::before {
-    opacity: 0;
-    content: "たーのしー！";
-    font-family: japarifont, sans-serif;
-    color: #f39800;
-    text-shadow: 1px 1px 1px black;
-    letter-spacing: 5px;
-    position: absolute;
-    white-space: nowrap;
-    animation: 🐈-🎒 2s infinite;
-    animation-delay: 0.1s;
-  }
-  @keyframes 🐈-🎒 {
-    0% {
-      opacity: 0;
-      content: "たーのしー！";
-      font-size: 24px;
-      transform: translate(0px, -20px) rotate(0deg);
-    }
-    1% {
-      opacity: 1;
-      content: "たーのしー！";
-      font-size: 24px;
-      transform: translate(0px, -20px) rotate(0deg);
-    }
-    40% {
-      opacity: 0;
-      content: "たーのしー！";
-      font-size: 36px;
-      transform: translate(-100px, -40px) rotate(-10deg);
-    }
-    50% {
-      opacity: 0;
-      content: "すごーい！";
-      font-size: 24px;
-      transform: translate(0px, -20px) rotate(0deg);
-    }
-    51% {
-      opacity: 1;
-      content: "すごーい！";
-      font-size: 24px;
-      transform: translate(0px, -20px) rotate(0deg);
-    }
-    90% {
-      opacity: 0;
-      content: "すごーい！";
-      font-size: 36px;
-      transform: translate(100px, -40px) rotate(10deg);
-    }
-    100% {
-      opacity: 0;
-      content: "たーのしー！";
-      font-size: 24px;
-      transform: translate(0px, -20px) rotate(0deg);
-    }
+    background: #fcdba4;
   }
 }

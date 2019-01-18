@@ -40,7 +40,8 @@
 
 たーのしー！すごーい！
 
-![preview](ani.gamer-japari-friends.gif)
+**No tatsuki, No tanoshi!**
+![preview](ani.gamer-japari-friends.preview.jpg)
 
 ### 動畫瘋 不要不要
 
