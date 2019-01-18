@@ -124,3 +124,5 @@ Unfold GitHub news in new UI
 [![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/youtube-better-popup.user.css)
 
 需搭配 [eight04/popup-tab](https://github.com/eight04/popup-tab) 及 [xxzefgh/youtube-classic-extension](https://github.com/xxzefgh/youtube-classic-extension) 取得最佳體驗
+
+![preview](youtube-better-popup.preview.jpg)
