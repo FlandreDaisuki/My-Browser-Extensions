@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         F❍ck Facebook Sponsor
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
-// @description  F❍ck Facebook Sponsor
+// @version      0.2
+// @description  Remove Facebook sponsor feeds
 // @author       FlandreDaisuki
 // @match        https://www.facebook.com/*
-// @require      https://cdnjs.cloudflare.com/ajax/libs/sentinel-js/0.0.5/sentinel.min.js
+// @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @grant        none
 // @noframes
 // ==/UserScript==
