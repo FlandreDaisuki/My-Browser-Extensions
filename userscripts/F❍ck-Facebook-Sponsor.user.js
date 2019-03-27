@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         F❍ck Facebook Sponsor
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.2
+// @version      0.3
 // @description  Remove Facebook sponsor feeds
 // @author       FlandreDaisuki
 // @match        https://www.facebook.com/*
@@ -12,6 +12,8 @@
 
 /* global sentinel */
 
-sentinel.on('.h_-944wqvyb', (el) => {
-  el.closest('[id^="hyperfeed_story_id"]').remove();
+sentinel.on('[id^="feed_subtitle_"]', (el) => {
+  if (el.id.match(/:/g).length > 3) {
+    el.closest('[id^="hyperfeed_story_id"]').remove();
+  }
 });
