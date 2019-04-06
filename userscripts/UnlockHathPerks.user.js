@@ -6,7 +6,7 @@
 // @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN  解锁 Hath Perks 及增加一些小工具
 // @namespace          https://github.com/FlandreDaisuki
-// @version            2.0.0
+// @version            2.0.1
 // @match              *://e-hentai.org/*
 // @match              *://exhentai.org/*
 // @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -214,11 +214,11 @@ if ($('#searchbox') && $('.itg')) {
       return result;
     };
 
-    const modet = Boolean($('.itg.glt'));
+    const modet = Boolean($('table.itg'));
     const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
     const selectors = {
       np: '.ptt td:last-child > a',
-      parent: modet ? '.itg.glt > tbody' : '.itg.gld',
+      parent: modet ? 'table.itg > tbody' : 'div.itg',
     };
 
     const pageState = {
