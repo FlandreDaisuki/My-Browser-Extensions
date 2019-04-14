@@ -1,0 +1,19 @@
+# 台灣新聞網站
+appledaily.com
+appledaily.com.tw
+bnext.com.tw
+buzzorange.com
+chinatimes.com
+cw.com.tw
+ettoday.net
+ltn.com.tw
+m.match.net.tw
+news.yahoo.com
+setn.com
+today.line.me
+tvbs.com.tw
+udn.com
+upmedia.mg
+
+# 垃圾論壇
+jkforum.net
