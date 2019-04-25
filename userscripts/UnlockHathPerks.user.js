@@ -6,7 +6,7 @@
 // @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN  解锁 Hath Perks 及增加一些小工具
 // @namespace          https://github.com/FlandreDaisuki
-// @version            2.0.1
+// @version            2.0.2
 // @match              *://e-hentai.org/*
 // @match              *://exhentai.org/*
 // @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -319,6 +319,14 @@ new Vue({
 
 $style(`
 /* override */
+table.itc + p.nopm {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+#f_search {
+  max-width: 100%;
+}
 #nb {
   max-width: initial;
   justify-content: center;
