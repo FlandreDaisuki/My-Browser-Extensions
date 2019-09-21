@@ -4,7 +4,7 @@
 // @description    隱藏各式各樣問神、心裡測驗、奇怪的跟風
 // @description:en Hide and mute any gossip and divination
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1
+// @version      0.1.1
 // @author       FlandreDaisuki
 // @match        https://www.plurk.com/*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -13,7 +13,7 @@
 // @noframes
 // ==/UserScript==
 
-/* global sentinel */
+/* global sentinel, GLOBAL */
 
 const hideEl = (el) => {
   el.hidden = true;
@@ -31,23 +31,33 @@ const mute = (plurk) => {
 sentinel.on('#timeline_cnt > .block_cnt > .plurk', (plurk) => {
   const content = plurk.querySelector('.td_cnt').textContent.trim();
   const qualifierEls = [...plurk.querySelectorAll('.qualifier')];
-  // [問] 神
-  if(qualifierEls.filter((q) => q.classList.contains('q_asks')).length && content.match(/^神\s*/g)) {
-    hideEl(plurk);
-    mute(plurk);
-  }
 
-  // 關鍵字
-  if(content.match(/(跟風|心測|心理測驗)/g)) {
-    hideEl(plurk);
-    mute(plurk);
-  }
+  // 例外條件
+  const exceptConditions = [
+    // 自己
+    plurk.textContent.includes(GLOBAL.session_user.display_name)
+  ];
 
-  // 表情符號
-  const path = [
+  // 表情符號網址
+  const emos = [
     '3c06d451efef7089cb388307a1af57a1_w44_h17.png',
   ];
-  if(plurk.querySelector(path.map((p) => `img[src="https://emos.plurk.com/${p}"]`).join(','))) {
+
+  // 隱藏條件
+  const hideConditions = [
+    // [問] 神
+    qualifierEls.filter((q) => q.classList.contains('q_asks')).length && content.match(/^神\s*/g),
+    // 關鍵字
+    content.match(/(跟風|心測|心理測驗)/g),
+    // 表情符號
+    plurk.querySelector(emos.map((emo) => `img[src="https://emos.plurk.com/${emo}"]`).join(',')),
+  ];
+
+  if(exceptConditions.some(Boolean)) {
+    return;
+  }
+
+  if(hideConditions.some(Boolean)) {
     hideEl(plurk);
     mute(plurk);
   }
