@@ -8,17 +8,14 @@
     "ecmaVersion": 2017
   },
   "extends": [
-    "eslint:recommended",
-    "airbnb"
+    "eslint:recommended"
   ],
   "rules": {
     "no-console": "off",
     "no-use-before-define": "off",
     "no-restricted-globals": "off",
     "no-restricted-syntax": "off",
-    "arrow-parens": [
-      "error",
-      "always"
-    ]
+    "arrow-parens": ["error", "always"],
+    "require-atomic-updates": "off"
   }
 }
