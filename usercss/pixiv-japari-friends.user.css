@@ -1,13 +1,12 @@
 /* ==UserStyle==
 @name        pixiv フレンズ
 @namespace   https://github.com/FlandreDaisuki
-@version     2.0.3
+@version     2.1.0
 @description すごーい！君はイラストが上手いフレンズだね〜
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
 ==/UserStyle== */
-@-moz-document regexp("https:\\/\\/www.pixiv.net\\/member_illust.php\\?mode=.*&illust_id=.*"),
-regexp("https:\\/\\/www.pixiv.net\\/member_illust.php\\?illust_id=\\d+&mode=.*") {
+@-moz-document url-prefix("https://www.pixiv.net/artworks/") {
   button._35vRH4a svg,
   button.Ki5EGTG svg {
     display: none;
