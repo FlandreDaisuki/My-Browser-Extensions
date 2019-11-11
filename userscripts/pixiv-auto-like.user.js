@@ -4,7 +4,7 @@
 // @description        Click **like** automatically in new illust pages
 // @description:zh-TW  在新版頁面自動點讚
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.3.0
+// @version      1.3.1
 // @author       FlandreDaisuki
 // @include      *://www.pixiv.net/artworks/*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -15,17 +15,32 @@
 // @noframes
 // ==/UserScript==
 
-/* global globalInitData, sentinel */
+/* global sentinel */
 
 const $ = (s) => document.querySelector(s);
 
 registerReactiveEvent('_35vRH4a', '_3eF4D7o', '_1vHxmVH', '_2sram-m');
 registerReactiveEvent('Ki5EGTG', 'v2zpsfm', '_2iDv0r8', '_1YUwQdz');
 
+// pixiv 不把東西放在 window 了，麻煩
+async function fetchPixivGlobalData() {
+  const resp = await fetch('/');
+  const html = await resp.text();
+  const metaHTMLs = html.match(/<meta[^>]*>/g);
+  return metaHTMLs.filter((metaHTML) => metaHTML.includes('global-data'))
+    .map((metaHTML) => {
+      const h = document.createElement('head');
+      h.innerHTML = metaHTML;
+      return h;
+    }).map((h) => JSON.parse(h.firstChild.content))[0];
+}
+
 function registerReactiveEvent(btnClass, svgClass, btnActiveClass, svgActiveClass) {
   sentinel.on(`button.${btnClass}:not(.${btnActiveClass})`, async() => {
     const likeBtn = $(`button.${btnClass}`);
     const likeSVG = $(`svg.${svgClass}`);
+
+    const globalInitData = await fetchPixivGlobalData();
 
     const resp = await fetch('/ajax/illusts/like', {
       method: 'POST',
