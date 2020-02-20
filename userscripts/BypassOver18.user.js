@@ -11,6 +11,7 @@
 // @match        *://ec.toranoana.jp/*
 // @match        *://www.ptt.cc/*
 // @match        *://www.melonbooks.co.jp/*
+// @match        *://www.suruga-ya.jp/*
 // @grant        none
 // @noframes
 // ==/UserScript==
@@ -87,6 +88,9 @@ class CookieBuilder {
       break;
     case 'www.melonbooks.co.jp':
       bake('AUTH_ADULT', 1)['⏰'];
+      break;
+    case 'www.suruga-ya.jp':
+      bake('adult', 1)['⏰'];
       break;
     default:
       break;
