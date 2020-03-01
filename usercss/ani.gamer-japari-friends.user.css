@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        動畫瘋 フレンズ
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.1
+@version     1.0.3
 @description たーのしー！すごーい！
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -38,7 +38,10 @@
     background: var(--white-japari-no);
     background-repeat: no-repeat;
     background-size: 32px;
-    transform: rotate(10deg) translate(3px);
+    transform: rotate(10deg) translate(3px, 5px);
+  }
+  section.old_list div.order::after {
+    transform: rotate(10deg) translate(4px, -2px);
   }
   section.index_new button.newanime__order.is-order::after,
   section.old_list div.order.yes::after,
