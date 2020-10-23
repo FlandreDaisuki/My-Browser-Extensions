@@ -1,232 +1,82 @@
 /* ==UserStyle==
-@name        FaceBullshit
-@namespace   https://github.com/FlandreDaisuki
-@version     1.1.4
-@description 個人對垃圾的怨念...
-@author      FlandreDaisuki
-@license     CC-BY-SA-4.0
-@updateURL   https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
+@name           FaceBullshit
+@namespace      https://github.com/FlandreDaisuki
+@version        2.0.0
+@description    Beautify Facebook 2020-09 layout
+@author         FlandreDaisuki
+@license        CC-BY-SA-4.0
+@updateURL      https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 
 @preprocessor stylus
-@var text chatroom-headspace '小聊天室高度' calc(100vh - 100px)
-@var checkbox to-left '動態欄偏左避免小聊天室擋住' 1
-@var checkbox no-right-col '右邊廣告欄吃光光' 1
-@var checkbox friends-col '右邊朋友欄減肥' 1
-@var checkbox smaller-stickers '小聊天室貼圖變小' 1
-@var color chatroom-self-bgcolor '小聊天室自己的顏色' #4267b2
+@var text custom-chatroom-height '小聊天室高度' calc(100vh - 84px)
+@var checkbox no-ig '不要 instagram' 1
+@var checkbox no-left-col '不要左引導欄' 1
+@var checkbox no-right-col '不要右聊天欄' 1
+@var checkbox no-video-chat '不要視訊圈' 1
 ==/UserStyle== */
-@-moz-document regexp("https://www.facebook.com/(?!messages).*") {
-  :root {
-    /* 小聊天室高度：預設 calc(100vh - 100px) */
-    --chatroom-chatting-border-radius: 6px;
-    --chatroom-height: chatroom-headspace;
-    --poo-url: url("data:image/png;base64,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");
+@-moz-document domain("www.facebook.com") {
+  /* 本樣式 logo */
+  [aria-label="Facebook"][role="link"] {
+    background: url(https://static.xx.fbcdn.net/images/emoji.php/v9/tfe/1/32/1f4a9.png);
+    background-size: contain;
+    height: 40px;
+    width: 40px;
   }
-  /* 大便 */
-  ._2md {
-    background: var(--poo-url);
-    background-size: 24px;
-  }
-  if to-left {
-    #globalContainer {
-      position: absolute;
-      left: 24px;
-    }
-  }
-  if no-right-col {
-    /* 右邊廣告欄吃光光 */
-    #rightCol *,
-    ._1qku._1qkq._5v6d._5rzs {
-      display: none;
-    }
-  }
-  /* 點開別人的照片下的廣告 */
-  ._5ciw.rhcFooter {
-    display: none !important;
-  }
-  /* 訊息圖示點開後的 "到 Messenger 察看全部" */
-  #MercuryJewelFooter {
+  [aria-label="Facebook"][role="link"] > *,
+  [aria-hidden="false"] + [aria-label="Facebook"][role="link"] {
     display: none;
   }
-  if friends-col {
-    /* 右朋友欄 */
-    .fbChatSidebar {
-      right: -159px;
-    }
-    /* 右朋友欄 > 下搜尋欄 */
-    /* 拿到上面去 平常用不到 */
-    ._4oes {
-      position: fixed;
-      top: 44px;
-      /* 原本應該可以 right: 100% 就好的，都 Chrome 在雷 */
-      transform: translateX(-103%);
-      max-width: 200px;
-      opacity: 0.4;
-      transition: opacity 0.15s;
-    }
-    ._4oes:hover {
-      opacity: 1;
-    }
-    ._5iwm ._58al {
-      border-radius: 0;
-    }
-    /* 搜尋結果 */
-    ._225b {
-      /* 聯絡人 */
-      display: none;
-    }
-    .navigationFocus + div {
-      position: absolute;
-      right: 206px;
-      bottom: 0px;
-      opacity: 1;
-      background-color: aliceblue;
-      height: calc(100vh - 42px);
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: flex-end;
-    }
-    #js_xd:hover > .navigationFocus + div {
-      right: 165px !important;
-      width: 100px;
-    }
-    .fbChatTypeahead ._4p-s {
-      background-color: transparent;
-    }
-    .fbChatTypeahead ._5l37 ._5l39 {
-      padding: 4px;
-      padding-left: 6px;
-    }
-    /* 右朋友欄 > 上垃圾 */
-    #pagelet_canvas_nav_content,
-    ._5qqe,
-    .fbSidebarGripper,
-    .fbChatOrderedList > div[data-testid="chat_sidebar"] > div:nth-of-type(2) {
-      display: none;
-    }
-    /* 右朋友欄 > 上朋友列表 */
-    .fbChatSidebarBody {
-      height: calc(100% - 40px) !important;
-      top: 40px;
-    }
-    /* 大頭 */
-    ._55lq {
-      margin-left: 0px;
-    }
-    /* 上線/離線格 */
-    ._5bon {
-      position: absolute;
-      left: 2px;
-      top: -14px;
-      margin: 0;
-    }
-    /* 綠燈樣式 */
-    ._568z > span {
-      margin: 0 !important;
-      height: 8px !important;
-      width: 8px !important;
-    }
-    /* 揮什麼手啦神經病 = = */
-    ._2ob8 {
-      display: none;
-    }
-    /* 最後上線時間 */
-    ._568- {
-      display: none;
-    }
-    /* 更多聯絡人 */
-    ._55ob,
-    .sidebarMode ._4kqp {
-      display: none;
-    }
-    /* 小聊天室基底 */
-    .sidebarMode .fbDockWrapperRight {
-      right: 46px;
-    }
-  }
-  /* 小聊天室高度 */
-  ._50mz.opened .fbDockChatTabFlyout,
-  .conversationContainer {
-    min-height: var(--chatroom-height);
-  }
-  ._2sz2 {
-    height: var(--chatroom-height) !important;
-    /* 這邊要跟小聊天室背景底色對應 */
-    background-color: #fff !important;
-  }
-  ._4poa ._4po5 {
-    min-height: 105%;
-  }
-  /* 小聊天室自己的顏色 */
-  ._1nc6 ._d97,
-  ._1nc6 ._1aa6 {
-    background-color: chatroom-self-bgcolor !important;
-  }
-  ._1nc6 ._1aa6._31xy,
-  ._1nc6 ._d97._31xy {
-    background-color: transparent !important;
-  }
-  /* 聊天室設定 */
-  .uiScrollableAreaWrap {
-    max-height: initial !important;
-  }
-  /* 小聊天室對話圓邊框 */
-  ._3hx- ._n4o ._3_om ._1aa6,
-  ._3hx- ._n4o ._3_om ._1aa6::after {
-    /* 對話 */
-    border-radius: var(--chatroom-chatting-border-radius) !important;
-  }
-  ._3hx- ._n4o ._3cpq,
-  ._3hx- ._n4o._1wno {
-    /* 小聊天室引用外部網站 */
-    border-radius: var(--chatroom-chatting-border-radius) !important;
-  }
-  ._3hx- ._52kr {
-    /* 小聊天室引用外部網站 meta 縮圖 */
-    border-radius: var(--chatroom-chatting-border-radius) 0 0 var(--chatroom-chatting-border-radius) !important;
-  }
-  ._3hx- ._49or .__6j,
-  ._3hx- ._324d .__6j {
-    /* 小聊天室引用外部網站 meta 描述 */
-    border: 0;
-    padding: 4px;
-  }
-  ._3hx- ._n4o ._3_om ._1aa6 {
-    /* 小聊天室 FB 預設別人的對話底色 */
-    background-color: #f1f0f0;
-  }
-  ._1nc7 ._5w1r {
-    background-color: initial !important;
-  }
-  /* 小聊天室對話奇怪的上下白邊 */
-  ._3hx- ._2cnu:only-of-type ._5wdf {
-    border: 0;
-  }
-  if smaller-stickers {
-    /* 貼圖大小 */
-    #pagelet_dock ._4tdt._ua1 ._3e7u._n4o > span > div[role="img"] {
-      transform-origin: center center;
-      transform: scale(0.5);
-      margin: -25%;
-    }
-    #pagelet_dock ._4tdt._ua0 ._3e7u._n4o > span > div[role="img"] {
-      transform-origin: center center;
-      transform: scale(0.5) translateX(100%);
-      margin: -25%;
-      z-index: 0;
-    }
-    ._3hx- ._ua1 {
-      z-index: 1;
-    }
-  }
-  /* 2018-08-17 似乎正在頁面改版，小聊天室一直縮下去，小 patch */
-  #pagelet_sidebar .hidden_elem {
-    display: block !important;
-  }
-  #BuddylistPagelet {
+
+  [aria-label="Facebook"][role="navigation"] {
+    /* 上導覽列 */
     display: none;
   }
-  #pagelet_dock > div:first-child {
-    right: 30px;
+  [data-pagelet="page"] > div:first-child > div:first-child {
+    /* 下內容 layout */
+  }
+  [data-pagelet="page"] > div:first-child > div:first-child > [role="navigation"] {
+    /* 左捷徑欄 */
+  }
+  [data-pagelet="page"] > div:first-child > div:first-child > [role="main"] {
+    /* 中動態欄 */
+    justify-content: start;
+    padding-left: initial;
+  }
+  [data-pagelet="page"] > div:first-child > div:first-child > [role="complementary"] {
+    /* 右聊天欄 */
+  }
+
+
+  /* 自訂聊天室高度 */
+  [data-pagelet="ChatTab"] [role="region"] {
+    --chatroom-height: custom-chatroom-height;
+    height: var(--chatroom-height, 455px);
+  }
+  /* 不要左引導欄 */
+  if (no-left-col) {
+    [data-pagelet="page"] > div:first-child > div:first-child > [role="navigation"] {
+      display: none;
+    }
+  }
+  /* 不要右聊天欄 */
+  if (no-right-col) {
+    [data-pagelet="page"] > div:first-child > div:first-child > [role="complementary"] {
+      display: none;
+    }
+  }
+  /* 不要 instagram */
+  if (no-ig) {
+    #ssrb_stories_start + div {
+      display: none;
+    }
+    [data-pagelet="page"] > div:first-child > div:first-child > [role="main"] .l6v480f0 {
+      border-top: none;
+    }
+  }
+  /* 不要視訊圈 */
+  if (no-video-chat) {
+    #ssrb_composer_start + div + div + div {
+      display: none;
+    }
   }
 }
