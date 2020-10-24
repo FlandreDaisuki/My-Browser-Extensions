@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.0
+@version        2.0.1
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -13,6 +13,7 @@
 @var checkbox no-left-col '不要左引導欄' 1
 @var checkbox no-right-col '不要右聊天欄' 1
 @var checkbox no-video-chat '不要視訊圈' 1
+@var checkbox no-interaction '不要互動' 1
 ==/UserStyle== */
 @-moz-document domain("www.facebook.com") {
   /* 本樣式 logo */
@@ -76,6 +77,11 @@
   /* 不要視訊圈 */
   if (no-video-chat) {
     #ssrb_composer_start + div + div + div {
+      display: none;
+    }
+  }
+  if (no-interaction) {
+    [data-pagelet^="FeedUnit_"] div:empty + div + div + div:not([class]) {
       display: none;
     }
   }
