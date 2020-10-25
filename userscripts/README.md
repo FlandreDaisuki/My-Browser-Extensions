@@ -8,7 +8,7 @@
     - [CustomDMHY](#customdmhy)
     - [DLSite Search Result Ranking Filter](#dlsite-search-result-ranking-filter)
     - [ExTaglink](#extaglink)
-    - [F❍ck Facebook Sponsor](#fck-facebook-sponsor)
+    - [Fμck Facebook](#fμck-facebook)
     - [javbus.waterfall](#javbuswaterfall)
     - [javbooks.waterfall](#javbookswaterfall)
     - [No W3Schools](#no-w3schools)
@@ -60,11 +60,13 @@
 
 在原本 tag 區新增 torrent/magnet/pixiv 連結
 
-### F❍ck Facebook Sponsor
+### Fμck Facebook
 
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/F❍ck-Facebook-Sponsor.user.js)
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
 
-移除<sub>被</sub>Facebook<sub>強迫</sub>贊助的動態
+- 移除贊助
+- 移除朋友推薦
+- 動態排序（依更新時間/依<del>Facebook 偉大且不可質疑的</del>演算法）
 
 ### javbus.waterfall
 
