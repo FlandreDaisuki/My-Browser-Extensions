@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.1
+@version        2.0.2
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -47,6 +47,11 @@
     /* 右聊天欄 */
   }
 
+  /* 動態邊框 */
+  [data-pagelet^="FeedUnit_"] [style^="border-radius"] {
+    border: 1px solid rgba(200, 200, 200, .2);
+    padding-bottom: 8px
+  }
 
   /* 自訂聊天室高度 */
   [data-pagelet="ChatTab"] [role="region"] {
