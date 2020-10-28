@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.0
+// @version      1.0.1
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -72,31 +72,38 @@ sentinel.on(recommendFriendRules.join(','), (recommendFriendEl) => {
 
 /* Feature 3: 按左上 Logo 以時間排序而非推薦系統 */
 window.customElements.define('alt-facebook-logo', class extends HTMLElement {
+  // ref: https://blog.revillweb.com/233350c8e86a
   constructor() {
     super();
-    this._orderBy = 'time'
-    this.onclick = () => location.href = this.href;
+    this.attachShadow({ mode: 'open' });
+    this._$a = null;
   }
-  connectedCallback() {
-    this.orderBy = this.getAttribute('order-by').toLocaleLowerCase();
-    this.style.cursor = 'pointer';
-  }
-  get href() {
-    return this.orderByUpdate ? 'https://www.facebook.com/?sk=h_chr' : 'https://www.facebook.com/'
-  }
-  get orderByUpdate() {
-    return this._orderBy === 'time';
-  }
-  get orderBy() {
-    return this._orderBy;
-  }
-  set orderBy(v) {
-    if(String(v).toLocaleLowerCase() === 'time') {
-      this._orderBy = 'time';
+  setupByOrder(orderBy) {
+    if (orderBy === 'time') {
+      this._$a.setAttribute('href', 'https://www.facebook.com/?sk=h_chr');
       this.title = '依時間排序';
     } else {
-      this._orderBy = 'algo';
+      this._$a.setAttribute('href', 'https://www.facebook.com/');
       this.title = '依演算法排序';
+    }
+  }
+  connectedCallback() {
+    const orderBy = this.getAttribute('order-by') || 'time';
+    this.shadowRoot.innerHTML = `
+      <a href="#" style="display: inline-block; height: 100%; width: 100%;">
+        <slot></slot>
+      </a>
+    `;
+    this._$a = this.shadowRoot.querySelector('a');
+    this._$a.onclick = () => location.href = this._$a.getAttribute('href');
+    this.setupByOrder(orderBy);
+  }
+  static get observedAttributes() { return ['order-by']; }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue) {
+      if (this._$a === null) return;
+      const orderBy = String(newValue).toLocaleLowerCase();
+      this.setupByOrder(orderBy);
     }
   }
 });
@@ -171,18 +178,18 @@ const confOverlayEl = $el('div', {
 </div>
   `;
 
-  const dialogRoot = el.querySelector('#🖕📘⚙️-root')
+  const dialogRoot = el.querySelector('#🖕📘⚙️-root');
   if (dialogRoot) {
     dialogRoot.onclick = (event) => event.stopPropagation();
   }
-  const dialogCloseBtn = el.querySelector('#🖕📘⚙️-dialog-close')
+  const dialogCloseBtn = el.querySelector('#🖕📘⚙️-dialog-close');
   if (dialogCloseBtn) {
     dialogCloseBtn.onclick = () => {
       confOverlayEl.hidden = true;
-    }
+    };
   }
   const noSponsorCheckbox = el.querySelector('#🖕📘⚙️-no-sponsors');
-  if(noSponsorCheckbox) {
+  if (noSponsorCheckbox) {
     noSponsorCheckbox.checked = Boolean(config.NO_SPONSORS);
     noSponsorCheckbox.onchange = () => {
       config.NO_SPONSORS = noSponsorCheckbox.checked ? 1 : 0;
@@ -190,21 +197,21 @@ const confOverlayEl = $el('div', {
     };
   }
   const noFriendRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-friend-recommendation');
-  if(noFriendRecommendationCheckbox) {
+  if (noFriendRecommendationCheckbox) {
     noFriendRecommendationCheckbox.checked = Boolean(config.NO_FRIEND_RECOMMENDATION);
     noFriendRecommendationCheckbox.onchange = () => {
       config.NO_FRIEND_RECOMMENDATION = noFriendRecommendationCheckbox.checked ? 1 : 0;
       saveConf(config);
-    }
+    };
   }
   const altLogoCheckbox = el.querySelector('#🖕📘⚙️-alt-logo');
   if (altLogoCheckbox) {
     altLogoCheckbox.checked = Boolean(config.CHANGE_LOGO_LINK);
     altLogoCheckbox.onchange = () => {
       config.CHANGE_LOGO_LINK = altLogoCheckbox.checked ? 1 : 0;
-      newLogoEl.orderBy = config.CHANGE_LOGO_LINK ? 'time' : 'algo';
+      newLogoEl.setAttribute('order-by', config.CHANGE_LOGO_LINK ? 'time' : 'algo');
       saveConf(config);
-    }
+    };
   }
 });
 
