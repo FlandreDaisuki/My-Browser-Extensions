@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.2
+@version        2.0.3
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -41,7 +41,6 @@
   [data-pagelet="page"] > div:first-child > div:first-child > [role="main"] {
     /* 中動態欄 */
     justify-content: start;
-    padding-left: initial;
   }
   [data-pagelet="page"] > div:first-child > div:first-child > [role="complementary"] {
     /* 右聊天欄 */
