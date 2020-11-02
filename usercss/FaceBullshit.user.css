@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.3
+@version        2.0.4
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -13,7 +13,7 @@
 @var checkbox no-left-col '不要左引導欄' 1
 @var checkbox no-right-col '不要右聊天欄' 1
 @var checkbox no-video-chat '不要視訊圈' 1
-@var checkbox no-interaction '不要互動' 1
+@var checkbox no-like-no-share '不要讚跟分享' 1
 ==/UserStyle== */
 @-moz-document domain("www.facebook.com") {
   /* 本樣式 logo */
@@ -84,9 +84,31 @@
       display: none;
     }
   }
-  if (no-interaction) {
-    [data-pagelet^="FeedUnit_"] div:empty + div + div + div:not([class]) {
+  /* 不要讚跟分享 */
+  if (no-like-no-share) {
+    /* 讚數、留言分享數 */
+    [data-pagelet^="FeedUnit_"] [data-visualcompletion="ignore-dynamic"] div[class="l9j0dhe7"] {
       display: none;
+    }
+
+    /* [讚][留言][分享] */
+    [data-pagelet^="FeedUnit_"] .k7cz35w2:not([aria-label]) {
+      /* 若不能留言就縮起 */
+      height: auto;
+      margin-top: 5px;
+
+      /* 讚按鈕 */
+      & > span:first-child,
+      /* 分享按鈕 */
+      & > div {
+        display: none;
+      }
+
+      /* 小調整留言按鈕 */
+      & > span._18vi > div {
+        padding: 24px;
+        max-width: 90%;
+      }
     }
   }
 }
