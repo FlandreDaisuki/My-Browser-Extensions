@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.4
+@version        2.0.5
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -92,22 +92,16 @@
     }
 
     /* [讚][留言][分享] */
-    [data-pagelet^="FeedUnit_"] .k7cz35w2:not([aria-label]) {
+    [data-pagelet^="FeedUnit_"] .ozuftl9m.tvfksri0 > .du4w35lb {
       /* 若不能留言就縮起 */
       height: auto;
       margin-top: 5px;
 
       /* 讚按鈕 */
-      & > span:first-child,
+      & > :nth-child(1),
       /* 分享按鈕 */
-      & > div {
+      & > :nth-child(3) {
         display: none;
-      }
-
-      /* 小調整留言按鈕 */
-      & > span._18vi > div {
-        padding: 24px;
-        max-width: 90%;
       }
     }
   }
