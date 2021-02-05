@@ -3,17 +3,13 @@
 - [Userscripts](#userscripts)
   - [使用+安裝方法](#使用安裝方法)
   - [列表](#列表)
-    - [Patchouli](#patchouli)
+    - [Fμck Facebook](#fμck-facebook)
     - [Bypass 18+](#bypass-18)
     - [CustomDMHY](#customdmhy)
-    - [DLSite Search Result Ranking Filter](#dlsite-search-result-ranking-filter)
     - [ExTaglink](#extaglink)
-    - [Fμck Facebook](#fμck-facebook)
     - [javbus.waterfall](#javbuswaterfall)
     - [javbooks.waterfall](#javbookswaterfall)
-    - [No W3Schools](#no-w3schools)
     - [pixiv 403 redirection](#pixiv-403-redirection)
-    - [Pixiv Auto Like](#pixiv-auto-like)
     - [Plurk.click_with_mute](#plurkclick_with_mute)
     - [Shorten Medium URL](#shorten-medium-url)
     - [Unlock Hath Perks](#unlock-hath-perks)
@@ -32,9 +28,13 @@
 
 ## 列表
 
-### Patchouli
+### Fμck Facebook
 
-詳見 [FlandreDaisuki/Patchouli](https://github.com/FlandreDaisuki/Patchouli/)
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
+
+- 移除贊助
+- 移除朋友推薦
+- 動態排序（依更新時間/依<del>Facebook 偉大且不可質疑的</del>演算法）
 
 ### Bypass 18+
 
@@ -48,25 +48,11 @@
 
 詳見 [CustomDMHY.md](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/CustomDMHY.md)
 
-### DLSite Search Result Ranking Filter
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/DLSite-Search-Result-Ranking-Filter.user.js)
-
-加一個排名(👑)的過濾器
-
 ### ExTaglink
 
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/ExTaglink.user.js)
 
 在原本 tag 區新增 torrent/magnet/pixiv 連結
-
-### Fμck Facebook
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
-
-- 移除贊助
-- 移除朋友推薦
-- 動態排序（依更新時間/依<del>Facebook 偉大且不可質疑的</del>演算法）
 
 ### javbus.waterfall
 
@@ -76,23 +62,11 @@
 
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/javbooks.waterfall.user.js)
 
-### No W3Schools
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/No_W3Schools.user.js)
-
-理由：[www.w3fools.com](https://www.w3fools.com/)
-
 ### pixiv 403 redirection
 
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/pixiv-403-redirection.user.js)
 
 pixiv 外連會 403，將其轉回 pixiv
-
-### Pixiv Auto Like
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/pixiv-auto-like.user.js)
-
-Pixiv 自動點讚
 
 ### Plurk.click_with_mute
 
