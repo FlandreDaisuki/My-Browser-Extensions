@@ -2,20 +2,23 @@
 // @name         Bypass 18+
 // @description  Bypass 18+ checking forever
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.2
+// @version      1.1.0
 // @author       FlandreDaisuki
 // @match        *://www.amazon.co.jp/*
 // @match        *://gyutto.com/*
 // @match        *://www.dlsite.com/*
-// @match        *://www.getchu.com/*
 // @match        *://ec.toranoana.jp/*
 // @match        *://www.ptt.cc/*
 // @match        *://www.melonbooks.co.jp/*
 // @match        *://www.suruga-ya.jp/*
+// @match        *://www.javlibrary.com/*
+// @run-at       document-start
 // @grant        none
 // @noframes
 // ==/UserScript==
 
+/* cSpell:ignore gyutto dlsite toranoana melonbooks javlibrary */
+/* cSpell:ignore adflg adultchecked adalt suruga uniqid */
 /* eslint-disable no-unused-expressions */
 
 class CookieBuilder {
@@ -29,9 +32,9 @@ class CookieBuilder {
   }
   path(t = '/') {
     this['🍪'].set('path', t);
-    return this.nopath();
+    return this.noPath();
   }
-  nopath() {
+  noPath() {
     this['🚗'] = false;
     return this;
   }
@@ -44,7 +47,7 @@ class CookieBuilder {
     if (this['🚗']) {
       this.path();
     }
-    return [...this['🍪']].map(p => p.join('=')).join('; ');
+    return [...this['🍪']].map((p) => p.join('=')).join('; ');
   }
   get ['⏰']() {
     document.cookie = this.toString();
@@ -62,37 +65,38 @@ class CookieBuilder {
     }, new Map());
 
   switch (location.host) {
-    case 'www.amazon.co.jp':
-    {
-      const t = cookieMap.get('csm-hit');
-      if (t) {
-        bake('csm-hit', t)['⏰'];
-      }
-      break;
+  case 'www.amazon.co.jp':
+  {
+    const t = cookieMap.get('csm-hit');
+    if (t) {
+      bake('csm-hit', t)['⏰'];
     }
-    case 'gyutto.com':
-      bake('adult_check_flag', 1).domain('gyutto.com')['⏰'];
-      bake('user_agent_flag', 1).domain('gyutto.com')['⏰'];
-      break;
-    case 'www.dlsite.com':
-      bake('adultchecked', 1).domain('dlsite.com')['⏰'];
-      break;
-    case 'www.getchu.com':
-      bake('getchu_adalt_flag', 'getchu.com')['⏰'];
-      break;
-    case 'ec.toranoana.jp':
-      bake('adflg', 0).domain('ec.toranoana.jp')['⏰'];
-      break;
-    case 'www.ptt.cc':
-      bake('over18', 1)['⏰'];
-      break;
-    case 'www.melonbooks.co.jp':
-      bake('AUTH_ADULT', 1)['⏰'];
-      break;
-    case 'www.suruga-ya.jp':
-      bake('adult', 1)['⏰'];
-      break;
-    default:
-      break;
+    break;
+  }
+  case 'gyutto.com':
+    bake('adult_check_flag', 1).domain('gyutto.com')['⏰'];
+    bake('user_agent_flag', 1).domain('gyutto.com')['⏰'];
+    break;
+  case 'www.dlsite.com':
+    bake('adultchecked', 1).domain('dlsite.com')['⏰'];
+    bake('uniqid', '0.00000000000').domain('dlsite.com')['⏰'];
+    break;
+  case 'ec.toranoana.jp':
+    bake('adflg', 0).domain('ec.toranoana.jp')['⏰'];
+    break;
+  case 'www.ptt.cc':
+    bake('over18', 1)['⏰'];
+    break;
+  case 'www.melonbooks.co.jp':
+    bake('AUTH_ADULT', 1)['⏰'];
+    break;
+  case 'www.suruga-ya.jp':
+    bake('adult', 1)['⏰'];
+    break;
+  case 'www.javlibrary.com':
+    bake('over18', 18)['⏰'];
+    break;
+  default:
+    break;
   }
 })();

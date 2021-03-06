@@ -8,7 +8,6 @@
     - [CustomDMHY](#customdmhy)
     - [ExTaglink](#extaglink)
     - [javbus.waterfall](#javbuswaterfall)
-    - [javbooks.waterfall](#javbookswaterfall)
     - [pixiv 403 redirection](#pixiv-403-redirection)
     - [Plurk.click_with_mute](#plurkclick_with_mute)
     - [Shorten Medium URL](#shorten-medium-url)
@@ -57,10 +56,6 @@
 ### javbus.waterfall
 
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/javbus.waterfall.user.js)
-
-### javbooks.waterfall
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/javbooks.waterfall.user.js)
 
 ### pixiv 403 redirection
 

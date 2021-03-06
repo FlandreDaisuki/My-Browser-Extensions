@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.1
+// @version      1.0.2
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -10,14 +10,16 @@
 // @noframes
 // ==/UserScript==
 
+/* cSpell:ignoreRegExp \b\.\w{8}\b */
+/* cSpell:ignore algo visualcompletion rsrc */
+/* global sentinel */
+
 /*
 推薦與以下樣式一起使用，效果更佳
 https://github.com/FlandreDaisuki/My-Browser-Extensions/tree/master/usercss#facebullshit
 */
 
-/* global sentinel */
 const noop = () => {};
-const $ = (s) => document.querySelector(s);
 const $el = (tag, attrs = {}, callback = noop) => {
   const el = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {

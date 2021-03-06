@@ -4,7 +4,7 @@
 // @description    隱藏各式各樣問神、心理測驗、奇怪的跟風
 // @description:en Hide and mute any gossip and divination
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1.3
+// @version      0.1.4
 // @author       FlandreDaisuki
 // @match        https://www.plurk.com/*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -13,6 +13,7 @@
 // @noframes
 // ==/UserScript==
 
+/* cSpell:ignore shindanmaker */
 /* global sentinel, GLOBAL */
 
 const hideEl = (el) => {

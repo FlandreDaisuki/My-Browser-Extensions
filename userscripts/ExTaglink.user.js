@@ -1,144 +1,126 @@
 // ==UserScript==
-// @name        ExTaglink
+// @name        ExTagLink
 // @description Add torrent/magnet/pixiv links to tag area
 // @namespace   FlandreDaisuki
 // @author      FlandreDaisuki
 // @include     /^https?:\/\/(g\.)?e[x-]hentai.org\/g\//
-// @version     2016.09.10
+// @version     2021.03.06
 // @grant       none
 // ==/UserScript==
 
-/* ES6: const */
-/* ES6: Array.from */
+/* cSpell:ignore taglist exhentai */
 
-function $$ (s) {
-  return Array.from(document.querySelectorAll(s))
-}
+const $$ = (s, doc = document) => Array.from(doc.querySelectorAll(s));
 
 /* Main.js */
 
-function appendtoTag (title, objs, color = ['#0F9', '#F09']) {
-  /* objs: [] of obj */
-  /* obj: {name, link} */
-  /* color: [exh, e-h] */
-  var tagtable = $$('#taglist table')[0]
-  if (!tagtable) {
-    tagtable = document.createElement('table')
-    $$('#taglist')[0].innerHTML = ''
-    $$('#taglist')[0].appendChild(tagtable)
-  }
-  var tr = document.createElement('tr')
-  var td0 = document.createElement('td')
-  var td1 = document.createElement('td')
+/** @typedef { {name:string, link:string} } LinkItem */
+/**
+ * @param {string} title
+ * @param {LinkItem[]} linkItems
+ * @param {[string, string]} [color=['#0F9', '#F09']]
+ */
+function appendToTag(title, linkItems, color = ['#0F9', '#F09']) {
+  const tagTable = $$('#taglist table')[0] ?? (() => {
+    const table = document.createElement('table');
+    $$('#taglist')[0].innerHTML = '';
+    $$('#taglist')[0].appendChild(table);
+    return table;
+  })();
 
-  tagtable.appendChild(tr)
-  tr.appendChild(td0)
-  tr.appendChild(td1)
+  const tr = document.createElement('tr');
+  const td0 = document.createElement('td');
+  const td1 = document.createElement('td');
 
-  tr.style.color = location.host === 'exhentai.org' ? color[0] : color[1]
-  tr.style.fontWeight = 'bold'
+  tagTable.appendChild(tr);
+  tr.appendChild(td0);
+  tr.appendChild(td1);
 
-  td0.innerHTML = title
-  td0.className = 'tc'
+  tr.style.color = location.host === 'exhentai.org' ? color[0] : color[1];
+  tr.style.fontWeight = 'bold';
 
-  objs.forEach(function (elem) {
-    var d = document.createElement('div')
-    var a = document.createElement('a')
+  td0.innerHTML = title;
+  td0.className = 'tc';
 
-    td1.appendChild(d)
-    d.appendChild(a)
+  linkItems.forEach(function(elem) {
+    const d = document.createElement('div');
+    const a = document.createElement('a');
 
-    d.className = 'gt'
-    a.href = elem.link
-    a.innerHTML = elem.name
-  })
+    td1.appendChild(d);
+    d.appendChild(a);
+
+    d.className = 'gt';
+    a.href = elem.link;
+    a.innerHTML = elem.name;
+  });
 }
 
-var mags = []
-var pixivs = []
+const magnetLinks = [];
+const pixivLinks = [];
 
-for (var com of $$('.c6')) {
-  var magres = com.innerHTML.match(/(magnet\S+)/g)
-  if (magres) {
-    mags = mags.concat(magres)
+for (const com of $$('.c6')) {
+  const magnetLink = com.innerHTML.match(/(magnet\S+)/g);
+  if (magnetLink) {
+    magnetLinks.push(magnetLink);
   }
 
-  var pixivres = com.innerText.match(/https:\/\/www\.pixiv\.net\/\S+/g)
+  const pixivLink = com.innerText.match(/https:\/\/www\.pixiv\.net\/\S+/g);
 
-  if (pixivres) {
-    pixivs = pixivs.concat(pixivres)
+  if (pixivLink) {
+    pixivLinks.push(pixivLink);
   }
 }
 
-// console.log(mags);
-// console.log(pixivs);
-
-if (pixivs.length > 0) {
-  const objs = pixivs.map(function (elem) {
+if (pixivLinks.length > 0) {
+  const linkItems = pixivLinks.map(function(elem) {
     return {
       name: elem.match(/\d+$/g)[0],
-      link: elem
-    }
-  })
+      link: elem,
+    };
+  });
 
-  appendtoTag('pixiv:', objs, ['#258fb8', '#258fb8'])
+  appendToTag('pixiv:', linkItems, ['#258fb8', '#258fb8']);
 }
 
-if (mags.length > 0) {
-  const objs = mags.map(function (elem) {
+if (magnetLinks.length > 0) {
+  const linkItems = magnetLinks.map(function(elem) {
     return {
       name: elem.slice(-6),
-      link: elem
-    }
-  })
+      link: elem,
+    };
+  });
 
-  appendtoTag('magnet:', objs)
+  appendToTag('magnet:', linkItems);
 }
 
-// const gidt = location.pathname.split('/').filter(x => x.length > 1)
+const torrentPageAnchorElement = $$('p.g2:nth-child(3) > a:nth-child(2)')[0];
+const torrentCount = Number(torrentPageAnchorElement.innerHTML.match(/\d+/g)[0]);
+if (torrentCount > 0) {
+  const withCookie = {
+    credentials: 'same-origin',
+  };
 
-var torElem = $$('p.g2:nth-child(3) > a:nth-child(2)')[0]
-var torN = ~~torElem.innerHTML.match(/\d+/g)[0]
-if (torN > 0) {
-  var withCookie = {
-    credentials: 'same-origin'
-  }
-
-  var torObj = fetch(
-    torElem.onclick.toString().match(/(http[^\']+)/g)[0],
-    withCookie
-  )
-    .then(res => {
-      return res.text()
-    })
-    .then(html => {
-      return new DOMParser().parseFromString(html, 'text/html')
-    })
-    .then(doc => {
-      const $$ = function (s) {
-        return Array.from(doc.querySelectorAll(s))
-      }
-
-      const links = $$('table a').map(x => x.href)
-      const sizes = $$('table tr:nth-child(1) > td:nth-child(2)').map(x =>
-        x.childNodes[1].data.trim()
-      )
+  const url = torrentPageAnchorElement.onclick.toString().match(/(http[^']+)/g)[0];
+  fetch(url, withCookie)
+    .then(async(res) => {
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const doc$$ = (s) => $$(s, doc);
+      const links = doc$$('table a').map((x) => x.href);
+      const sizes = doc$$('table tr:nth-child(1) > td:nth-child(2)').map((x) =>
+        x.childNodes[1].data.trim(),
+      );
       if (links.length !== sizes.length) {
-        console.log('Error:', links, sizes)
-        return []
+        console.log('Error:', links, sizes);
+        return [];
       } else {
-        var r = []
-        for (var len = 0; len < sizes.length; ++len) {
-          r.push({
-            link: links[len],
-            name: sizes[len]
-          })
-        }
-        return r
+        return sizes.map((_, i) => ({
+          link: links[i],
+          name: sizes[i],
+        }));
       }
     })
-
-  torObj.then(tobjs => {
-    appendtoTag('torrent:', tobjs)
-  })
+    .then((torrentLinkItems) => {
+      appendToTag('torrent:', torrentLinkItems);
+    });
 }

@@ -6,7 +6,7 @@
 // @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN  解锁 Hath Perks 及增加一些小工具
 // @namespace          https://github.com/FlandreDaisuki
-// @version            2.0.3
+// @version            2.0.4
 // @match              *://e-hentai.org/*
 // @match              *://exhentai.org/*
 // @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -14,8 +14,6 @@
 // @grant              GM_setValue
 // @grant              GM_getValue
 // @noframes
-//
-// Addition metas
 //
 // @supportURL    https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
 // @homepageURL   https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks.md
@@ -26,6 +24,8 @@
 // @incompatible  any not support async/await, CSS-grid browsers
 // ==/UserScript==
 
+/* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox */
+/* cSpell:ignoreRegExp \b\.\w+\b */
 /* global Vue */
 
 /** ***************** */
@@ -110,8 +110,8 @@ if (uhpConfig.abg) {
 
 // More Thumbs code block
 if (location.pathname.startsWith('/g/')) {
-  (async () => {
-    const getGalleryPageState = async (url, selectors) => {
+  (async() => {
+    const getGalleryPageState = async(url, selectors) => {
       const result = {
         elements: [],
         nextURL: null,
@@ -165,7 +165,7 @@ if (location.pathname.startsWith('/g/')) {
     if (uhpConfig.mt) {
       // search page found results
 
-      document.addEventListener('scroll', async () => {
+      document.addEventListener('scroll', async() => {
         const anchorTop = $('table.ptb').getBoundingClientRect().top;
         const vh = window.innerHeight;
 
@@ -187,8 +187,8 @@ if (location.pathname.startsWith('/g/')) {
 
 // Page Enlargement code block
 if ($('#searchbox') && $('.itg')) {
-  (async () => {
-    const getPageState = async (url, selectors) => {
+  (async() => {
+    const getPageState = async(url, selectors) => {
       const result = {
         elements: [],
         nextURL: null,
@@ -214,11 +214,10 @@ if ($('#searchbox') && $('.itg')) {
       return result;
     };
 
-    const modet = Boolean($('table.itg'));
     const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
     const selectors = {
       np: '.ptt td:last-child > a',
-      parent: modet ? 'table.itg > tbody' : 'div.itg',
+      parent: 'table.itg > tbody',
     };
 
     const pageState = {
@@ -244,7 +243,7 @@ if ($('#searchbox') && $('.itg')) {
 
       // search page found results
 
-      document.addEventListener('scroll', async () => {
+      document.addEventListener('scroll', async() => {
         const anchorTop = status.getBoundingClientRect().top;
         const vh = window.innerHeight;
 
@@ -271,14 +270,14 @@ if ($('#searchbox') && $('.itg')) {
 /** ************* */
 /* option panel */
 
-const uhpPanelTmpl = `
+const uhpPanelTemplate = `
 <div id="uhp-panel" :class="{ dark: isExH }" @click.stop>
   <h1>Hath Perks</h1>
   <div>
     <div v-for="d in HathPerks" class="option-grid">
       <div class="material-switch">
-        <input :id="confid(d.abbr)" type="checkbox" v-model="conf[d.abbr]" @change="save" />
-        <label :for="confid(d.abbr)"></label>
+        <input :id="getConfId(d.abbr)" type="checkbox" v-model="conf[d.abbr]" @change="save" />
+        <label :for="getConfId(d.abbr)"></label>
       </div>
       <span class="uhp-conf-title">{{d.title}}</span>
       <span class="uhp-conf-desc">{{d.desc}}</span>
@@ -290,7 +289,7 @@ const uhpPanelTmpl = `
 // eslint-disable-next-line no-new
 new Vue({
   el: '#uhp-panel',
-  template: uhpPanelTmpl,
+  template: uhpPanelTemplate,
   data: {
     conf: uhpConfig,
     HathPerks: [{
@@ -313,7 +312,7 @@ new Vue({
   },
   methods: {
     save() { GM_setValue('uhp', uhpConfig); },
-    confid(id) { return `ubp-conf-${id}`; },
+    getConfId(id) { return `ubp-conf-${id}`; },
   },
 });
 
