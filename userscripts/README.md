@@ -5,7 +5,6 @@
   - [列表](#列表)
     - [Fμck Facebook](#fμck-facebook)
     - [Bypass 18+](#bypass-18)
-    - [CustomDMHY](#customdmhy)
     - [ExTaglink](#extaglink)
     - [javbus.waterfall](#javbuswaterfall)
     - [pixiv 403 redirection](#pixiv-403-redirection)
@@ -41,12 +40,6 @@
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/BypassOver18.user.js)
 
 跳過一些需要點已成年頁面，使其點一次或直接跳過。
-
-### CustomDMHY
-
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/CustomDMHY.user.js)
-
-詳見 [CustomDMHY.md](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/CustomDMHY.md)
 
 ### ExTaglink
 
