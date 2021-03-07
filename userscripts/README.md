@@ -12,6 +12,7 @@
     - [Plurk.click_with_mute](#plurkclick_with_mute)
     - [Shorten Medium URL](#shorten-medium-url)
     - [Unlock Hath Perks](#unlock-hath-perks)
+    - [乾淨ㄉ原價屋](#乾淨ㄉ原價屋)
 
 ## 使用+安裝方法
 
@@ -86,3 +87,9 @@ pixiv 外連會 403，將其轉回 pixiv
 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/UnlockHathPerks.user.js)
 
 詳見 [UnlockHathPerks.md](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/UnlockHathPerks.md)
+
+### 乾淨ㄉ原價屋
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/clean-coolpc-evaluate.user.js)
+
+![screenshot](coolpc.jpg)
