@@ -5,7 +5,7 @@
   - [列表](#列表)
     - [Fμck Facebook](#fμck-facebook)
     - [Bypass 18+](#bypass-18)
-    - [ExTaglink](#extaglink)
+    - [ExTagLink](#extaglink)
     - [javbus.waterfall](#javbuswaterfall)
     - [pixiv 403 redirection](#pixiv-403-redirection)
     - [Plurk.click_with_mute](#plurkclick_with_mute)
@@ -41,9 +41,9 @@
 
 跳過一些需要點已成年頁面，使其點一次或直接跳過。
 
-### ExTaglink
+### ExTagLink
 
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/ExTaglink.user.js)
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/ExTagLink.user.js)
 
 在原本 tag 區新增 torrent/magnet/pixiv 連結
 
