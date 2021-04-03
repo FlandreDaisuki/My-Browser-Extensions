@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.3
+// @version      1.0.4
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -18,6 +18,40 @@
 推薦與以下樣式一起使用，效果更佳
 https://github.com/FlandreDaisuki/My-Browser-Extensions/tree/master/usercss#facebullshit
 */
+const LOCALE_DICT = ((lang) => {
+  switch (lang.toLowerCase()) {
+  case 'zh-hant':
+    return {
+      orderByTime: '依時間排序',
+      orderByAlgo: '依演算法排序',
+      settingsTitle: '設定 Fμck Facebook',
+      settingsSubtitle: '讓我們一起 Fμck Facebook！',
+      keepSponsors: '保留全部贊助貼文',
+      fuckSponsors: '幹掉全部贊助貼文',
+      needFriendsRecommendation: '盡量推薦別人當我朋友',
+      fuckFriendsRecommendation: '不要推薦別人當我朋友',
+      logoSortByAlgo: '點擊 Logo 回首頁並按演算法排序',
+      logoSortByTime: '點擊 Logo 回首頁並按發文時間排序',
+    };
+  default:
+    return {
+      orderByTime: 'Order by Time',
+      orderByAlgo: 'Order by Recommendation',
+      settingsTitle: 'Setup Fμck Facebook',
+      settingsSubtitle: 'Let\'s Fμck Facebook !!',
+      keepSponsors: 'Keep sponsors',
+      fuckSponsors: 'Fμck off sponsors',
+      needFriendsRecommendation: 'Recommend friends to me',
+      fuckFriendsRecommendation: 'Fμck off friends recommendation',
+      logoSortByAlgo: 'Click logo to homepage then order by recommendation',
+      logoSortByTime: 'Click logo to homepage then order by time',
+    };
+  }
+})(document.documentElement.lang);
+
+const $t = (keyPath) => {
+  return keyPath.split('.').reduce((dict, kp) => dict?.[kp], LOCALE_DICT) ?? keyPath;
+};
 
 const noop = () => {};
 const $el = (tag, attrs = {}, callback = noop) => {
@@ -83,10 +117,10 @@ window.customElements.define('alt-facebook-logo', class extends HTMLElement {
   setupByOrder(orderBy) {
     if (orderBy === 'time') {
       this._$a.setAttribute('href', 'https://www.facebook.com/?sk=h_chr');
-      this.title = '依時間排序';
+      this.title = $t('orderByTime');
     } else {
       this._$a.setAttribute('href', 'https://www.facebook.com/');
-      this.title = '依演算法排序';
+      this.title = $t('orderByAlgo');
     }
   }
   connectedCallback() {
@@ -136,7 +170,7 @@ const confOverlayEl = $el('div', {
     <div class="pos-a w-100p" style="transform: translateX(0%) translateZ(1px);">
       <div class="justify-center flex media-inner-border align-center px-60" style="height: 60px">
         <h2 id="🖕📘⚙️-header" class="max-w-100p min-w-0 break-word default-font block primary-text" dir="auto" tabindex="-1">
-          設定 Fμck Facebook
+          ${ $t('settingsTitle') }
         </h2>
       </div>
       <div class="pos-a" style="top: 12px; right: 16px; z-index: 1;">
@@ -150,28 +184,28 @@ const confOverlayEl = $el('div', {
         <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
           <input id="🖕📘⚙️-no-sponsors" type="checkbox" hidden checked/>
           <label for="🖕📘⚙️-no-sponsors" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            保留全部贊助貼文
+            ${ $t('keepSponsors') }
           </label>
           <label for="🖕📘⚙️-no-sponsors" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            幹掉全部贊助貼文
+            ${ $t('fuckSponsors') }
           </label>
         </div>
         <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
           <input id="🖕📘⚙️-no-friend-recommendation" type="checkbox" hidden checked/>
           <label for="🖕📘⚙️-no-friend-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            盡量推薦別人當我朋友
+            ${ $t('needFriendsRecommendation') }
           </label>
           <label for="🖕📘⚙️-no-friend-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            不要推薦別人當我朋友
+            ${ $t('fuckFriendsRecommendation') }
           </label>
         </div>
         <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
           <input id="🖕📘⚙️-alt-logo" type="checkbox" hidden checked/>
           <label for="🖕📘⚙️-alt-logo" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            點擊 Logo 回首頁並按演算法排序
+            ${ $t('logoSortByAlgo') }
           </label>
           <label for="🖕📘⚙️-alt-logo" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            點擊 Logo 回首頁並按發文時間排序
+            ${ $t('logoSortByTime') }
           </label>
         </div>
       </div>
@@ -235,10 +269,10 @@ const confButtonEl = $el('div', {
       <div class="align-stretch flex flex-column flex-1 justify-space-between ma-0 min-h-0 min-w-0 px-0 pos-r z0 py-12">
         <div class="flex flex-column my--5 max-w-100p min-w-0 break-word default-font ta-left">
           <span class="block fw-500 primary-text" style="font-size: .9375rem; line-height: 1.3333;" dir="auto">
-            設定 Fμck Facebook
+            ${ $t('settingsTitle') }
           </span>
           <span class="block fw-normal secondary-text" style="margin-top: 3px; font-size: .8125rem; line-height: 1.2308;" dir="auto">
-            讓我們一起 Fμck Facebook。
+            ${ $t('settingsSubtitle') }
           </span>
         </div>
       </div>
