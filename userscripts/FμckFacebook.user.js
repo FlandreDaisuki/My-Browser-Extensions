@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.2
+// @version      1.0.3
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -401,15 +401,15 @@ $el('style', { id: '🖕📘-style-util' }, (el) => {
 .secondary-text { color: var(--secondary-text); }
 .cursor-pointer { cursor: pointer; }
 .icon-compat-20 {
-  background-image: url(/rsrc.php/v3/yv/r/hfiTRDmjVjj.png);
-  background-size: 33px 1684px;
+  background-image: url(/rsrc.php/v3/y-/r/RMVMpb3TUAi.png);
+  background-size: auto;
   background-repeat: no-repeat;
   display: inline-block;
   height: 20px;
   width: 20px;
 }
 .icon-compat-20.cross {
-  background-position: 0 -903px;
+  background-position: 0 -419px;
 }
 .media-inner-border {
   border-bottom: 1px solid var(--media-inner-border);
