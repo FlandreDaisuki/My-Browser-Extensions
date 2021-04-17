@@ -4,7 +4,7 @@
 // @namespace   FlandreDaisuki
 // @author      FlandreDaisuki
 // @include     /^https?:\/\/(g\.)?e[x-]hentai.org\/g\//
-// @version     2021.03.06
+// @version     2021.04.17
 // @grant       none
 // ==/UserScript==
 
@@ -59,15 +59,22 @@ const magnetLinks = [];
 const pixivLinks = [];
 
 for (const com of $$('.c6')) {
-  const magnetLink = com.innerHTML.match(/(magnet\S+)/g);
-  if (magnetLink) {
-    magnetLinks.push(magnetLink);
-  }
+  const walker = document.createTreeWalker(com, NodeFilter.SHOW_TEXT);
 
-  const pixivLink = com.innerText.match(/https:\/\/www\.pixiv\.net\/\S+/g);
+  let textNode = walker.nextNode();
+  while (textNode) {
+    const magnetLink = textNode.textContent.match(/(magnet\S+)/g);
+    if (magnetLink) {
+      magnetLinks.push(magnetLink);
+    }
 
-  if (pixivLink) {
-    pixivLinks.push(pixivLink);
+    const pixivLink = textNode.textContent.match(/https:\/\/www\.pixiv\.net\/\S+/g);
+
+    if (pixivLink) {
+      pixivLinks.push(pixivLink);
+    }
+
+    textNode = walker.nextNode();
   }
 }
 
