@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.5
+@version        2.0.6
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -32,17 +32,14 @@
     /* 上導覽列 */
     display: none;
   }
-  [data-pagelet="page"] > div:first-child > div:first-child {
-    /* 下內容 layout */
-  }
-  [data-pagelet="page"] > div:first-child > div:first-child > [role="navigation"] {
+  #ssrb_left_rail_start ~ [role="navigation"] {
     /* 左捷徑欄 */
   }
-  [data-pagelet="page"] > div:first-child > div:first-child > [role="main"] {
+  #ssrb_left_rail_start ~ [role="main"] {
     /* 中動態欄 */
     justify-content: start;
   }
-  [data-pagelet="page"] > div:first-child > div:first-child > [role="complementary"] {
+  #ssrb_left_rail_start ~ [role="complementary"] {
     /* 右聊天欄 */
   }
 
@@ -53,19 +50,19 @@
   }
 
   /* 自訂聊天室高度 */
-  [data-pagelet="ChatTab"] [role="region"] {
+  [data-testid="mwchat-tab"][role="region"] {
     --chatroom-height: custom-chatroom-height;
     height: var(--chatroom-height, 455px);
   }
   /* 不要左引導欄 */
   if (no-left-col) {
-    [data-pagelet="page"] > div:first-child > div:first-child > [role="navigation"] {
+    #ssrb_left_rail_start ~ [role="navigation"] {
       display: none;
     }
   }
   /* 不要右聊天欄 */
   if (no-right-col) {
-    [data-pagelet="page"] > div:first-child > div:first-child > [role="complementary"] {
+    #ssrb_left_rail_start ~ [role="complementary"] {
       display: none;
     }
   }
@@ -74,7 +71,7 @@
     #ssrb_stories_start + div {
       display: none;
     }
-    [data-pagelet="page"] > div:first-child > div:first-child > [role="main"] .l6v480f0 {
+    #ssrb_left_rail_start ~ [role="main"] .l6v480f0 {
       border-top: none;
     }
   }
