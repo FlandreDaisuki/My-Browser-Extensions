@@ -2,9 +2,9 @@
 // @name         乾淨ㄉ原價屋
 // @namespace    https://github.com/FlandreDaisuki
 // @description  讓我好好的選零件…
-// @version      2021.03.07
+// @version      2021.05.20
 // @author       FlandreDaisuki
-// @match        http://www.coolpc.com.tw/evaluate.php
+// @match        *://www.coolpc.com.tw/evaluate.php
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @noframes
 // @license      MIT
