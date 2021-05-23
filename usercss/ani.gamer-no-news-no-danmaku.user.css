@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        動畫瘋 不要不要
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.0
+@version     1.0.1
 @description 不要新聞！不要彈幕！
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -14,17 +14,18 @@
 @-moz-document domain("ani.gamer.com.tw") {
   if news-disable {
     /* 不要新聞 */
-    .news_list {
+    #blockGNN, #blockHotTopic {
       display: none;
     }
   }
   if danmaku-disable {
     /* 不要彈幕 */
     .subtitle,
-    .bullet-send {
+    .bullet-send,
+    .vjs-danmu {
       display: none !important;
     }
-    .videoframe {
+    .BH_background .container-player .player .videoframe {
       width: 100%;
     }
   }
