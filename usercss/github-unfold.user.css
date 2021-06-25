@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           GitHub unfold
 @namespace      https://github.com/FlandreDaisuki
-@version        1.0.0
+@version        1.0.1
 @description    Unfold GitHub news in new UI
 @author         FlandreDaisuki
 ==/UserStyle== */
@@ -11,5 +11,9 @@
   }
   #dashboard .btn-link {
     display: none;
+  }
+  #dashboard .release .Box > div:last-child,
+  #dashboard .release .Box > .d-flex > [data-hydro-click] {
+    display: none !important;
   }
 }
