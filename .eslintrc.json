@@ -16,6 +16,7 @@
     "no-restricted-globals": "off",
     "no-restricted-syntax": "off",
     "arrow-parens": ["error", "always"],
-    "require-atomic-updates": "off"
+    "require-atomic-updates": "off",
+    "template-curly-spacing": ["error", "always"]
   }
 }

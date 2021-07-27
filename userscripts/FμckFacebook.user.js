@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.4
+// @version      1.0.5
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -81,6 +81,20 @@ const loadConf = () => {
 
 const config = loadConf();
 
+/* fix: Facebook 壞壞 */
+sentinel.on('html._8ykn', (htmlEl) => {
+  // FaceBook add following rule to disable sentinel
+
+  // ._8ykn :not(.always-enable-animations){
+  //   animation-duration:0 !important;
+  //   animation-name:none !important;
+  //   transition-duration:0 !important;
+  //   transition-property:none !important
+  // }
+
+  htmlEl.classList.remove('_8ykn');
+});
+
 /* Feature 1: 刪掉贊助 */
 const sponsorFeedsRules = [
   '[href="#"] > span > b',
@@ -131,7 +145,7 @@ window.customElements.define('alt-facebook-logo', class extends HTMLElement {
       </a>
     `;
     this._$a = this.shadowRoot.querySelector('a');
-    this._$a.onclick = () => location.href = this._$a.getAttribute('href');
+    this._$a.onclick = () => { location.href = this._$a.getAttribute('href'); };
     this.setupByOrder(orderBy);
   }
   static get observedAttributes() { return ['order-by']; }
