@@ -4,7 +4,7 @@
 // @description    隱藏各式各樣問神、心理測驗、奇怪的跟風
 // @description:en Hide and mute any gossip and divination
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1.4
+// @version      0.1.5
 // @author       FlandreDaisuki
 // @match        https://www.plurk.com/*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
@@ -48,6 +48,7 @@ sentinel.on('#timeline_cnt > .block_cnt > .plurk', (plurk) => {
   // 黑名單網址
   const blackList = [
     '//shindanmaker.com',
+    '//kuizy.net',
   ];
 
   // 隱藏條件
@@ -58,7 +59,7 @@ sentinel.on('#timeline_cnt > .block_cnt > .plurk', (plurk) => {
     // 關鍵字
     content.match(/(跟風|心測|心理測驗|性向測驗)/g),
     // 表情符號
-    plurk.querySelector(emos.map((emo) => `img[src="https://emos.plurk.com/${emo}"]`).join(',')),
+    plurk.querySelector(emos.map((emo) => `img[src="https://emos.plurk.com/${ emo }"]`).join(',')),
   ];
 
   if (exceptConditions.some(Boolean)) {
