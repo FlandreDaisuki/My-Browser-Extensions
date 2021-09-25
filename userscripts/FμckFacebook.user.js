@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.0.6
+// @version      1.1.0
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -10,7 +10,7 @@
 // @noframes
 // ==/UserScript==
 
-/* cSpell:ignoreRegExp \b\.\w{8}\b */
+/* cSpell:ignoreRegExp \.[\w\d]{8}\b */
 /* cSpell:ignore algo visualcompletion rsrc */
 /* global sentinel */
 
@@ -30,6 +30,8 @@ const LOCALE_DICT = ((lang) => {
       fuckSponsors: '幹掉全部贊助貼文',
       needFriendsRecommendation: '盡量推薦別人當我朋友',
       fuckFriendsRecommendation: '不要推薦別人當我朋友',
+      needPostsRecommendation: '盡量推薦貼文',
+      fuckPostsRecommendation: '不要推薦貼文',
       logoSortByAlgo: '點擊 Logo 回首頁並按演算法排序',
       logoSortByTime: '點擊 Logo 回首頁並按發文時間排序',
     };
@@ -43,6 +45,8 @@ const LOCALE_DICT = ((lang) => {
       fuckSponsors: 'Fμck off sponsors',
       needFriendsRecommendation: 'Recommend friends to me',
       fuckFriendsRecommendation: 'Fμck off friends recommendation',
+      needPostsRecommendation: 'Recommend posts to me',
+      fuckPostsRecommendation: 'Fμck off posts recommendation',
       logoSortByAlgo: 'Click logo to homepage then order by recommendation',
       logoSortByTime: 'Click logo to homepage then order by time',
     };
@@ -65,7 +69,8 @@ const $el = (tag, attrs = {}, callback = noop) => {
 
 const DEFAULT_CONF = {
   NO_SPONSORS: 1,
-  NO_FRIEND_RECOMMENDATION: 1,
+  NO_FRIENDS_RECOMMENDATION: 1,
+  NO_POSTS_RECOMMENDATION: 1,
   CHANGE_LOGO_LINK: 1,
 };
 
@@ -96,31 +101,121 @@ sentinel.on('html._8ykn', (htmlEl) => {
 });
 
 /* Feature 1: 刪掉贊助 */
-const sponsorFeedsRules = [
-  '[href="#"] > span > b',
-  'span[id^="jsc"] > span + div',
-];
 
-sentinel.on(sponsorFeedsRules.join(','), (sponsorEl) => {
+// ref: https://openuserjs.org/scripts/burn/Facebook_Hide_Ads_(a.k.a._sponsored_posts)/source
+/* cSpell:disable */
+const sponsorWords = {
+  'af':      ['Geborg'],
+  'am':      ['የተከፈለበት ማስታወቂያ'],
+  'ar':      ['إعلان مُموَّل'],
+  'as':      ['পৃষ্ঠপোষকতা কৰা'],
+  'ay':      ['Yatiyanaka'],
+  'az':      ['Sponsor dəstəkli'],
+  'be':      ['Рэклама'],
+  'bg':      ['Спонсорирано'],
+  'br':      ['Paeroniet'],
+  'bs':      ['Sponzorirano'],
+  'bn':      ['সৌজন্যে'],
+  'ca':      ['Patrocinat'],
+  'cb':      ['پاڵپشتیکراو'],
+  'co':      ['Spunsurizatu'],
+  'cs':      ['Sponzorováno'],
+  'cx':      ['Giisponsoran'],
+  'cy':      ['Noddwyd'],
+  'da':      ['Sponsoreret'],
+  'de':      ['Gesponsert'],
+  'el':      ['Χορηγούμενη'],
+  'en':      ['Sponsored', 'Chartered'],
+  'eo':      ['Reklamo'],
+  'es':      ['Publicidad', 'Patrocinado'],
+  'et':      ['Sponsitud'],
+  'eu':      ['Babestua'],
+  'fa':      ['دارای پشتیبانی مالی'],
+  'fi':      ['Sponsoroitu'],
+  'fo':      ['Stuðlað'],
+  'fr':      ['Commandité', 'Sponsorisé'],
+  'fy':      ['Sponsore'],
+  'ga':      ['Urraithe'],
+  'gl':      ['Patrocinado'],
+  'gn':      ['Oñepatrosinapyre'],
+  'gx':      ['Χορηγούμενον'],
+  'hi':      ['प्रायोजित'],
+  'hu':      ['Hirdetés'],
+  'id':      ['Bersponsor'],
+  'it':      ['Sponsorizzata'],
+  'ja':      ['広告'],
+  'jv':      ['Disponsori'],
+  'kk':      ['Демеушілік көрсеткен'],
+  'km':      ['បានឧបត្ថម្ភ'],
+  'lo':      ['ໄດ້ຮັບການສະໜັບສະໜູນ'],
+  'mk':      ['Спонзорирано'],
+  'ml':      ['സ്പോൺസർ ചെയ്തത്'],
+  'mn':      ['Ивээн тэтгэсэн'],
+  'mr':      ['प्रायोजित'],
+  'ms':      ['Ditaja'],
+  'ne':      ['प्रायोजित'],
+  'nl':      ['Gesponsord'],
+  'or':      ['ପ୍ରଯୋଜିତ'],
+  'pa':      ['ਸਰਪ੍ਰਸਤੀ ਪ੍ਰਾਪਤ'],
+  'pl':      ['Sponsorowane'],
+  'ps':      ['تمويل شوي'],
+  'pt':      ['Patrocinado'],
+  'ru':      ['Реклама'],
+  'sa':      ['प्रायोजितः |'],
+  'si':      ['අනුග්‍රහය දක්වන ලද'],
+  'so':      ['La maalgeliyey'],
+  'sv':      ['Sponsrad'],
+  'te':      ['స్పాన్సర్ చేసినవి'],
+  'th':      ['ได้รับการสนับสนุน'],
+  'tl':      ['May Sponsor'],
+  'tr':      ['Sponsorlu'],
+  'tz':      ['ⵉⴷⵍ'],
+  'uk':      ['Реклама'],
+  'ur':      ['تعاون کردہ'],
+  'vi':      ['Được tài trợ'],
+  'zh-Hans': ['赞助内容'],
+  'zh-Hant': ['贊助']
+}[document.documentElement.lang];
+/* cSpell:enable */
+
+sentinel.on('span[id^="jsc"] a[aria-label]', (sponsorEl) => {
+  if(!config.NO_SPONSORS) { return }
+
+  const hasSponsorWord = sponsorWords.some((word) => sponsorEl.textContent.includes(word));
+  if (!hasSponsorWord) { return }
+
   const feedRootEl = sponsorEl.closest('[data-pagelet^="FeedUnit_"]');
-  if (feedRootEl && config.NO_SPONSORS) {
-    feedRootEl.hidden = true;
-  }
+  if (!feedRootEl) { return }
+
+  feedRootEl.hidden = true;
 });
 
 /* Feature 2: 刪掉你可能認識誰誰誰 */
-const recommendFriendRules = [
+const recommendFriendsRules = [
   'div:empty + div.j83agx80.l9j0dhe7.k4urcfbm',
 ];
 
-sentinel.on(recommendFriendRules.join(','), (recommendFriendEl) => {
-  const feedRootEl = recommendFriendEl.closest('[data-pagelet^="FeedUnit_"]');
-  if (feedRootEl && config.NO_FRIEND_RECOMMENDATION) {
+sentinel.on(recommendFriendsRules.join(','), (recommendFriendsEl) => {
+  const feedRootEl = recommendFriendsEl.closest('[data-pagelet^="FeedUnit_"]');
+  if (feedRootEl && config.NO_FRIENDS_RECOMMENDATION) {
     feedRootEl.hidden = true;
   }
 });
 
-/* Feature 3: 按左上 Logo 以時間排序而非推薦系統 */
+/* Feature 3: 刪掉「為你推薦」 */
+const recommendPostsRules = [
+  '.j1vyfwqu',
+];
+
+sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
+  const feedRootEl = recommendPostsEl.closest('[data-pagelet^="FeedUnit_"]');
+  if (feedRootEl && config.NO_POSTS_RECOMMENDATION) {
+    feedRootEl.hidden = true;
+  }
+});
+
+
+/* Feature 4: 按左上 Logo 以時間排序而非推薦系統 */
 window.customElements.define('alt-facebook-logo', class extends HTMLElement {
   // ref: https://blog.revillweb.com/233350c8e86a
   constructor() {
@@ -168,7 +263,7 @@ sentinel.on('[role="banner"] a[aria-label="Facebook"]:not([href="https://www.fac
   oldLogoEl.replaceWith(newLogoEl);
 });
 
-/* Feature 4: 以上皆可個別設定 */
+/* Feature 5: 以上皆可個別設定 */
 const confOverlayEl = $el('div', {
   id: '🖕📘⚙️🌃',
   hidden: true,
@@ -180,7 +275,7 @@ const confOverlayEl = $el('div', {
   });
   el.innerHTML = `
 <div class="flex align-center justify-center min-w-100p min-h-100vh">
-  <div id="🖕📘⚙️-root" class="flex flex-column no-outline overflow-hidden pos-r z0 bgc-card br-8 dialog-border w-100p" role="dialog" style="max-width: 548px; height: 260px;">
+  <div id="🖕📘⚙️-root" class="flex flex-column no-outline overflow-hidden pos-r z0 bgc-card br-8 dialog-border w-100p" role="dialog" style="max-width: 548px; height: 320px;">
     <div class="pos-a w-100p" style="transform: translateX(0%) translateZ(1px);">
       <div class="justify-center flex media-inner-border align-center px-60" style="height: 60px">
         <h2 id="🖕📘⚙️-header" class="max-w-100p min-w-0 break-word default-font block primary-text" dir="auto" tabindex="-1">
@@ -205,12 +300,21 @@ const confOverlayEl = $el('div', {
           </label>
         </div>
         <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-          <input id="🖕📘⚙️-no-friend-recommendation" type="checkbox" hidden checked/>
-          <label for="🖕📘⚙️-no-friend-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
+          <input id="🖕📘⚙️-no-friends-recommendation" type="checkbox" hidden checked/>
+          <label for="🖕📘⚙️-no-friends-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
             ${ $t('needFriendsRecommendation') }
           </label>
-          <label for="🖕📘⚙️-no-friend-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
+          <label for="🖕📘⚙️-no-friends-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
             ${ $t('fuckFriendsRecommendation') }
+          </label>
+        </div>
+        <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
+          <input id="🖕📘⚙️-no-posts-recommendation" type="checkbox" hidden checked/>
+          <label for="🖕📘⚙️-no-posts-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
+            ${ $t('needPostsRecommendation') }
+          </label>
+          <label for="🖕📘⚙️-no-posts-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
+            ${ $t('fuckPostsRecommendation') }
           </label>
         </div>
         <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
@@ -246,11 +350,19 @@ const confOverlayEl = $el('div', {
       saveConf(config);
     };
   }
-  const noFriendRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-friend-recommendation');
-  if (noFriendRecommendationCheckbox) {
-    noFriendRecommendationCheckbox.checked = Boolean(config.NO_FRIEND_RECOMMENDATION);
-    noFriendRecommendationCheckbox.onchange = () => {
-      config.NO_FRIEND_RECOMMENDATION = noFriendRecommendationCheckbox.checked ? 1 : 0;
+  const noFriendsRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-friends-recommendation');
+  if (noFriendsRecommendationCheckbox) {
+    noFriendsRecommendationCheckbox.checked = Boolean(config.NO_FRIENDS_RECOMMENDATION);
+    noFriendsRecommendationCheckbox.onchange = () => {
+      config.NO_FRIENDS_RECOMMENDATION = noFriendsRecommendationCheckbox.checked ? 1 : 0;
+      saveConf(config);
+    };
+  }
+  const noPostsRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-posts-recommendation');
+  if (noPostsRecommendationCheckbox) {
+    noPostsRecommendationCheckbox.checked = Boolean(config.NO_POSTS_RECOMMENDATION);
+    noPostsRecommendationCheckbox.onchange = () => {
+      config.NO_POSTS_RECOMMENDATION = noPostsRecommendationCheckbox.checked ? 1 : 0;
       saveConf(config);
     };
   }
