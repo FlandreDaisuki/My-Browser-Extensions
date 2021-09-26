@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.1.0
+// @version      1.1.1
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
 // @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_info
 // @noframes
 // ==/UserScript==
 
@@ -74,9 +76,9 @@ const DEFAULT_CONF = {
   CHANGE_LOGO_LINK: 1,
 };
 
-const saveConf = (conf) => localStorage.setItem('🖕📘', JSON.stringify(conf));
+const saveConf = (conf) => GM_setValue(GM_info.script.version, conf);
 const loadConf = () => {
-  const config = JSON.parse(localStorage.getItem('🖕📘'));
+  const config = GM_getValue(GM_info.script.version);
   if (!config) {
     saveConf(DEFAULT_CONF);
     return loadConf();
@@ -104,6 +106,7 @@ sentinel.on('html._8ykn', (htmlEl) => {
 
 // ref: https://openuserjs.org/scripts/burn/Facebook_Hide_Ads_(a.k.a._sponsored_posts)/source
 /* cSpell:disable */
+/* eslint-disable */
 const sponsorWords = {
   'af':      ['Geborg'],
   'am':      ['የተከፈለበት ማስታወቂያ'],
@@ -176,17 +179,19 @@ const sponsorWords = {
   'zh-Hans': ['赞助内容'],
   'zh-Hant': ['贊助']
 }[document.documentElement.lang];
+/* eslint-enable */
 /* cSpell:enable */
 
 sentinel.on('span[id^="jsc"] a[aria-label]', (sponsorEl) => {
-  if(!config.NO_SPONSORS) { return }
+  if (!config.NO_SPONSORS) { return; }
 
   const hasSponsorWord = sponsorWords.some((word) => sponsorEl.textContent.includes(word));
-  if (!hasSponsorWord) { return }
+  if (!hasSponsorWord) { return; }
 
   const feedRootEl = sponsorEl.closest('[data-pagelet^="FeedUnit_"]');
-  if (!feedRootEl) { return }
+  if (!feedRootEl) { return; }
 
+  console.count('🖕📘 NO_SPONSORS');
   feedRootEl.hidden = true;
 });
 
@@ -198,6 +203,7 @@ const recommendFriendsRules = [
 sentinel.on(recommendFriendsRules.join(','), (recommendFriendsEl) => {
   const feedRootEl = recommendFriendsEl.closest('[data-pagelet^="FeedUnit_"]');
   if (feedRootEl && config.NO_FRIENDS_RECOMMENDATION) {
+    console.count('🖕📘 NO_FRIENDS_RECOMMENDATION');
     feedRootEl.hidden = true;
   }
 });
@@ -208,10 +214,15 @@ const recommendPostsRules = [
 ];
 
 sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
+  if (!config.NO_POSTS_RECOMMENDATION) { return; }
+
+  const hasFriendsInteraction = recommendPostsEl.querySelectorAll('a').length > 0;
+  if (hasFriendsInteraction) { return; }
+
   const feedRootEl = recommendPostsEl.closest('[data-pagelet^="FeedUnit_"]');
-  if (feedRootEl && config.NO_POSTS_RECOMMENDATION) {
-    feedRootEl.hidden = true;
-  }
+
+  console.count('🖕📘 NO_POSTS_RECOMMENDATION');
+  feedRootEl.hidden = true;
 });
 
 
