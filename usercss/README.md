@@ -41,7 +41,7 @@
 
 Implement following [tweet](https://twitter.com/mrjacobbloom/status/1446651567772295169):
 
-RotateFaceBullshitIndicator.mp4
+https://user-images.githubusercontent.com/5981459/136689428-4a102994-5080-4fc6-b714-3beb04aa5c09.mp4
 
 ### 動畫瘋 フレンズ
 
