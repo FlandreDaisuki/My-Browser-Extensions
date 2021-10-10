@@ -4,6 +4,7 @@
   - [使用+安裝方法](#使用安裝方法)
   - [列表](#列表)
     - [FaceBullshit](#facebullshit)
+    - [Rotate FaceBullshit Indicator](#rotate-facebullshit-indicator)
     - [動畫瘋 フレンズ](#動畫瘋-フレンズ)
     - [動畫瘋 不要不要](#動畫瘋-不要不要)
     - [動畫瘋 獨立小窗模式](#動畫瘋-獨立小窗模式)
@@ -33,6 +34,14 @@
 自己習慣的 FB 樣式，有開一些選項可自行調整
 
 ![preview](FaceBullshit.png)
+
+### Rotate FaceBullshit Indicator
+
+[![Install directly with Stylus](usercss-badge.svg)](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/RotateFaceBullshitIndicator.user.css)
+
+Implement following [tweet](https://twitter.com/mrjacobbloom/status/1446651567772295169):
+
+RotateFaceBullshitIndicator.mp4
 
 ### 動畫瘋 フレンズ
 
