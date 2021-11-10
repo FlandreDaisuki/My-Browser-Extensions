@@ -2,7 +2,7 @@
 // @name         Bypass 18+
 // @description  Bypass 18+ checking forever
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.1.0
+// @version      1.1.1
 // @author       FlandreDaisuki
 // @match        *://www.amazon.co.jp/*
 // @match        *://gyutto.com/*
@@ -24,6 +24,8 @@
 class CookieBuilder {
   constructor(k, v) {
     this['🍪'] = new Map([[k, v]]);
+    this['🍪'].set('secure', '');
+    this['🍪'].set('same-site', 'Lax');
     this['🚗'] = true;
   }
   expires() {
