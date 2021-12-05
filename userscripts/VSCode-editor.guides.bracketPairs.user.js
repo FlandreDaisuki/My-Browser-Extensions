@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name        VSCode "editor.guides.bracketPairs"
 // @description Implement editor.guides.bracketPairs
-// @namespace   https://flandre.tw/
+// @namespace   https://flandre.tw/github
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @author      FlandreDaisuki
-// @version     1.0
-// @grant       unsafeWindow
+// @version     1.0.1
+// @grant       none
 // ==/UserScript==
 
 /* global sentinel */
@@ -14,8 +14,9 @@
 const $$ = (s, doc = document) => [...doc.querySelectorAll(s)];
 const range = (start, end) => Array.from({ length: end - start }, (_, i) => i + start);
 const range0 = (end) => range(0, end);
-const getHueByDepth = (depth) => depth * 129;
 const sum = (...args) => args.flat(Infinity).reduce((a, b) => a + b, 0);
+
+const getHueByDepth = (depth) => depth * 129;
 const getLineNumberByEl = (el) => Number(el.closest('td').id.replace(/\D+/, ''));
 
 sentinel.on('table[data-tagsearch-lang="JavaScript"]', (jsTableEl) => {
