@@ -3,6 +3,7 @@
 - [Userscripts](#userscripts)
   - [使用+安裝方法](#使用安裝方法)
   - [列表](#列表)
+    - [VSCode "editor.guides.bracketPairs"](#vscode-editorguidesbracketpairs)
     - [Fμck Facebook](#fμck-facebook)
     - [Bypass 18+](#bypass-18)
     - [ExTagLink](#extaglink)
@@ -26,6 +27,12 @@
     - [Sleazy Fork](https://sleazyfork.org/)
 
 ## 列表
+
+### VSCode "editor.guides.bracketPairs"
+
+[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/VSCode-editor.guides.bracketPairs.user.js)
+
+https://user-images.githubusercontent.com/5981459/144743655-408e7f9d-e553-4968-8b74-ffa520d1f1db.mp4
 
 ### Fμck Facebook
 
