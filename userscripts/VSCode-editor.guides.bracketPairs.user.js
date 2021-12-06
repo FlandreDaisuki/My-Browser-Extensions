@@ -5,7 +5,7 @@
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @author      FlandreDaisuki
-// @version     1.0.1
+// @version     1.0.2
 // @grant       none
 // ==/UserScript==
 
@@ -106,8 +106,8 @@ sentinel.on('table[data-tagsearch-lang="JavaScript"]', (jsTableEl) => {
     if (!bracketPair) return;
 
     const { first, second } = bracketPair;
-    first.el.style.setProperty('--bracket-pair-enabled', '\' \'');
-    second.el.style.setProperty('--bracket-pair-enabled', '\' \'');
+    first.el.style.setProperty('--bracket-pair-enabled', '" "');
+    second.el.style.setProperty('--bracket-pair-enabled', '" "');
   });
   jsTableEl.addEventListener('mouseout', (event) => {
     const lineNumber = getLineNumberByEl(event.target);
@@ -132,7 +132,7 @@ sentinel.on('table[data-tagsearch-lang="JavaScript"]', (jsTableEl) => {
     --bracket-pair-color-lightness: 90%;
   }
   .bracket-pair-first::before, .bracket-pair-second::before {
-    content: var(--bracket-pair-enabled, '');
+    content: var(--bracket-pair-enabled);
     position: absolute;
     border-color: hsl(var(--bracket-pair-color-hue, 0), var(--bracket-pair-color-saturation), var(--bracket-pair-color-lightness));
     border-width: 1px;
