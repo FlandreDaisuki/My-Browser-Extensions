@@ -5,7 +5,7 @@
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @author      FlandreDaisuki
-// @version     2.0.0
+// @version     2.0.1
 // @grant       none
 // ==/UserScript==
 
@@ -110,11 +110,12 @@ const setupHighLightToLinesByBracketPairs = (bracketPairs, tableEl) => {
     const bracketPair = highlightBracketPairByLine[lineNumber - 1];
     if (!bracketPair) return;
 
-    const { left, right } = bracketPair;
-    left.el.style.setProperty('--bracket-pair-connect-enabled', '\' \'');
-    right.el.style.setProperty('--bracket-pair-connect-enabled', '\' \'');
-    left.el.style.setProperty('--bracket-pair-self-enabled', '1px');
-    right.el.style.setProperty('--bracket-pair-self-enabled', '1px');
+    for (const oneOfPair of bracketPair.pairs) {
+      const bracketEl = oneOfPair.el;
+      bracketEl.style.setProperty('--bracket-pair-connect-content-enabled', '\' \'');
+      bracketEl.style.setProperty('--bracket-pair-connect-line-enabled', '1px');
+      bracketEl.style.setProperty('--bracket-pair-self-enabled', '1px');
+    }
   });
 
   tableEl.addEventListener('mouseout', (event) => {
@@ -122,11 +123,12 @@ const setupHighLightToLinesByBracketPairs = (bracketPairs, tableEl) => {
     const bracketPair = highlightBracketPairByLine[lineNumber - 1];
     if (!bracketPair) return;
 
-    const { left, right } = bracketPair;
-    left.el.style.removeProperty('--bracket-pair-connect-enabled');
-    right.el.style.removeProperty('--bracket-pair-connect-enabled');
-    left.el.style.removeProperty('--bracket-pair-self-enabled');
-    right.el.style.removeProperty('--bracket-pair-self-enabled');
+    for (const oneOfPair of bracketPair.pairs) {
+      const bracketEl = oneOfPair.el;
+      bracketEl.style.removeProperty('--bracket-pair-connect-content-enabled');
+      bracketEl.style.removeProperty('--bracket-pair-connect-line-enabled');
+      bracketEl.style.removeProperty('--bracket-pair-self-enabled');
+    }
   });
 };
 
@@ -174,10 +176,10 @@ const setupStyleSheet = ({
   }
   .bracket-pair-left::before, .bracket-pair-right::before,
   .bracket-pair-left::after, .bracket-pair-right::after {
-    content: var(--bracket-pair-connect-enabled, '');
+    content: var(--bracket-pair-connect-content-enabled, '');
     position: absolute;
     border-color: ${ color };
-    border-width: 1px;
+    border-width: var(--bracket-pair-connect-line-enabled, 0);
   }
   .bracket-pair-left::before {
     border-bottom-style: ${ leftX };
