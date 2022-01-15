@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        2.0.6
+@version        2.0.7
 @description    Beautify Facebook 2020-09 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -50,7 +50,7 @@
   }
 
   /* 自訂聊天室高度 */
-  [data-testid="mwchat-tab"][role="region"] {
+  [data-testid="mwchat-tab"] {
     --chatroom-height: custom-chatroom-height;
     height: var(--chatroom-height, 455px);
   }
