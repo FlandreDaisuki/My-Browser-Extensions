@@ -46,6 +46,8 @@ const getAllBracketPairsByBracketEls = (bracketEls) => {
       }
     }
   }
+
+  // eslint-disable-next-line no-console
   console.assert(stack.length === 0, 'stack should be empty');
   return bracketPairs;
 };
@@ -108,7 +110,7 @@ const setupHighLightToLinesByBracketPairs = (bracketPairs, tableEl) => {
   tableEl.addEventListener('mouseover', (event) => {
     const lineNumber = getLineNumberByEl(event.target);
     const bracketPair = highlightBracketPairByLine[lineNumber - 1];
-    if (!bracketPair) return;
+    if (!bracketPair) { return; }
 
     for (const oneOfPair of bracketPair.pairs) {
       const bracketEl = oneOfPair.el;
@@ -121,7 +123,7 @@ const setupHighLightToLinesByBracketPairs = (bracketPairs, tableEl) => {
   tableEl.addEventListener('mouseout', (event) => {
     const lineNumber = getLineNumberByEl(event.target);
     const bracketPair = highlightBracketPairByLine[lineNumber - 1];
-    if (!bracketPair) return;
+    if (!bracketPair) { return; }
 
     for (const oneOfPair of bracketPair.pairs) {
       const bracketEl = oneOfPair.el;
@@ -150,7 +152,7 @@ const setupStyleSheet = ({
   const STYLE_ID = 'bracket-pair-style';
 
   const styleEl = ((el) => {
-    if (el) return el;
+    if (el) { return el; }
 
     el = document.createElement('style');
     el.id = STYLE_ID;
@@ -214,7 +216,7 @@ const setupStyleSheet = ({
 };
 
 sentinel.on('table[data-tagsearch-lang="JavaScript"]', (jsTableEl) => {
-  if (!jsTableEl) return;
+  if (!jsTableEl) { return; }
 
   // # class-token mapping
   //
@@ -244,13 +246,13 @@ sentinel.on('table[data-tagsearch-lang="JavaScript"]', (jsTableEl) => {
 });
 
 sentinel.on('table[data-tagsearch-lang="Racket"]', (rktTableEl) => {
-  if (!rktTableEl) return;
+  if (!rktTableEl) { return; }
   // ref site: https://github.com/racket-tw/sauron/blob/develop/project/manager.rkt
 
   const lineCodeEls = $$('td.blob-code', rktTableEl);
   for (const lineCodeEl of lineCodeEls) {
     const childNodes = [...lineCodeEl.childNodes].flatMap((node) => {
-      if (node.nodeType !== Node.TEXT_NODE) return node;
+      if (node.nodeType !== Node.TEXT_NODE) { return node; }
 
       const a = document.createElement('a');
       a.innerHTML = node.textContent.replace(/(\(|\[|\)|\])/g, '<span class="bkp">$1</span>');
@@ -266,8 +268,6 @@ sentinel.on('table[data-tagsearch-lang="Racket"]', (rktTableEl) => {
   const differentLineBracketPairs = allBracketPairs.filter(({ left, right }) => {
     return left.lineNumber !== right.lineNumber;
   });
-
-  console.log('differentLineBracketPairs', differentLineBracketPairs);
 
   setupBracketPairsStyle(differentLineBracketPairs);
   setupHighLightToLinesByBracketPairs(differentLineBracketPairs, rktTableEl);
