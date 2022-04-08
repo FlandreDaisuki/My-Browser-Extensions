@@ -5,7 +5,7 @@
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @author      FlandreDaisuki
-// @version     2.0.1
+// @version     2.0.2
 // @grant       none
 // ==/UserScript==
 
@@ -182,6 +182,7 @@ const setupStyleSheet = ({
     position: absolute;
     border-color: ${ color };
     border-width: var(--bracket-pair-connect-line-enabled, 0);
+    pointer-events: none;
   }
   .bracket-pair-left::before {
     border-bottom-style: ${ leftX };
