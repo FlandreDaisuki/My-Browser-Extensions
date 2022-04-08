@@ -1,0 +1,8 @@
+{
+  "env": {
+    "greasemonkey": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  }
+}

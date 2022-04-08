@@ -1,0 +1,23 @@
+{
+  "name": "my-browser-extensions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlandreDaisuki/My-Browser-Extensions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues"
+  },
+  "homepage": "https://github.com/FlandreDaisuki/My-Browser-Extensions#readme",
+  "devDependencies": {
+    "@flandredaisuki/eslint-config": "^0.0.2",
+    "eslint": "^8.12.0"
+  }
+}
