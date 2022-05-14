@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name        動畫瘋 獨立小窗模式
 @namespace   https://github.com/FlandreDaisuki
-@version     1.0.1
+@version     1.1.0
 @description 主要搭配 popup 套件使用，讓小窗只顯示影片
 @author      FlandreDaisuki
 @license     CC-BY-SA-4.0
@@ -21,33 +21,22 @@
     .whilebg,
     .footer,
     .player ~ *,
-    .top_sky {
+    .top_sky,
+    .fb-bg {
       display: none;
     }
-    .video,
-    #video-container,
-    #ani_video,
-    #ani_video_html5_api {
-      height: 100vh;
-    }
-    #ani_video {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #ani_video_html5_api {
-      object-fit: contain;
-    }
-    #ani_video > .vjs-control-bar {
-      position: relative;
-      align-self: flex-end;
-      width: 100%;
-    }
+
     #BH_background,
     .container-player,
     .player {
       margin: 0;
       padding: 0;
+    }
+    .player {
+      height: 100vh;
+      background: black;
+      display: flex;
+      align-items: center;
     }
   }
 }
