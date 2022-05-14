@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.1.1
+// @version      1.2.0
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -22,36 +22,36 @@ https://github.com/FlandreDaisuki/My-Browser-Extensions/tree/master/usercss#face
 */
 const LOCALE_DICT = ((lang) => {
   switch (lang.toLowerCase()) {
-  case 'zh-hant':
-    return {
-      orderByTime: '依時間排序',
-      orderByAlgo: '依演算法排序',
-      settingsTitle: '設定 Fμck Facebook',
-      settingsSubtitle: '讓我們一起 Fμck Facebook！',
-      keepSponsors: '保留全部贊助貼文',
-      fuckSponsors: '幹掉全部贊助貼文',
-      needFriendsRecommendation: '盡量推薦別人當我朋友',
-      fuckFriendsRecommendation: '不要推薦別人當我朋友',
-      needPostsRecommendation: '盡量推薦貼文',
-      fuckPostsRecommendation: '不要推薦貼文',
-      logoSortByAlgo: '點擊 Logo 回首頁並按演算法排序',
-      logoSortByTime: '點擊 Logo 回首頁並按發文時間排序',
-    };
-  default:
-    return {
-      orderByTime: 'Order by Time',
-      orderByAlgo: 'Order by Recommendation',
-      settingsTitle: 'Setup Fμck Facebook',
-      settingsSubtitle: 'Let\'s Fμck Facebook !!',
-      keepSponsors: 'Keep sponsors',
-      fuckSponsors: 'Fμck off sponsors',
-      needFriendsRecommendation: 'Recommend friends to me',
-      fuckFriendsRecommendation: 'Fμck off friends recommendation',
-      needPostsRecommendation: 'Recommend posts to me',
-      fuckPostsRecommendation: 'Fμck off posts recommendation',
-      logoSortByAlgo: 'Click logo to homepage then order by recommendation',
-      logoSortByTime: 'Click logo to homepage then order by time',
-    };
+    case 'zh-hant':
+      return {
+        orderByTime: '依時間排序',
+        orderByAlgo: '依演算法排序',
+        settingsTitle: '設定 Fμck Facebook',
+        settingsSubtitle: '讓我們一起 Fμck Facebook！',
+        keepSponsors: '保留全部贊助貼文',
+        fuckSponsors: '幹掉全部贊助貼文',
+        needFriendsRecommendation: '盡量推薦別人當我朋友',
+        fuckFriendsRecommendation: '不要推薦別人當我朋友',
+        needPostsRecommendation: '盡量推薦貼文',
+        fuckPostsRecommendation: '不要推薦貼文',
+        logoSortByAlgo: '點擊 Logo 回首頁並按演算法排序',
+        logoSortByTime: '點擊 Logo 回首頁並按發文時間排序',
+      };
+    default:
+      return {
+        orderByTime: 'Order by Time',
+        orderByAlgo: 'Order by Recommendation',
+        settingsTitle: 'Setup Fμck Facebook',
+        settingsSubtitle: 'Let\'s Fμck Facebook !!',
+        keepSponsors: 'Keep sponsors',
+        fuckSponsors: 'Fμck off sponsors',
+        needFriendsRecommendation: 'Recommend friends to me',
+        fuckFriendsRecommendation: 'Fμck off friends recommendation',
+        needPostsRecommendation: 'Recommend posts to me',
+        fuckPostsRecommendation: 'Fμck off posts recommendation',
+        logoSortByAlgo: 'Click logo to homepage then order by recommendation',
+        logoSortByTime: 'Click logo to homepage then order by time',
+      };
   }
 })(document.documentElement.lang);
 
@@ -182,15 +182,16 @@ const sponsorWords = {
 /* eslint-enable */
 /* cSpell:enable */
 
-sentinel.on('span[id^="jsc"] a[aria-label]', (sponsorEl) => {
+sentinel.on('span[id^="jsc"] a[tabindex]', (sponsorEl) => {
   if (!config.NO_SPONSORS) { return; }
 
-  const hasSponsorWord = sponsorWords.some((word) => sponsorEl.textContent.includes(word));
+  const hasSponsorWord = sponsorWords.some((word) => sponsorEl.textContent.replace(/[\s-]/g, '').includes(word));
   if (!hasSponsorWord) { return; }
 
   const feedRootEl = sponsorEl.closest('[data-pagelet^="FeedUnit_"]');
   if (!feedRootEl) { return; }
 
+  /* eslint-disable-next-line no-console */
   console.count('🖕📘 NO_SPONSORS');
   feedRootEl.hidden = true;
 });
@@ -203,6 +204,7 @@ const recommendFriendsRules = [
 sentinel.on(recommendFriendsRules.join(','), (recommendFriendsEl) => {
   const feedRootEl = recommendFriendsEl.closest('[data-pagelet^="FeedUnit_"]');
   if (feedRootEl && config.NO_FRIENDS_RECOMMENDATION) {
+    /* eslint-disable-next-line no-console */
     console.count('🖕📘 NO_FRIENDS_RECOMMENDATION');
     feedRootEl.hidden = true;
   }
@@ -221,6 +223,7 @@ sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
 
   const feedRootEl = recommendPostsEl.closest('[data-pagelet^="FeedUnit_"]');
 
+  /* eslint-disable-next-line no-console */
   console.count('🖕📘 NO_POSTS_RECOMMENDATION');
   feedRootEl.hidden = true;
 });
@@ -238,7 +241,8 @@ window.customElements.define('alt-facebook-logo', class extends HTMLElement {
     if (orderBy === 'time') {
       this._$a.setAttribute('href', 'https://www.facebook.com/?sk=h_chr');
       this.title = $t('orderByTime');
-    } else {
+    }
+    else {
       this._$a.setAttribute('href', 'https://www.facebook.com/');
       this.title = $t('orderByAlgo');
     }
@@ -257,7 +261,7 @@ window.customElements.define('alt-facebook-logo', class extends HTMLElement {
   static get observedAttributes() { return ['order-by']; }
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      if (this._$a === null) return;
+      if (this._$a === null) { return; }
       const orderBy = String(newValue).toLocaleLowerCase();
       this.setupByOrder(orderBy);
     }
@@ -389,9 +393,9 @@ const confOverlayEl = $el('div', {
 });
 
 const confButtonEl = $el('div', {
-  id: '🖕📘⚙️',
+  'id': '🖕📘⚙️',
   'data-visualcompletion': 'ignore-dynamic',
-  class: 'px-8',
+  'class': 'px-8',
 }, (confButtonEl) => {
   confButtonEl.onclick = () => { confOverlayEl.hidden = false; };
   confButtonEl.innerHTML = `
