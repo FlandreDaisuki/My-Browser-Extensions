@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.2.0
+// @version      1.3.0
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -24,33 +24,17 @@ const LOCALE_DICT = ((lang) => {
   switch (lang.toLowerCase()) {
     case 'zh-hant':
       return {
-        orderByTime: '依時間排序',
-        orderByAlgo: '依演算法排序',
-        settingsTitle: '設定 Fμck Facebook',
-        settingsSubtitle: '讓我們一起 Fμck Facebook！',
-        keepSponsors: '保留全部贊助貼文',
+        settingsTitle: 'Fμck Facebook',
         fuckSponsors: '幹掉全部贊助貼文',
-        needFriendsRecommendation: '盡量推薦別人當我朋友',
         fuckFriendsRecommendation: '不要推薦別人當我朋友',
-        needPostsRecommendation: '盡量推薦貼文',
         fuckPostsRecommendation: '不要推薦貼文',
-        logoSortByAlgo: '點擊 Logo 回首頁並按演算法排序',
-        logoSortByTime: '點擊 Logo 回首頁並按發文時間排序',
       };
     default:
       return {
-        orderByTime: 'Order by Time',
-        orderByAlgo: 'Order by Recommendation',
-        settingsTitle: 'Setup Fμck Facebook',
-        settingsSubtitle: 'Let\'s Fμck Facebook !!',
-        keepSponsors: 'Keep sponsors',
+        settingsTitle: 'Fμck Facebook',
         fuckSponsors: 'Fμck off sponsors',
-        needFriendsRecommendation: 'Recommend friends to me',
         fuckFriendsRecommendation: 'Fμck off friends recommendation',
-        needPostsRecommendation: 'Recommend posts to me',
         fuckPostsRecommendation: 'Fμck off posts recommendation',
-        logoSortByAlgo: 'Click logo to homepage then order by recommendation',
-        logoSortByTime: 'Click logo to homepage then order by time',
       };
   }
 })(document.documentElement.lang);
@@ -73,7 +57,6 @@ const DEFAULT_CONF = {
   NO_SPONSORS: 1,
   NO_FRIENDS_RECOMMENDATION: 1,
   NO_POSTS_RECOMMENDATION: 1,
-  CHANGE_LOGO_LINK: 1,
 };
 
 const saveConf = (conf) => GM_setValue(GM_info.script.version, conf);
@@ -185,10 +168,11 @@ const sponsorWords = {
 sentinel.on('span[id^="jsc"] a[tabindex]', (sponsorEl) => {
   if (!config.NO_SPONSORS) { return; }
 
-  const hasSponsorWord = sponsorWords.some((word) => sponsorEl.textContent.replace(/[\s-]/g, '').includes(word));
+  const sponsorElText = sponsorEl.textContent;
+  const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
   if (!hasSponsorWord) { return; }
 
-  const feedRootEl = sponsorEl.closest('[data-pagelet^="FeedUnit_"]');
+  const feedRootEl = sponsorEl.closest('[role="feed"] > div');
   if (!feedRootEl) { return; }
 
   /* eslint-disable-next-line no-console */
@@ -229,167 +213,135 @@ sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
 });
 
 
-/* Feature 4: 按左上 Logo 以時間排序而非推薦系統 */
-window.customElements.define('alt-facebook-logo', class extends HTMLElement {
-  // ref: https://blog.revillweb.com/233350c8e86a
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this._$a = null;
-  }
-  setupByOrder(orderBy) {
-    if (orderBy === 'time') {
-      this._$a.setAttribute('href', 'https://www.facebook.com/?sk=h_chr');
-      this.title = $t('orderByTime');
-    }
-    else {
-      this._$a.setAttribute('href', 'https://www.facebook.com/');
-      this.title = $t('orderByAlgo');
-    }
-  }
-  connectedCallback() {
-    const orderBy = this.getAttribute('order-by') || 'time';
-    this.shadowRoot.innerHTML = `
-      <a href="#" style="display: inline-block; height: 100%; width: 100%;">
-        <slot></slot>
-      </a>
-    `;
-    this._$a = this.shadowRoot.querySelector('a');
-    this._$a.onclick = () => { location.href = this._$a.getAttribute('href'); };
-    this.setupByOrder(orderBy);
-  }
-  static get observedAttributes() { return ['order-by']; }
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) {
-      if (this._$a === null) { return; }
-      const orderBy = String(newValue).toLocaleLowerCase();
-      this.setupByOrder(orderBy);
-    }
-  }
-});
+/* Feature 4: 以上皆可個別設定 */
 
-const newLogoEl = $el('alt-facebook-logo', {
-  'id': '🖕📘-logo',
-  'order-by': config.CHANGE_LOGO_LINK ? 'time' : 'algo',
-  'tabindex': 0,
-});
+const findProfileConfigEl = () => {
+  return [...document.querySelectorAll('#ssrb_top_nav_start ~ div [style*="translateZ"]')].filter((el) => {
+    return el.offsetParent;
+  })[0];
+};
 
-sentinel.on('[role="banner"] a[aria-label="Facebook"]:not([href="https://www.facebook.com/?sk=h_chr"])', (oldLogoEl) => {
-  oldLogoEl.replaceWith(newLogoEl);
-});
+const resetProfileDrawer = () => {
+  const profileConfigEl = findProfileConfigEl();
+  if (profileConfigEl) {
+    profileConfigEl.style.transform = 'translateX(0%) translateZ(1px)';
+  }
+  document.querySelector('#🖕📘⚙️🗄️')?.classList.remove('slide-left-to-show');
+};
 
-/* Feature 5: 以上皆可個別設定 */
-const confOverlayEl = $el('div', {
-  id: '🖕📘⚙️🌃',
-  hidden: true,
+const slideProfileDrawer = () => {
+  const profileConfigEl = findProfileConfigEl();
+  if (profileConfigEl) {
+    profileConfigEl.style.transform = 'translateX(-100%) translateZ(1px)';
+  }
+  document.querySelector('#🖕📘⚙️🗄️')?.classList.add('slide-left-to-show');
+};
+
+const createConfListItem = (id, text) => $el('div', {
+  'data-visualcompletion': 'ignore-dynamic',
+  'role': 'listitem',
+  'class': 'px-8',
 }, (el) => {
-  document.body.appendChild(el);
-  el.addEventListener('click', (event) => {
-    event.stopPropagation();
-    confOverlayEl.hidden = true;
-  });
   el.innerHTML = `
-<div class="flex align-center justify-center min-w-100p min-h-100vh">
-  <div id="🖕📘⚙️-root" class="flex flex-column no-outline overflow-hidden pos-r z0 bgc-card br-8 dialog-border w-100p" role="dialog" style="max-width: 548px; height: 320px;">
-    <div class="pos-a w-100p" style="transform: translateX(0%) translateZ(1px);">
-      <div class="justify-center flex media-inner-border align-center px-60" style="height: 60px">
-        <h2 id="🖕📘⚙️-header" class="max-w-100p min-w-0 break-word default-font block primary-text" dir="auto" tabindex="-1">
-          ${ $t('settingsTitle') }
-        </h2>
+<input id="${ id }" type="checkbox" hidden checked/>
+<label for="${ id }" class="align-stretch bg-transparent border-ado border-solid border-0 border-box cursor-pointer flex-basis-auto list-none m-0 min-h-0 min-w-0 p-0 relative text-align-inherit no-underline touch-manipulation z-0 flex-row select-none outline-none rounded-8 block" tabindex="0">
+  <div class="border-solid border-0 border-box flex justify-space-between m-0 min-w-0 py-0 px-8 relative z-0 items-center flex-row min-h-44">
+    <div class="flex flex-column mr-12 my-8 relative align-self-start">
+      <div class="rounded-50p items-center border-0 border-box inline-flex justify-center relative bg-btn-2 h-36 w-36">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="text-green-500 check-circle-rounded iconify iconify--material-symbols" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="m10.6 13.8l-2.175-2.175q-.275-.275-.675-.275t-.7.3q-.275.275-.275.7q0 .425.275.7L9.9 15.9q.275.275.7.275q.425 0 .7-.275l5.675-5.675q.275-.275.275-.675t-.3-.7q-.275-.275-.7-.275q-.425 0-.7.275ZM12 22q-2.075 0-3.9-.788q-1.825-.787-3.175-2.137q-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175q1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138q1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175q-1.35 1.35-3.175 2.137Q14.075 22 12 22Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="text-red-500 cancel-rounded iconify iconify--material-symbols" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M7.7 16.3q.275.275.7.275q.425 0 .7-.275l2.9-2.9l2.925 2.925q.275.275.688.262q.412-.012.687-.287q.275-.275.275-.7q0-.425-.275-.7L13.4 12l2.925-2.925q.275-.275.262-.688q-.012-.412-.287-.687q-.275-.275-.7-.275q-.425 0-.7.275L12 10.6L9.075 7.675Q8.8 7.4 8.388 7.412q-.413.013-.688.288q-.275.275-.275.7q0 .425.275.7l2.9 2.9l-2.925 2.925q-.275.275-.262.687q.012.413.287.688ZM12 22q-2.075 0-3.9-.788q-1.825-.787-3.175-2.137q-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175q1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138q1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175q-1.35 1.35-3.175 2.137Q14.075 22 12 22Z"></path></svg>
       </div>
-      <div class="pos-a" style="top: 12px; right: 16px; z-index: 1;">
-        <div id="🖕📘⚙️-dialog-close"
-          class="flex align-center justify-center pos-r border-box br-50p ma-0 pa-0 ta-inherit no-underline no-outline bgc-btn-2 bgc-ho2 cursor-pointer "
-          style="width: 36px; height: 36px;"
-          role="button" tabindex="0"><i class="filter-secondary-icon icon-compat-20 cross"></i>
-        </div>
-      </div>
-      <div class="py-16">
-        <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-          <input id="🖕📘⚙️-no-sponsors" type="checkbox" hidden checked/>
-          <label for="🖕📘⚙️-no-sponsors" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('keepSponsors') }
-          </label>
-          <label for="🖕📘⚙️-no-sponsors" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('fuckSponsors') }
-          </label>
-        </div>
-        <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-          <input id="🖕📘⚙️-no-friends-recommendation" type="checkbox" hidden checked/>
-          <label for="🖕📘⚙️-no-friends-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('needFriendsRecommendation') }
-          </label>
-          <label for="🖕📘⚙️-no-friends-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('fuckFriendsRecommendation') }
-          </label>
-        </div>
-        <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-          <input id="🖕📘⚙️-no-posts-recommendation" type="checkbox" hidden checked/>
-          <label for="🖕📘⚙️-no-posts-recommendation" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('needPostsRecommendation') }
-          </label>
-          <label for="🖕📘⚙️-no-posts-recommendation" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('fuckPostsRecommendation') }
-          </label>
-        </div>
-        <div class="bgc-tp bc-ado ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-          <input id="🖕📘⚙️-alt-logo" type="checkbox" hidden checked/>
-          <label for="🖕📘⚙️-alt-logo" class="checked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('logoSortByAlgo') }
-          </label>
-          <label for="🖕📘⚙️-alt-logo" class="unchecked px-32 py-12 primary-text inline-block w-100p cursor-pointer" style="font-size: 1.6rem;">
-            ${ $t('logoSortByTime') }
-          </label>
+    </div>
+    <div class="border-solid border-0 border-box flex flex-1 justify-space-between m-0 min-h-0 min-w-0 p-0 z-0 items-center flex-row relative">
+      <div class="align-stretch border-solid border-0 border-box flex flex-column flex-1 justify-space-between m-0 min-h-0 min-w-0 px-0 relative z-0 py-12">
+        <div class="flex flex-column -my-5">
+          <div class="my-5">
+            <span class="max-w-full min-w-0 break-word default-font block text-base line-height-four-third font-medium primary-text text-left" dir="auto">
+            ${ text }
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-  `;
+  <div class="rounded-inherit inset-0 absolute transition-ho" data-visualcompletion="ignore"></div>
+</label>
+`;
+});
 
-  const dialogRoot = el.querySelector('#🖕📘⚙️-root');
-  if (dialogRoot) {
-    dialogRoot.onclick = (event) => event.stopPropagation();
-  }
-  const dialogCloseBtn = el.querySelector('#🖕📘⚙️-dialog-close');
-  if (dialogCloseBtn) {
-    dialogCloseBtn.onclick = () => {
-      confOverlayEl.hidden = true;
-    };
-  }
-  const noSponsorCheckbox = el.querySelector('#🖕📘⚙️-no-sponsors');
-  if (noSponsorCheckbox) {
-    noSponsorCheckbox.checked = Boolean(config.NO_SPONSORS);
-    noSponsorCheckbox.onchange = () => {
-      config.NO_SPONSORS = noSponsorCheckbox.checked ? 1 : 0;
+
+const confDrawerEl = $el('div', {
+  'id': '🖕📘⚙️🗄️',
+  'class': 'border-box z-0 opacity-0 transition-duration-fast transition-timing-soft absolute left-0 w-full',
+  'aria-hidden': 'true',
+  'style': 'transition-property: opacity, transform; transform: translateX(100%) translateZ(1px);',
+}, (confDrawerEl) => {
+  confDrawerEl.innerHTML = `
+<div class="flex-column flex">
+  <div class="p-16 pb-8 flex-row flex">
+    <div id="🖕📘⚙️🗄️🤏" class="p-8">
+      <div aria-label="返回" class="align-stretch border-ado border-box cursor-pointer flex-basis-auto list-none min-h-0 min-w-0 text-align-inherit no-underline touch-manipulation z-0 rounded-inherit flex-row select-none outline-none appearance-none bg-transparent border-solid border-0 inline-flex m-0 p-0 relative vertical-align-bottom" role="button" tabindex="0">
+        <i data-visualcompletion="css-img" class="icon-compat left-arrow-20 filter-primary-icon"></i>
+        <div class="inset-0 absolute transition-ho rounded-50p" data-visualcompletion="ignore" style="inset: -8px;"></div>
+      </div>
+    </div>
+    <div class="pl-10 flex items-center">
+      <h2 class="color-inherit font-size-inherit font-weight-inherit outline-none max-w-full min-w-0" dir="auto">
+        <span class="max-w-full min-w-0 break-word default-font block text-2xl line-height-seven-sixth font-bold primary-text" dir="auto">
+        ${ $t('settingsTitle') }
+        </span>
+      </h2>
+    </div>
+  </div>
+  <div class="pl-0 pb-24 pr-0 pt-8">
+    <div class="-mb-16 -mt-4" role="list">
+      <!-- placeholder -->
+    </div>
+  </div>
+</div>
+`;
+
+  confDrawerEl.querySelector('#🖕📘⚙️🗄️🤏').onclick = resetProfileDrawer;
+
+  // no sponsors
+  {
+    const noSponsorListItemEl = createConfListItem('🖕📘⚙️-no-sponsors', $t('fuckSponsors'));
+    confDrawerEl.querySelector('[role="list"]')?.appendChild(noSponsorListItemEl);
+    const checkboxEl = noSponsorListItemEl.querySelector('input[type="checkbox"]');
+    checkboxEl.checked = Boolean(config.NO_SPONSORS);
+    checkboxEl.onchange = () => {
+      config.NO_SPONSORS = checkboxEl.checked ? 1 : 0;
       saveConf(config);
     };
   }
-  const noFriendsRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-friends-recommendation');
-  if (noFriendsRecommendationCheckbox) {
-    noFriendsRecommendationCheckbox.checked = Boolean(config.NO_FRIENDS_RECOMMENDATION);
-    noFriendsRecommendationCheckbox.onchange = () => {
-      config.NO_FRIENDS_RECOMMENDATION = noFriendsRecommendationCheckbox.checked ? 1 : 0;
+
+  // no friends recommendation
+  {
+    const noFriendsRecommendationListItemEl = createConfListItem('🖕📘⚙️-no-friends-recommendation', $t('fuckFriendsRecommendation'));
+    confDrawerEl.querySelector('[role="list"]')?.appendChild(noFriendsRecommendationListItemEl);
+    const checkboxEl = noFriendsRecommendationListItemEl.querySelector('input[type="checkbox"]');
+    checkboxEl.checked = Boolean(config.NO_FRIENDS_RECOMMENDATION);
+    checkboxEl.onchange = () => {
+      config.NO_FRIENDS_RECOMMENDATION = checkboxEl.checked ? 1 : 0;
       saveConf(config);
     };
   }
-  const noPostsRecommendationCheckbox = el.querySelector('#🖕📘⚙️-no-posts-recommendation');
-  if (noPostsRecommendationCheckbox) {
-    noPostsRecommendationCheckbox.checked = Boolean(config.NO_POSTS_RECOMMENDATION);
-    noPostsRecommendationCheckbox.onchange = () => {
-      config.NO_POSTS_RECOMMENDATION = noPostsRecommendationCheckbox.checked ? 1 : 0;
+
+  // no posts recommendation
+  {
+    const noPostsRecommendationListItemEl = createConfListItem('🖕📘⚙️-no-posts-recommendation', $t('fuckPostsRecommendation'));
+    confDrawerEl.querySelector('[role="list"]')?.appendChild(noPostsRecommendationListItemEl);
+    const checkboxEl = noPostsRecommendationListItemEl.querySelector('input[type="checkbox"]');
+    checkboxEl.checked = Boolean(config.NO_POSTS_RECOMMENDATION);
+    checkboxEl.onchange = () => {
+      config.NO_POSTS_RECOMMENDATION = checkboxEl.checked ? 1 : 0;
       saveConf(config);
     };
   }
-  const altLogoCheckbox = el.querySelector('#🖕📘⚙️-alt-logo');
-  if (altLogoCheckbox) {
-    altLogoCheckbox.checked = Boolean(config.CHANGE_LOGO_LINK);
-    altLogoCheckbox.onchange = () => {
-      config.CHANGE_LOGO_LINK = altLogoCheckbox.checked ? 1 : 0;
-      newLogoEl.setAttribute('order-by', config.CHANGE_LOGO_LINK ? 'time' : 'algo');
-      saveConf(config);
-    };
-  }
+});
+
+sentinel.on('#ssrb_top_nav_start ~ div [style*="translateZ"]:first-child', (profileConfigEl) => {
+  profileConfigEl.insertAdjacentElement('afterend', confDrawerEl);
 });
 
 const confButtonEl = $el('div', {
@@ -397,34 +349,44 @@ const confButtonEl = $el('div', {
   'data-visualcompletion': 'ignore-dynamic',
   'class': 'px-8',
 }, (confButtonEl) => {
-  confButtonEl.onclick = () => { confOverlayEl.hidden = false; };
+  confButtonEl.onclick = slideProfileDrawer;
   confButtonEl.innerHTML = `
-<div class="block bgc-tp bc-ado cursor-pointer ma-0 min-h-0 min-w-0 pa-0 pos-r ta-inherit z0 no-outline br-8 bgc-ho" role="button" tabindex="0">
-  <div class="flex justify-space-between ma-0 min-w-0 py-0 pos-r z0 align-center flex-row px-8" style="min-height: 44px;">
-    <div class="align-self-start flex flex-column mr-12 my-8 pos-r">
-      <div class="br-50p align-center border-box inline-flex justify-center pos-r bgc-btn-2" style="height: 36px; width: 36px;">
+<div class="bg-transparent border-ado border-solid border-0 border-box cursor-pointer list-none m-0 min-h-0 min-w-0 p-0 relative text-align-inherit no-underline touch-manipulation z-0 flex-row outline-none select-none rounded-8 block" role="button" tabindex="0">
+  <div class="border-solid border-0 border-box flex flex-1 justify-space-between m-0 min-w-0 py-0 relative z-0 items-center flex-row px-8 min-h-44">
+    <div class="flex flex-column mr-12 my-8 relative align-self-start">
+      <div class="rounded-50p items-center border-0 border-box inline-flex justify-center relative bg-btn-2" style="height: 36px; width: 36px;">
         <i id="🖕📘⚙️-icon"></i>
       </div>
     </div>
-    <div class="flex flex-1 justify-space-between ma-0 min-h-0 min-w-0 pa-0 z0 align-center flex-row pos-r">
-      <div class="align-stretch flex flex-column flex-1 justify-space-between ma-0 min-h-0 min-w-0 px-0 pos-r z0 py-12">
-        <div class="flex flex-column my--5 max-w-100p min-w-0 break-word default-font ta-left">
-          <span class="block fw-500 primary-text" style="font-size: .9375rem; line-height: 1.3333;" dir="auto">
-            ${ $t('settingsTitle') }
-          </span>
-          <span class="block fw-normal secondary-text" style="margin-top: 3px; font-size: .8125rem; line-height: 1.2308;" dir="auto">
-            ${ $t('settingsSubtitle') }
-          </span>
+    <div class="border-solid border-0 border-box flex flex-1 justify-space-between m-0 min-h-0 min-w-0 p-0 z-0 items-center flex-row relative">
+      <div class="items-stretch border-solid border-0 border-box flex flex-column flex-1 flex-basis-0 justify-space-between m-0 min-h-0 min-w-0 px-0 relative z-0 py-12">
+        <div class="">
+          <div class="flex flex-column -my-5">
+            <div class="my-5">
+              <span class="max-w-full min-w-0 break-word default-font block font-medium primary-text text-left" style="font-size: .9375rem; line-height: 1.3333;" dir="auto">
+              ${ $t('settingsTitle') }
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-12 ml-12 relative align-self-start">
+        <div class="items-center flex flex-row">
+          <div class="flex">
+            <i data-visualcompletion="css-img" class="icon-compat chevron-right-24 filter-secondary-icon"></i>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="rounded-inherit inset-0 absolute transition-ho hover-to-show" data-visualcompletion="ignore"></div>
 </div>
 `;
 });
 
-sentinel.on('[role="dialog"] [data-visualcompletion="ignore-dynamic"]:first-child + hr', (accountDialogHrEl) => {
-  accountDialogHrEl.insertAdjacentElement('afterend', confButtonEl);
+sentinel.on('[data-visualcompletion="ignore-dynamic"] + hr + div [role="list"]>[data-visualcompletion="ignore-dynamic"][role="listitem"]:first-child', (accountDrawerFirstListItemEl) => {
+  accountDrawerFirstListItemEl.insertAdjacentElement('beforebegin', confButtonEl);
+  resetProfileDrawer();
 });
 
 $el('style', { id: '🖕📘-style' }, (el) => {
@@ -439,31 +401,8 @@ $el('style', { id: '🖕📘-style' }, (el) => {
   height: 20px;
   width: 20px;
 }
-#🖕📘⚙️🌃 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--overlay-alpha-80);
-  min-height: 100vh;
-}
-#🖕📘⚙️-header {
-  font-size: 1.25rem;
-  line-height: 1.2;
-  font-weight: 700;
-}
-#🖕📘-logo {
-  background-image: url(https://static.xx.fbcdn.net/images/emoji.php/v9/tfe/1/32/1f4a9.png);
-  background-size: contain;
-  height: 40px;
-  width: 40px;
-}
-[aria-hidden="false"] + #🖕📘-logo {
-  display: none;
-}
-input[id^="🖕📘⚙️"]:not(:checked) ~ [for^="🖕📘⚙️"].unchecked,
-input[id^="🖕📘⚙️"]:checked ~ [for^="🖕📘⚙️"].checked {
+input[id^="🖕📘⚙️"]:not(:checked) + [for^="🖕📘⚙️"] .check-circle-rounded,
+input[id^="🖕📘⚙️"]:checked + [for^="🖕📘⚙️"] .cancel-rounded {
   display: none;
 }
 `;
@@ -478,122 +417,158 @@ $el('style', { id: '🖕📘-style-util' }, (el) => {
 :root, .__fb-light-mode {
   --fuck-facebook-hover-overlay: #d8dadf;
 }
-.pos-r { position: relative; }
-.pos-a { position: absolute; }
-.block { display: block; }
+
+/** atomic utilities **/
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+
 .flex { display: flex; }
+.block { display: block; }
 .inline-flex { display: inline-flex; }
 .inline-block { display: inline-block; }
+
+.flex-1 { flex: 1; }
 .flex-row { flex-direction: row;}
 .flex-column { flex-direction: column;}
-.flex-1 { flex: 1; }
-.pa-0 { padding: 0; }
-.px-0 {
-  padding-left: 0;
-  padding-right: 0;
-}
-.py-0 {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.px-8 {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-.px-32 {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-.py-12 {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-.py-16 {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-.px-60 {
-  padding-left: 60px;
-  padding-right: 60px;
-}
-.ma-0 { margin: 0; }
-.my-5 {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.my--5 {
-  margin-top: -5px;
-  margin-bottom: -5px;
-}
-.my-8 {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-.mr-12 { margin-right: 12px; }
-.br-8 { border-radius: 8px; }
-.br-50p { border-radius: 50%; }
-.bw-0 { border-width: 0; }
-.bs-solid { border-style: solid; }
-.bc-ado { border-color: var(--always-dark-overlay); }
-.bgc-ho:hover { background-color: var(--hover-overlay); }
-.bgc-ho2:hover { background-color: var(--fuck-facebook-hover-overlay) }
-.bgc-tp { background-color: transparent; }
-.bgc-card { background-color: var(--card-background); }
-.bgc-btn-2 { background-color: var(--secondary-button-background); }
-.border-box { box-sizing: border-box; }
-.align-center { align-items: center; }
-.align-stretch { align-items: stretch; }
+.flex-basis-0 { flex-basis: 0px; }
+.items-center { align-items: center; }
+.items-stretch { align-items: stretch; }
 .align-self-start { align-self: flex-start; }
-.justify-space-between { justify-content: space-between; }
 .justify-center { justify-content: center; }
+.justify-space-between { justify-content: space-between; }
+
+.p-0 { padding: 0; }
+.p-8 { padding: 8px; }
+.p-16 { padding: 16px; }
+.px-0 { padding-left: 0; padding-right: 0; }
+.px-8 { padding-left: 8px; padding-right: 8px; }
+.px-32 { padding-left: 32px; padding-right: 32px; }
+.px-60 { padding-left: 60px; padding-right: 60px; }
+.py-0 { padding-top: 0; padding-bottom: 0; }
+.py-12 { padding-top: 12px; padding-bottom: 12px; }
+.py-16 { padding-top: 16px; padding-bottom: 16px; }
+.pb-24 { padding-bottom: 24px; }
+.pl-10 { padding-left: 10px; }
+
+.m-0 { margin: 0; }
+.-my-5 { margin-top: -5px; margin-bottom: -5px; }
+.my-5 { margin-top: 5px; margin-bottom: 5px; }
+.my-8 { margin-top: 8px; margin-bottom: 8px; }
+.my-12 { margin-top: 12px; margin-bottom: 12px; }
+.ml-12 { margin-left: 12px; }
+.mr-12 { margin-right: 12px; }
+.-mb-16 { margin-bottom: -16px; }
+.-mt-4 { margin-top: -4px; }
+
+
+.inset-0 { top: 0px; right: 0px; bottom: 0px; left: 0px; }
+.left-0 { left: 0; }
+
+.rounded-8 { border-radius: 8px; }
+.rounded-50p { border-radius: 50%; }
+.border-0 { border-width: 0; }
+.border-solid { border-style: solid; }
+.bg-transparent { background-color: transparent; }
+.border-box { box-sizing: border-box; }
+
+.w-36 { width: 36px; }
+.h-36 { height: 36px; }
+.w-full { width: 100%; }
 .min-h-0 { min-height: 0; }
 .min-h-44 { min-height: 44px; }
 .min-h-100vh { min-height: 100vh; }
 .min-w-0 { min-width: 0; }
-.max-w-100p { max-width: 100%; }
-.z0 { z-index: 0; }
-.break-word{
-  word-break: break-word;
-  word-wrap: break-word;
-}
-.default-font { font-family: var(--font-family-default)!important; }
-.fw-normal { font-weight: normal; }
-.fw-500 { font-weight: 500; }
-.ta-left { text-align: left; }
-.ta-inherit { text-align: inherit; }
-.w-100p { width: 100%; }
-.no-underline,
-.no-underline:hover {
-  text-decoration: none;
-}
-.no-outline {
-  outline: none;
-  -moz-user-select: none;
-}
-.no-pointer-event { pointer-event: none; }
+.max-w-full { max-width: 100%; }
+
+.break-word { word-break: break-word; word-wrap: break-word; }
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 700; }
+.line-height-seven-sixth { line-height: 1.1667; }
+.text-2xl { font-size: 1.5rem; /* 24px */ }
+.text-base { font-size: 1rem; /* 16px */ }
+.text-left { text-align: left; }
+.text-green-500 { color: rgb(34 197 94); }
+.text-red-500 { color: rgb(239 68 68); }
+
+.z-0 { z-index: 0; }
 .overflow-hidden { overflow: hidden; }
+
+.cursor-pointer { cursor: pointer; }
+.touch-manipulation { touch-action: manipulation; }
+
+.no-underline, .no-underline:hover { text-decoration: none; }
+.outline-none { outline: none; }
+.pointer-events-none { pointer-events: none; }
+.list-none { list-style-type: none; }
+.select-none { user-select: none; -moz-user-select: none; }
+.opacity-0 { opacity: 0; }
+
+.vertical-align-bottom { vertical-align: bottom; }
+
+.rounded-inherit { border-radius: inherit; }
+.text-align-inherit { text-align: inherit; }
+.color-inherit { color: inherit; }
+.font-size-inherit { font-size: inherit; }
+.font-weight-inherit { font-weight: inherit; }
+
+
+/** with variables **/
+
+.border-ado { border-color: var(--always-dark-overlay); }
+.bgc-ho2:hover { background-color: var(--fuck-facebook-hover-overlay) }
+.transition-ho {
+  transition-duration: var(--fds-duration-extra-extra-short-out);
+  transition-property: opacity;
+  transition-timing-function: var(--fds-animation-fade-out);
+  background-color: var(--hover-overlay);
+}
+.bg-card { background-color: var(--card-background); }
+.bg-btn-2 { background-color: var(--secondary-button-background); }
+.default-font { font-family: var(--font-family-default); }
 .primary-text { color: var(--primary-text); }
 .secondary-text { color: var(--secondary-text); }
-.cursor-pointer { cursor: pointer; }
-.icon-compat-20 {
-  background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yS/r/ZulsztK5fU1.png);
-  background-size: auto;
-  background-repeat: no-repeat;
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-}
-.icon-compat-20.cross {
-  background-position: 0 -419px;
-}
-.media-inner-border {
-  border-bottom: 1px solid var(--media-inner-border);
-}
-.dialog-border {
-  box-shadow: 0 12px 28px 0 var(--shadow-2),0 2px 4px 0 var(--shadow-1),inset 0 0 0 1px var(--shadow-inset);
+
+.filter-primary-icon {
+  filter: var(--filter-primary-icon);
 }
 .filter-secondary-icon {
   filter: var(--filter-secondary-icon);
+}
+.transition-duration-fast {
+  transition-duration: var(--fds-fast);
+}
+.transition-timing-soft {
+	transition-timing-function: var(--fds-soft);
+}
+
+/** self defined **/
+
+.icon-compat {
+  background-image: url("https://static.xx.fbcdn.net/rsrc.php/v3/yJ/r/pX1dNHbjZEM.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+.icon-compat.left-arrow-20 {
+  background-position: -25px -46px;
+  width: 20px;
+  height: 20px;
+}
+.icon-compat.chevron-right-24 {
+  background-position: -108px -13px;
+  width: 24px;
+  height: 24px;
+}
+[id^="🖕📘"] [data-visualcompletion="ignore"] {
+  opacity: 0;
+}
+[id^="🖕📘"] [data-visualcompletion="ignore"]:hover {
+  opacity: 1;
+}
+.slide-left-to-show {
+  transform: translateX(0%) translateZ(1px) !important;
+  opacity: 1 !important;
 }
 `;
 });

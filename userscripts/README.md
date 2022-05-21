@@ -40,7 +40,9 @@ https://user-images.githubusercontent.com/5981459/144743655-408e7f9d-e553-4968-8
 
 - 移除贊助
 - 移除朋友推薦
-- 動態排序（依更新時間/依<del>Facebook 偉大且不可質疑的</del>演算法）
+- 移除推薦貼文
+
+https://user-images.githubusercontent.com/5981459/169662117-3934aed2-4e8f-48fe-bae0-0e1648f9d595.mp4
 
 ### Bypass 18+
 
