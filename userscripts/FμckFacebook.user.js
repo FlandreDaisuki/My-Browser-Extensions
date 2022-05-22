@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.3.0
+// @version      1.3.1
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -341,6 +341,7 @@ const confDrawerEl = $el('div', {
 });
 
 sentinel.on('#ssrb_top_nav_start ~ div [style*="translateZ"]:first-child', (profileConfigEl) => {
+  if (profileConfigEl.querySelector('[href="/messages/t/"]')) { return; }
   profileConfigEl.insertAdjacentElement('afterend', confDrawerEl);
 });
 
