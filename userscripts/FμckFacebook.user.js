@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.3.1
+// @version      1.3.2
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -165,7 +165,7 @@ const sponsorWords = {
 /* eslint-enable */
 /* cSpell:enable */
 
-sentinel.on('span[id^="jsc"] a[tabindex]', (sponsorEl) => {
+sentinel.on('span[id^="jsc_c"]', (sponsorEl) => {
   if (!config.NO_SPONSORS) { return; }
 
   const sponsorElText = sponsorEl.textContent;
