@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.3.2
+// @version      1.3.3
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -216,7 +216,7 @@ sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
 /* Feature 4: 以上皆可個別設定 */
 
 const findProfileConfigEl = () => {
-  return [...document.querySelectorAll('#ssrb_top_nav_start ~ div [style*="translateZ"]')].filter((el) => {
+  return [...document.querySelectorAll('#ssrb_top_nav_start ~ div [style*="translateZ"]:not([data-visualcompletion="ignore"])')].filter((el) => {
     return el.offsetParent;
   })[0];
 };
