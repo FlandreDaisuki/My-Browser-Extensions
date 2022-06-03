@@ -8,7 +8,7 @@
 @updateURL      https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 
 @preprocessor stylus
-@var text custom-chatroom-height '小聊天室高度' calc(100vh - 84px)
+@var text custom-chatroom-height '小聊天室高度' 98.5vh
 @var checkbox no-ig '不要 instagram' 1
 @var checkbox no-left-col '不要左引導欄' 1
 @var checkbox no-right-col '不要右聊天欄' 1

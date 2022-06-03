@@ -33,7 +33,14 @@
 
 自己習慣的 FB 樣式，有開一些選項可自行調整
 
-![preview](FaceBullshit-v3.0.0.png)
+<details open>
+  <summary>截圖預覽</summary>
+
+|![preview](FaceBullshit-v3.0.1_0.png)|
+|-|
+|![preview](FaceBullshit-v3.0.1_1.png)|
+
+</details>
 
 ### Rotate FaceBullshit Indicator
 
