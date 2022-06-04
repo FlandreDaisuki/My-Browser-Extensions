@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.4.0
+// @version      1.4.1
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -217,7 +217,7 @@ sentinel.on(recommendPostsRules.join(','), (recommendPostsEl) => {
   const hasFriendsInteraction = recommendPostsEl.querySelectorAll('a').length > 0;
   if (hasFriendsInteraction) { return; }
 
-  const feedRootEl = recommendPostsEl.closest('[data-pagelet^="FeedUnit_"]');
+  const feedRootEl = recommendPostsEl.closest('[role="article"]')?.closest('.k4urcfbm');
 
   /* eslint-disable-next-line no-console */
   console.count('🖕📘 NO_POSTS_RECOMMENDATION');
