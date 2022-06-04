@@ -36,7 +36,9 @@ https://user-images.githubusercontent.com/5981459/144743655-408e7f9d-e553-4968-8
 
 ### Fμck Facebook
 
-[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
+一般版 [![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
+
+iOS 版（[quoid/userscripts](https://github.com/quoid/userscripts)）：[![Install-userscript-brightgreen](Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook-ios.user.js)
 
 - 移除贊助
 - 移除朋友推薦

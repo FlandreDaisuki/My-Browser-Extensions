@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Fμck Facebook
+// @name         Fμck Facebook for iOS safari with quoid/userscripts
 // @namespace    https://github.com/FlandreDaisuki
 // @version      1.4.2
 // @description  Remove all Facebook shit
@@ -13,6 +13,11 @@
 // @grant        GM_info
 // @noframes
 // ==/UserScript==
+
+
+// There are some bugs in iOS safari with quoid/userscripts:
+// 1. Save / Load by GM.setValue() / GM.getValue() may failed
+// 2. Can NOT retrieve GM.setValue() / GM.getValue() to saveConf / loadConf
 
 /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
 /* cSpell:ignore algo visualcompletion rsrc */
@@ -82,30 +87,11 @@ const config = new Proxy({ ...DEFAULT_CONF }, {
       }
     }
     GM.setValue(GM_info.script.version, obj);
-    return true;
+    // NOTE: just work!
+    // eslint-disable-next-line no-use-before-define
+    renderFaceBullshitStyle();
   },
 });
-
-const saveConf = async(conf) => {
-  if (GM_setValue) {
-    return GM_setValue(GM_info.script.version, conf);
-  }
-  return GM.setValue(GM_info.script.version, conf);
-};
-
-const loadConf = async() => {
-  let conf;
-  if (GM_getValue) {
-    conf = GM_getValue(GM_info.script.version);
-  }
-  else {
-    conf = await GM.getValue(GM_info.script.version);
-  }
-  if (!conf) {
-    Object.assign(config, DEFAULT_CONF);
-  }
-  Object.assign(config, conf);
-};
 
 /* fix: Facebook 壞壞 */
 sentinel.on('html._8ykn', (htmlEl) => {
@@ -414,7 +400,6 @@ const confDrawerEl = $el('div', {
     checkboxEl.checked = Boolean(config[configKey]);
     checkboxEl.onchange = () => {
       config[configKey] = checkboxEl.checked ? 1 : 0;
-      saveConf(config).then(renderFaceBullshitStyle);
     };
   };
 
@@ -627,7 +612,7 @@ $el('style', { id: '🖕📘-style-util' }, (el) => {
   transition-duration: var(--fds-fast);
 }
 .transition-timing-soft {
-	transition-timing-function: var(--fds-soft);
+  transition-timing-function: var(--fds-soft);
 }
 
 /** self defined **/
@@ -662,4 +647,6 @@ $el('style', { id: '🖕📘-style-util' }, (el) => {
 });
 
 /* main */
-loadConf().then(renderFaceBullshitStyle);
+GM.getValue(GM_info.script.version).then((conf) => {
+  Object.assign(config, conf ?? DEFAULT_CONF);
+});
