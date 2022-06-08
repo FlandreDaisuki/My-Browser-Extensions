@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Rotate FaceBullshit Indicator
 @namespace      https://github.com/FlandreDaisuki
-@version        1.0.0
+@version        1.0.1
 @description    Implement https://twitter.com/mrjacobbloom/status/1446651567772295169
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -9,15 +9,18 @@
 @-moz-document domain("www.facebook.com") {
   @keyframes guruguru {
     /*
-    ((stepCount = 20, radius = 18, origin = {x: -14, y: 11}) => {
-      const points = Array.from({length: stepCount}, (_, i) => {
-        const x = Math.cos(i * 2 *Math.PI / stepCount) * 18 + origin.x;
-        const y = Math.sin(i * 2 *Math.PI / stepCount) * 18 + origin.y;
-        return {i, x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100};
+    ((t = 20, r = 18, o = {x: -14, y: 11}) => {
+      const f = ((nf) => nf.format.bind(nf))(new Intl.NumberFormat('en', { maximumFractionDigits: 2 }));
+      const π = Math.PI;
+      const points = Array.from({length: t}, (_, i) => {
+        const θ = 2 * π * i / t;
+        const x = Math.cos(θ) * r + o.x;
+        const y = Math.sin(θ) * r + o.y;
+        return {i, x: f(x), y: f(y)};
       })
 
-      return points.concat({...points[0], i: stepCount})
-        .map(({i, x, y}) => `${100 * i / stepCount}% { transform: translate3d(${x}px, ${y}px, 0); }`)
+      return points.concat({...points[0], i: t})
+        .map(({i, x, y}) => `${100 * i / t}% { transform: translate3d(${x}px, ${y}px, 0); }`)
         .join('\n');
     })()
     */
@@ -25,61 +28,61 @@
       transform: translate3d(4px, 11px, 0);
     }
     5% {
-      transform: translate3d(3.12px, 16.56px, 0);
+      transform: translate3d(3.1px, 16.6px, 0);
     }
     10% {
-      transform: translate3d(0.56px, 21.58px, 0);
+      transform: translate3d(0.6px, 21.6px, 0);
     }
     15% {
-      transform: translate3d(-3.42px, 25.56px, 0);
+      transform: translate3d(-3.4px, 25.6px, 0);
     }
     20% {
-      transform: translate3d(-8.44px, 28.12px, 0);
+      transform: translate3d(-8.4px, 28.1px, 0);
     }
     25% {
       transform: translate3d(-14px, 29px, 0);
     }
     30% {
-      transform: translate3d(-19.56px, 28.12px, 0);
+      transform: translate3d(-19.6px, 28.1px, 0);
     }
     35% {
-      transform: translate3d(-24.58px, 25.56px, 0);
+      transform: translate3d(-24.6px, 25.6px, 0);
     }
     40% {
-      transform: translate3d(-28.56px, 21.58px, 0);
+      transform: translate3d(-28.6px, 21.6px, 0);
     }
     45% {
-      transform: translate3d(-31.12px, 16.56px, 0);
+      transform: translate3d(-31.1px, 16.6px, 0);
     }
     50% {
       transform: translate3d(-32px, 11px, 0);
     }
     55% {
-      transform: translate3d(-31.12px, 5.44px, 0);
+      transform: translate3d(-31.1px, 5.4px, 0);
     }
     60% {
-      transform: translate3d(-28.56px, 0.42px, 0);
+      transform: translate3d(-28.6px, 0.4px, 0);
     }
     65% {
-      transform: translate3d(-24.58px, -3.56px, 0);
+      transform: translate3d(-24.6px, -3.6px, 0);
     }
     70% {
-      transform: translate3d(-19.56px, -6.12px, 0);
+      transform: translate3d(-19.6px, -6.1px, 0);
     }
     75% {
       transform: translate3d(-14px, -7px, 0);
     }
     80% {
-      transform: translate3d(-8.44px, -6.12px, 0);
+      transform: translate3d(-8.4px, -6.1px, 0);
     }
     85% {
-      transform: translate3d(-3.42px, -3.56px, 0);
+      transform: translate3d(-3.4px, -3.6px, 0);
     }
     90% {
-      transform: translate3d(0.56px, 0.42px, 0);
+      transform: translate3d(0.6px, 0.4px, 0);
     }
     95% {
-      transform: translate3d(3.12px, 5.44px, 0);
+      transform: translate3d(3.1px, 5.4px, 0);
     }
     100% {
       transform: translate3d(4px, 11px, 0);
@@ -93,5 +96,11 @@
     animation-iteration-count: infinite;
     animation-duration: 1s;
     animation-timing-function: linear;
+  }
+  .buofh1pr.tgvbjcpo.sv5sfqaa.obtkqiv7 > .pfnyh3mw.d2edcug0.bp9cbjyn.aov4n071.bi6gxh9e:nth-last-child(1) .tkr6xdv7[aria-hidden="true"][aria-label]{
+    animation-delay: 0.1s;
+  }
+  .buofh1pr.tgvbjcpo.sv5sfqaa.obtkqiv7 > .pfnyh3mw.d2edcug0.bp9cbjyn.aov4n071.bi6gxh9e:nth-last-child(2) .tkr6xdv7[aria-hidden="true"][aria-label]{
+    animation-delay: 0.2s;
   }
 }
