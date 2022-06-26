@@ -2,7 +2,7 @@
 // @name         Bypass 18+
 // @description  Bypass 18+ checking forever
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.2.0
+// @version      1.2.1
 // @author       FlandreDaisuki
 // @match        *://www.amazon.co.jp/*
 // @match        *://gyutto.com/*
@@ -71,10 +71,12 @@ class CookieBuilder {
   const any = (...args) => args.some(Boolean);
 
   if (host === 'www.amazon.co.jp') {
-    const t = cookieMap.get('csm-hit');
-    if (t) {
-      bake('csm-hit', t)['⏰'];
+    const t = cookieMap.get('session-token');
+    if (!t) {
+      fetch('/-/en/black-curtain/save-eligibility/black-curtain')
+        .then(() => location.reload());
     }
+    bake('session-token', t).domain('amazon.co.jp')['⏰'];
     return;
   }
 
