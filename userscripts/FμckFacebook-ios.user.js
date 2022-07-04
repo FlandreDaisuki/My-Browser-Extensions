@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook for iOS safari with quoid/userscripts
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.4.3
+// @version      1.4.4
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -457,7 +457,7 @@ const confButtonEl = $el('div', {
 `;
 });
 
-sentinel.on('[data-visualcompletion="ignore-dynamic"] + hr + div [role="list"]>[data-visualcompletion="ignore-dynamic"][role="listitem"]:first-child', (accountDrawerFirstListItemEl) => {
+sentinel.on('.b20td4e0.muag1w35[role="list"]>[data-visualcompletion="ignore-dynamic"][role="listitem"]:first-child', (accountDrawerFirstListItemEl) => {
   accountDrawerFirstListItemEl.insertAdjacentElement('beforebegin', confButtonEl);
   resetProfileDrawer();
 });
