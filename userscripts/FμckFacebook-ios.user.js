@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fμck Facebook for iOS safari with quoid/userscripts
 // @namespace    https://github.com/FlandreDaisuki
-// @version      1.4.4
+// @version      1.4.5
 // @description  Remove all Facebook shit
 // @author       FlandreDaisuki
 // @match        https://*.facebook.com/*
@@ -194,7 +194,7 @@ sentinel.on('span[id^="jsc_c"]', (sponsorEl) => {
   const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
   if (!hasSponsorWord) { return; }
 
-  const feedRootEl = sponsorEl.closest('[role="feed"] > div');
+  const feedRootEl = sponsorEl.closest('[role="feed"] > div, [role="article"]');
   if (!feedRootEl) { return; }
 
   /* eslint-disable-next-line no-console */
