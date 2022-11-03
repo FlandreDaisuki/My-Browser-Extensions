@@ -6,7 +6,7 @@
 // @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN  解锁 Hath Perks 及增加一些小工具
 // @namespace          https://github.com/FlandreDaisuki
-// @version            2.0.5
+// @version            2.1.0
 // @match              *://e-hentai.org/*
 // @match              *://exhentai.org/*
 // @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -26,6 +26,7 @@
 
 /* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox */
 /* cSpell:ignoreRegExp \b\.\w+\b */
+/* eslint-disable no-console */
 /* global Vue */
 
 /** ***************** */
@@ -37,7 +38,8 @@ const $el = (tag, attr = {}, cb = noop) => {
   const el = document.createElement(tag);
   if (typeof (attr) === 'string') {
     el.textContent = attr;
-  } else {
+  }
+  else {
     Object.assign(el, attr);
   }
   cb(el);
@@ -217,7 +219,7 @@ if ($('#searchbox') && $('.itg')) {
     const isTableLayout = Boolean($('table.itg'));
     const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
     const selectors = {
-      np: '.ptt td:last-child > a',
+      np: '.ptt td:last-child > a, .searchnav a[href*="?next="]',
       parent: isTableLayout ? 'table.itg > tbody' : 'div.itg',
     };
 
@@ -240,7 +242,7 @@ if ($('#searchbox') && $('.itg')) {
     }
 
     if (uhpConfig.pe) {
-      $('table.ptb').replaceWith(status);
+      $('table.ptb, .itg + .searchnav').replaceWith(status);
 
       // search page found results
 
@@ -313,7 +315,7 @@ new Vue({
   },
   methods: {
     save() { GM_setValue('uhp', uhpConfig); },
-    getConfId(id) { return `ubp-conf-${id}`; },
+    getConfId(id) { return `ubp-conf-${ id }`; },
   },
 });
 
