@@ -1,8 +1,13 @@
 {
   "env": {
+    "browser": true,
     "greasemonkey": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
   }
+  ,
+  "ignorePatterns":[
+    "ExAdvancedSearchMemo.user.js"
+  ]
 }
