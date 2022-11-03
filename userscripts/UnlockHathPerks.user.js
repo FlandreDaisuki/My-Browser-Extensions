@@ -6,7 +6,7 @@
 // @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN  解锁 Hath Perks 及增加一些小工具
 // @namespace          https://github.com/FlandreDaisuki
-// @version            2.1.0
+// @version            2.1.1
 // @match              *://e-hentai.org/*
 // @match              *://exhentai.org/*
 // @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -219,7 +219,7 @@ if ($('#searchbox') && $('.itg')) {
     const isTableLayout = Boolean($('table.itg'));
     const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
     const selectors = {
-      np: '.ptt td:last-child > a, .searchnav a[href*="?next="]',
+      np: '.ptt td:last-child > a, .searchnav a[href*="next="]',
       parent: isTableLayout ? 'table.itg > tbody' : 'div.itg',
     };
 
