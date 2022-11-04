@@ -3,6 +3,9 @@ export const noop = () => {};
 /** @type {(el: HTMLElement, selectors: string) => HTMLElement | null} */
 export const $find = (el, selectors) => el.querySelector(selectors);
 
+/** @type {(el: HTMLElement, selectors: string) => HTMLElement[]} */
+export const $findAll = (el, selectors) => Array.from(el.querySelectorAll(selectors));
+
 /** @type {(selectors: string) => HTMLElement | null} */
 export const $ = (selectors) => document.querySelector(selectors);
 
