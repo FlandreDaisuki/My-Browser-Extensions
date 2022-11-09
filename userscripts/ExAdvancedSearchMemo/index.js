@@ -68,7 +68,7 @@ const save = (value = load()) => $setValue(NAMESPACE, value);
 
       const allMemos = await load();
       await save(allMemos.filter((memo) => {
-        return memo.name !== deletingName;
+        return memo.name && memo.name !== deletingName;
       }));
       await loadAllMemos();
     };

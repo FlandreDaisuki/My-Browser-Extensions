@@ -5,7 +5,7 @@
 // @author      FlandreDaisuki
 // @match       *://e-hentai.org/*
 // @match       *://exhentai.org/*
-// @version     1.0.1
+// @version     1.0.2
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/ExAdvancedSearchMemo/README.md
 // @grant       GM_getValue
@@ -133,7 +133,7 @@
 
         const allMemos = await load();
         await save(allMemos.filter((memo) => {
-          return memo.name !== deletingName;
+          return memo.name && memo.name !== deletingName;
         }));
         await loadAllMemos();
       };

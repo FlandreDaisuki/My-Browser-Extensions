@@ -6,3 +6,17 @@
 |-|-|
 |Type the name|![usage step 2](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/userscripts/ExAdvancedSearchMemo/usage_2.jpg)|
 |Done 🎉|![usage step 3](https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/userscripts/ExAdvancedSearchMemo/usage_3.jpg)|
+
+## CHANGELOG
+
+v1.0.2
+
+fix: resolve unremovable null memo ([ref](https://greasyfork.org/scripts/454209-exadvancedsearchmemo/discussions/157195))
+
+v1.0.1
+
+feat: Add delete & edit button
+
+v1.0.0
+
+feat: first release
