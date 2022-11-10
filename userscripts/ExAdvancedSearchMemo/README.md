@@ -9,6 +9,10 @@
 
 ## CHANGELOG
 
+v1.0.3
+
+fix: common.js typo
+
 v1.0.2
 
 fix: resolve unremovable null memo ([ref](https://greasyfork.org/scripts/454209-exadvancedsearchmemo/discussions/157195))

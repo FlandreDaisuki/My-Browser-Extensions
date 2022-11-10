@@ -5,7 +5,7 @@
 // @author      FlandreDaisuki
 // @match       *://e-hentai.org/*
 // @match       *://exhentai.org/*
-// @version     1.0.2
+// @version     1.0.3
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/ExAdvancedSearchMemo/README.md
 // @grant       GM_getValue
@@ -60,7 +60,7 @@
     if (globalThis.GM_setValue) {
       return globalThis.GM_setValue(key, Value);
     }
-    else if (globalThis.GM.getValue){
+    else if (globalThis.GM.setValue){
       return globalThis.GM.setValue( key, Value );
     }
   };

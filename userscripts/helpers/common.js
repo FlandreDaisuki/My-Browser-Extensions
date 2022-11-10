@@ -48,7 +48,16 @@ export const $setValue = async(key, Value) => {
   if (globalThis.GM_setValue) {
     return globalThis.GM_setValue(key, Value);
   }
-  else if (globalThis.GM.getValue){
+  else if (globalThis.GM.setValue){
     return globalThis.GM.setValue( key, Value );
+  }
+};
+
+export const $getResourceText = (key) => {
+  if (globalThis.GM_getResourceText) {
+    return globalThis.GM_getResourceText(key);
+  }
+  else if (globalThis.GM.getResourceText){
+    return globalThis.GM.getResourceText( key );
   }
 };
