@@ -5,7 +5,7 @@
 // @author      FlandreDaisuki
 // @match       https://*.facebook.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
-// @version     1.6.0
+// @version     1.6.1
 // @resource    faceBullshit https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/usercss/FaceBullshit.user.css
 // @noframes
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
@@ -51,7 +51,8 @@
   const faceBullshitStylesheetText = (GM_getResourceText ?? GM.getResourceText)?.('faceBullshit');
   $style(faceBullshitStylesheetText
     .replace(/@-moz-document[^{]+[{]([\s\S]+)\n[}]/g, '$1')
-    .replace(/(\n\s*)if[^{]+[{]([\s\S]+?)(\1[}])/g, '$2'));
+    .replace(/(\n\s*)if[^{]+[{]([\s\S]+?)(\1[}])/g, '$2')
+    .replace(/--chatroom-height: custom-chatroom-height;/g, '--chatroom-height: 92vh;'));
 
   /* fix: Facebook 壞壞 */
   sentinel.on('html._8ykn', (htmlEl) => {

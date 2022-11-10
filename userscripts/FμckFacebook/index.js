@@ -11,7 +11,8 @@ https://github.com/FlandreDaisuki/My-Browser-Extensions/tree/master/usercss#face
 const faceBullshitStylesheetText = (GM_getResourceText ?? GM.getResourceText)?.('faceBullshit');
 $style(faceBullshitStylesheetText
   .replace(/@-moz-document[^{]+[{]([\s\S]+)\n[}]/g, '$1')
-  .replace(/(\n\s*)if[^{]+[{]([\s\S]+?)(\1[}])/g, '$2'));
+  .replace(/(\n\s*)if[^{]+[{]([\s\S]+?)(\1[}])/g, '$2')
+  .replace(/--chatroom-height: custom-chatroom-height;/g, '--chatroom-height: 92vh;'));
 
 /* fix: Facebook 壞壞 */
 sentinel.on('html._8ykn', (htmlEl) => {
