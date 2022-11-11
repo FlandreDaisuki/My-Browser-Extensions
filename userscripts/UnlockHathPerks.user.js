@@ -1,279 +1,276 @@
 // ==UserScript==
-// @name               Unlock Hath Perks
-// @name:zh-TW         解鎖 Hath Perks
-// @name:zh-CN         解锁 Hath Perks
-// @description        Unlock Hath Perks and add other helpers
-// @description:zh-TW  解鎖 Hath Perks 及增加一些小工具
-// @description:zh-CN  解锁 Hath Perks 及增加一些小工具
-// @namespace          https://github.com/FlandreDaisuki
-// @version            2.1.1
-// @match              *://e-hentai.org/*
-// @match              *://exhentai.org/*
-// @require            https://unpkg.com/vue@2.6.9/dist/vue.min.js
-// @icon               https://i.imgur.com/JsU0vTd.png
-// @grant              GM_setValue
-// @grant              GM_getValue
+// @name       Unlock Hath Perks
+// @name:zh-TW 解鎖 Hath Perks
+// @name:zh-CN 解锁 Hath Perks
+// @description       Unlock Hath Perks and add other helpers
+// @description:zh-TW 解鎖 Hath Perks 及增加一些小工具
+// @description:zh-CN 解锁 Hath Perks 及增加一些小工具
+// @namespace   https://flandre.in/github
+// @version     2.2.0
+// @match       https://e-hentai.org/*
+// @match       https://exhentai.org/*
+// @require     https://unpkg.com/vue@2.6.9/dist/vue.min.js
+// @icon        https://i.imgur.com/JsU0vTd.png
+// @grant       GM_getValue
+// @grant       GM.getValue
+// @grant       GM_setValue
+// @grant       GM.setValue
 // @noframes
-//
-// @supportURL    https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
-// @homepageURL   https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks.md
-// @author        FlandreDaisuki
-// @license       MPLv2
-// @compatible    firefox 52+
-// @compatible    chrome 55+
-// @incompatible  any not support async/await, CSS-grid browsers
+// @author      FlandreDaisuki
+// @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
+// @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks/README.md
+// @license     MPLv2
 // ==/UserScript==
+(function () {
+  'use strict';
 
-/* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox */
-/* cSpell:ignoreRegExp \b\.\w+\b */
-/* eslint-disable no-console */
-/* global Vue */
+  const noop = () => {};
 
-/** ***************** */
-/* helper functions */
+  /** @type {(el: HTMLElement, selectors: string) => HTMLElement | null} */
+  const $find = (el, selectors) => el.querySelector(selectors);
 
-const noop = () => { };
-const $ = (s, d = document) => d.querySelector(s);
-const $el = (tag, attr = {}, cb = noop) => {
-  const el = document.createElement(tag);
-  if (typeof (attr) === 'string') {
-    el.textContent = attr;
-  }
-  else {
-    Object.assign(el, attr);
-  }
-  cb(el);
-  return el;
-};
-const $style = (text) => {
-  $el('style', text, (el) => document.head.appendChild(el));
-};
+  /** @type {(selectors: string) => HTMLElement | null} */
+  const $ = (selectors) => document.querySelector(selectors);
 
-/* helper functions end */
-/** ********************* */
+  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
+  const $el = (tag, attr = {}, cb = noop) => {
+    const el = document.createElement(tag);
+    if (typeof (attr) === 'string') {
+      el.textContent = attr;
+    }
+    else {
+      Object.assign(el, attr);
+    }
+    cb(el);
+    return el;
+  };
 
-/** ********* */
-/* easy DOM */
+  const $style = (stylesheet) => $el('style', stylesheet, (el) => document.head.appendChild(el));
 
-// nav
-const nb = $('#nb');
-const navdiv = $el('div');
-const navbtn = $el('a', 'Unlock Hath Perks');
-navbtn.id = 'uhp-btn';
-navbtn.addEventListener('click', () => {
-  $('#uhp-panel-container').classList.remove('hidden');
-});
-nb.appendChild(navdiv);
-navdiv.appendChild(navbtn);
+  /* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox favcat searchnav favform */
+  /* cSpell:ignoreRegExp \b\.\w+\b */
+  /* eslint-disable no-console */
+  /* global Vue */
 
-// panel container
-const uhpPanelContainer = $el('div', {
-  className: 'hidden',
-  id: 'uhp-panel-container',
-});
-uhpPanelContainer.addEventListener('click', () => {
-  uhpPanelContainer.classList.add('hidden');
-});
-document.body.appendChild(uhpPanelContainer);
+  // #region easy DOM
 
-// panel
-const uhpPanel = $el('div', { id: 'uhp-panel' }, (el) => {
-  if (location.host === 'exhentai.org') {
-    el.classList.add('dark');
-  }
-  el.addEventListener('click', (ev) => ev.stopPropagation());
-});
-uhpPanelContainer.appendChild(uhpPanel);
-
-/* easy DOM end */
-/** ************* */
-
-/** ******************* */
-/* configs and events */
-
-const uhpConfig = {
-  abg: true,
-  mt: true,
-  pe: true,
-};
-
-Object.assign(uhpConfig, GM_getValue('uhp', uhpConfig));
-GM_setValue('uhp', uhpConfig);
-
-if (uhpConfig.abg) {
-  Object.defineProperty(window, 'adsbyjuicy', {
-    configurable: false,
-    enumerable: false,
-    writable: false,
-    value: Object.create(null),
+  // nav
+  const nb = $('#nb');
+  const navdiv = $el('div');
+  const navbtn = $el('a', {
+    id: 'uhp-btn',
+    textContent: 'Unlock Hath Perks',
   });
-}
+  navbtn.addEventListener('click', () => {
+    $('#uhp-panel-container').classList.remove('hidden');
+  });
+  nb.appendChild(navdiv);
+  navdiv.appendChild(navbtn);
 
+  // panel container
+  const uhpPanelContainer = $el('div', {
+    className: 'hidden',
+    id: 'uhp-panel-container',
+  });
+  uhpPanelContainer.addEventListener('click', () => {
+    uhpPanelContainer.classList.add('hidden');
+  });
+  document.body.appendChild(uhpPanelContainer);
 
-// More Thumbs code block
-if (location.pathname.startsWith('/g/')) {
-  (async() => {
-    const getGalleryPageState = async(url, selectors) => {
-      const result = {
-        elements: [],
-        nextURL: null,
-      };
-
-      if (!url) { return result; }
-
-      const resp = await fetch(url, {
-        credentials: 'same-origin',
-      });
-
-      if (resp.ok) {
-        const html = await resp.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const $find = (s) => ($(s, doc) || { children: [] });
-        result.elements = [...$find(selectors.parent).children];
-
-        const nextEl = $find(selectors.np);
-        result.nextURL = nextEl ? (nextEl.href || null) : null;
-      }
-
-      console.log(result);
-      return result;
-    };
-
-    const selectors = {
-      np: '.ptt td:last-child > a',
-      parent: '#gdt',
-    };
-
-    const pageState = {
-      parent: $(selectors.parent),
-      locked: false,
-      nextURL: null,
-    };
-
-    const thisPage = await getGalleryPageState(location.href, selectors);
-
-    while (pageState.parent.firstChild) {
-      pageState.parent.firstChild.remove();
+  // panel
+  const uhpPanel = $el('div', { id: 'uhp-panel' }, (el) => {
+    if (location.host === 'exhentai.org') {
+      el.classList.add('dark');
     }
+    el.addEventListener('click', (ev) => ev.stopPropagation());
+  });
+  uhpPanelContainer.appendChild(uhpPanel);
 
-    thisPage.elements
-      .filter((el) => !el.classList.contains('c'))
-      .forEach((el) => pageState.parent.appendChild(el));
-    pageState.nextURL = thisPage.nextURL;
-    if (!pageState.nextURL) {
-      return;
-    }
+  // #endregion easy DOM
 
-    if (uhpConfig.mt) {
-      // search page found results
+  // #region configs and events
 
-      document.addEventListener('scroll', async() => {
-        const anchorTop = $('table.ptb').getBoundingClientRect().top;
-        const vh = window.innerHeight;
+  const uhpConfig = {
+    abg: true,
+    mt: true,
+    pe: true,
+  };
 
-        if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
-          pageState.lock = true;
+  Object.assign(uhpConfig, GM_getValue('uhp', uhpConfig));
+  GM_setValue('uhp', uhpConfig);
 
-          const nextPage = await getGalleryPageState(pageState.nextURL, selectors);
-          nextPage.elements
-            .filter((el) => !el.classList.contains('c'))
-            .forEach((el) => pageState.parent.appendChild(el));
-          pageState.nextURL = nextPage.nextURL;
+  if (uhpConfig.abg) {
+    Object.defineProperty(window, 'adsbyjuicy', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: Object.create(null),
+    });
+  }
 
-          pageState.lock = false;
+
+  // More Thumbs code block
+  if (location.pathname.startsWith('/g/')) {
+    (async() => {
+      const getGalleryPageState = async(url, selectors) => {
+        const result = {
+          elements: [],
+          nextURL: null,
+        };
+
+        if (!url) { return result; }
+
+        const resp = await fetch(url, {
+          credentials: 'same-origin',
+        });
+
+        if (resp.ok) {
+          const html = await resp.text();
+          const docEl = (new DOMParser())
+            .parseFromString(html, 'text/html')
+            .documentElement;
+          result.elements = [...$find(docEl, selectors.parent)?.children ?? []];
+
+          const nextEl = $find(docEl, selectors.np);
+          result.nextURL = nextEl ? (nextEl.href || null) : null;
         }
-      });
-    }
-  })();
-}
 
-// Page Enlargement code block
-if ($('#searchbox') && $('.itg')) {
-  (async() => {
-    const getPageState = async(url, selectors) => {
-      const result = {
-        elements: [],
+        console.log(result);
+        return result;
+      };
+
+      const selectors = {
+        np: '.ptt td:last-child > a',
+        parent: '#gdt',
+      };
+
+      const pageState = {
+        parent: $(selectors.parent),
+        locked: false,
         nextURL: null,
       };
 
-      if (!url) { return result; }
+      const thisPage = await getGalleryPageState(location.href, selectors);
 
-      const resp = await fetch(url, {
-        credentials: 'same-origin',
-      });
-
-      if (resp.ok) {
-        const html = await resp.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const $find = (s) => ($(s, doc) || { children: [] });
-        result.elements = [...$find(selectors.parent).children];
-
-        const nextEl = $find(selectors.np);
-        result.nextURL = nextEl ? (nextEl.href || null) : null;
+      while (pageState.parent.firstChild) {
+        pageState.parent.firstChild.remove();
       }
 
-      console.log(result);
-      return result;
-    };
+      thisPage.elements
+        .filter((el) => !el.classList.contains('c'))
+        .forEach((el) => pageState.parent.appendChild(el));
+      pageState.nextURL = thisPage.nextURL;
+      if (!pageState.nextURL) {
+        return;
+      }
 
-    const isTableLayout = Boolean($('table.itg'));
-    const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
-    const selectors = {
-      np: '.ptt td:last-child > a, .searchnav a[href*="next="]',
-      parent: isTableLayout ? 'table.itg > tbody' : 'div.itg',
-    };
+      if (uhpConfig.mt) {
+        // search page found results
 
-    const pageState = {
-      parent: $(selectors.parent),
-      locked: false,
-      nextURL: null,
-    };
+        document.addEventListener('scroll', async() => {
+          const anchorTop = $('table.ptb').getBoundingClientRect().top;
+          const vh = window.innerHeight;
 
-    const thisPage = await getPageState(location.href, selectors);
+          if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
+            pageState.lock = true;
 
-    while (pageState.parent.firstChild) {
-      pageState.parent.firstChild.remove();
-    }
+            const nextPage = await getGalleryPageState(pageState.nextURL, selectors);
+            nextPage.elements
+              .filter((el) => !el.classList.contains('c'))
+              .forEach((el) => pageState.parent.appendChild(el));
+            pageState.nextURL = nextPage.nextURL;
 
-    thisPage.elements.forEach((el) => pageState.parent.appendChild(el));
-    pageState.nextURL = thisPage.nextURL;
-    if (!pageState.nextURL) {
-      status.textContent = 'End';
-    }
-
-    if (uhpConfig.pe) {
-      $('table.ptb, .itg + .searchnav').replaceWith(status);
-
-      // search page found results
-
-      document.addEventListener('scroll', async() => {
-        const anchorTop = status.getBoundingClientRect().top;
-        const vh = window.innerHeight;
-
-        if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
-          pageState.lock = true;
-
-          const nextPage = await getPageState(pageState.nextURL, selectors);
-          nextPage.elements.forEach((el) => pageState.parent.appendChild(el));
-          pageState.nextURL = nextPage.nextURL;
-          if (!pageState.nextURL) {
-            status.textContent = 'End';
+            pageState.lock = false;
           }
-          pageState.lock = false;
+        });
+      }
+    })();
+  }
+
+  // Page Enlargement code block
+  if ($('input[name="f_search"]') && $('.itg')) {
+    (async() => {
+      const getPageState = async(url, selectors) => {
+        const result = {
+          elements: [],
+          nextURL: null,
+        };
+
+        if (!url) { return result; }
+
+        const resp = await fetch(url, {
+          credentials: 'same-origin',
+        });
+
+        if (resp.ok) {
+          const html = await resp.text();
+          const docEl = (new DOMParser())
+            .parseFromString(html, 'text/html')
+            .documentElement;
+          result.elements = [...$find(docEl, selectors.parent)?.children ?? []];
+
+          const nextEl = $find(docEl, selectors.np);
+          result.nextURL = nextEl ? (nextEl.href || null) : null;
         }
-      });
-    }
-  })();
-}
 
-/* configs and events end */
-/** *********************** */
+        console.log(result);
+        return result;
+      };
+
+      const isTableLayout = Boolean($('table.itg'));
+      const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
+      const selectors = {
+        np: '.ptt td:last-child > a, .searchnav a[href*="next="]',
+        parent: isTableLayout ? 'table.itg > tbody' : 'div.itg',
+      };
+
+      const pageState = {
+        parent: $(selectors.parent),
+        locked: false,
+        nextURL: null,
+      };
+
+      const thisPage = await getPageState(location.href, selectors);
+
+      while (pageState.parent.firstChild) {
+        pageState.parent.firstChild.remove();
+      }
+
+      thisPage.elements.forEach((el) => pageState.parent.appendChild(el));
+      pageState.nextURL = thisPage.nextURL;
+      if (!pageState.nextURL) {
+        status.textContent = 'End';
+      }
+
+      if (uhpConfig.pe) {
+        $('table.ptb, .itg + .searchnav, #favform + .searchnav').replaceWith(status);
+
+        // search page found results
+
+        document.addEventListener('scroll', async() => {
+          const anchorTop = status.getBoundingClientRect().top;
+          const vh = window.innerHeight;
+
+          if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
+            pageState.lock = true;
+
+            const nextPage = await getPageState(pageState.nextURL, selectors);
+            nextPage.elements.forEach((el) => pageState.parent.appendChild(el));
+            pageState.nextURL = nextPage.nextURL;
+            if (!pageState.nextURL) {
+              status.textContent = 'End';
+            }
+            pageState.lock = false;
+          }
+        });
+      }
+    })();
+  }
+
+  // #endregion configs and events
 
 
-/** ************* */
-/* option panel */
-
-const uhpPanelTemplate = `
+  const uhpPanelTemplate = `
 <div id="uhp-panel" :class="{ dark: isExH }" @click.stop>
   <h1>Hath Perks</h1>
   <div>
@@ -289,51 +286,62 @@ const uhpPanelTemplate = `
 </div>
 `;
 
-// eslint-disable-next-line no-new
-new Vue({
-  el: '#uhp-panel',
-  template: uhpPanelTemplate,
-  data: {
-    conf: uhpConfig,
-    HathPerks: [{
-      abbr: 'abg',
-      title: 'Ads-Be-Gone',
-      desc: 'Remove ads. You can use it with adblock webextensions.',
-    }, {
-      abbr: 'mt',
-      title: 'More Thumbs',
-      desc: 'Scroll infinitely in gallery pages.',
-    }, {
-      abbr: 'pe',
-      title: 'Paging Enlargement',
-      desc: 'Scroll infinitely in search results pages.',
-    }],
-    Others: [],
-  },
-  computed: {
-    isExH() { return location.host === 'exhentai.org'; },
-  },
-  methods: {
-    save() { GM_setValue('uhp', uhpConfig); },
-    getConfId(id) { return `ubp-conf-${ id }`; },
-  },
-});
+  // eslint-disable-next-line no-new
+  new Vue({
+    el: '#uhp-panel',
+    template: uhpPanelTemplate,
+    data: {
+      conf: uhpConfig,
+      HathPerks: [{
+        abbr: 'abg',
+        title: 'Ads-Be-Gone',
+        desc: 'Remove ads. You can use it with adblock webextensions.',
+      }, {
+        abbr: 'mt',
+        title: 'More Thumbs',
+        desc: 'Scroll infinitely in gallery pages.',
+      }, {
+        abbr: 'pe',
+        title: 'Paging Enlargement',
+        desc: 'Scroll infinitely in search results pages.',
+      }],
+      Others: [],
+    },
+    computed: {
+      isExH() { return location.host === 'exhentai.org'; },
+    },
+    methods: {
+      save() { GM_setValue('uhp', uhpConfig); },
+      getConfId(id) { return `ubp-conf-${ id }`; },
+    },
+  });
 
-$style(`
-/* override */
+  $style(`
+/* nav bar */
+#nb {
+  max-width: initial;
+  justify-content: center;
+}
+
+/* search input */
 table.itc + p.nopm {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 }
-#f_search {
-  max-width: 95%;
-  margin: 5px 0;
+input[name="f_search"] {
+  width: 100%;
 }
-#nb {
-  max-width: initial;
+
+/* /favorites.php */
+input[name="favcat"] + div {
+  display: flex;
+  flex-flow: row wrap;
   justify-content: center;
+  gap: 8px;
 }
+
+/* gallery grid */
 .gl1t {
   display: flex;
   flex-flow: column;
@@ -347,11 +355,15 @@ table.itc + p.nopm {
   justify-content: center;
   height: 100%;
 }
+
+/* /g/{gid}/{token} */
 div#gdt {
   clear: initial;
   display: flex;
   flex-flow: wrap;
-}
+}`);
+
+  $style(`
 /* uhp */
 #uhp-btn {
   cursor: pointer;
@@ -496,9 +508,11 @@ div#gdt {
   color: initial;
 }`);
 
-$el('link', {
-  href: 'https://use.fontawesome.com/releases/v5.8.0/css/all.css',
-  rel: 'stylesheet',
-  integrity: 'sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y',
-  crossOrigin: 'anonymous',
-}, (el) => document.head.appendChild(el));
+  $el('link', {
+    href: 'https://use.fontawesome.com/releases/v5.8.0/css/all.css',
+    rel: 'stylesheet',
+    integrity: 'sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y',
+    crossOrigin: 'anonymous',
+  }, (el) => document.head.appendChild(el));
+
+})();

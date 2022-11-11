@@ -19,6 +19,7 @@
     - [Scroll Restoration 🤔](#scroll-restoration--1)
     - [Page Indicator 🤔](#page-indicator--1)
     - [Thumb Page Flow 🤔](#thumb-page-flow--1)
+  - [CHANGELOG](#changelog)
 
 🤔：還在想要不要做/Think to do or not
 
@@ -91,3 +92,11 @@ Support function of `Paging Enlargement`. Add a page indicator inside search res
 ### Thumb Page Flow 🤔
 
 Support function of `Paging Enlargement` and `Page Indicator` . Make pages flow dense each other.
+
+## CHANGELOG
+
+v2.2.0
+
+build: use rollup
+fix: favorite page infinite scroll
+chore!: change namespace
