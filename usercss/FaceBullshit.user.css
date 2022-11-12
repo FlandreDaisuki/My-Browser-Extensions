@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        3.1.0
+@version        3.2.0
 @description    Beautify Facebook 2022 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -16,6 +16,7 @@
 @var checkbox no-friends-recommandation '不要推薦朋友' 1
 ==/UserStyle== */
 @-moz-document domain("www.facebook.com"), domain("m.facebook.com") {
+
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
   /* 本樣式 logo */
@@ -53,14 +54,22 @@
     height: var(--chatroom-height, 455px);
   }
 
+  /* 舊版上引導欄 */
+  [role="banner"] [role="navigation"] > ul {
+    display: none;
+  }
+  [role="banner"] > .xmy5rp.xmy5rp {
+    width: 680px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  footer {
+    display: none;
+  }
+
   /* 不要左引導欄 */
   if (no-left-col) {
-    .xn2luse.xn2luse {
-      width: var(--global-panel-width);
-    }
-    .x2lf9qy.x2lf9qy {
-      border-right: 1px solid var(--wash);
-    }
     .x1mdubkq.x1mdubkq {
       display: none;
     }
@@ -71,6 +80,41 @@
       padding: 0;
       justify-content: flex-start;
       margin-left: 80px;
+    }
+
+    /* 新版 */
+    [role="banner"] + [data-isanimatedlayout="true"].xn2luse.xn2luse {
+      width: var(--global-panel-width);
+    }
+    [role="banner"] + [data-isanimatedlayout="true"].x2lf9qy.x2lf9qy {
+      border-right: 1px solid var(--wash);
+    }
+
+    /* 舊版 */
+    [role="navigation"].xxc7z9f {
+      min-width: initial;
+      flex-basis: 60px;
+      border-right: 1px solid var(--wash, #3E4042);
+    }
+    [role="separator"] {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    /* 顯示更多 */
+    [role="navigation"] h2 + div ul > li > [style],
+    [role="navigation"] h2 + div ul + [style] {
+      padding: 0 4px !important;
+    }
+    /* 左側圖片 box */
+    [role="navigation"] h2 + div ul .xv3fwf9 {
+      transform: scale(0.8);
+      margin: 0 9999px 0 0;
+    }
+    /* 你的捷徑 */
+    [role="navigation"] h2 + div .xwib8y2 {
+      height: 0;
+      opacity: 0;
+      visibility: hidden;
     }
   }
 
