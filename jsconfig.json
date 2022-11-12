@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "strict": true
+  }
+}

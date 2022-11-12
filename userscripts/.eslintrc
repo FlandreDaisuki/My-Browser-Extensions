@@ -1,14 +1,18 @@
 {
   "env": {
+    "es6": true,
     "node": true,
     "browser": true,
-    "greasemonkey": true
+    "greasemonkey": true,
+    "shared-node-browser": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
-  }
-  ,
-  "ignorePatterns":[
+  },
+  "globals": {
+    "globalThis": true
+  },
+  "ignorePatterns": [
     "ExAdvancedSearchMemo.user.js"
   ]
 }
