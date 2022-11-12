@@ -9,7 +9,7 @@
   "require": [
     "https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js"
   ],
-  "version": "1.6.1",
+  "version": "1.6.2",
   "grant": [
     "GM_getValue",
     "GM.getValue",
@@ -19,7 +19,7 @@
     "GM.getResourceText"
   ],
   "resource": {
-    "faceBullshit": "https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/usercss/FaceBullshit.user.css"
+    "faceBullshit": "https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css"
   },
   "noframes": true,
   "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",

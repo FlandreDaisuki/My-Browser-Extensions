@@ -1,5 +1,7 @@
 # Fμck Facebook
 
+## Features
+
 [![Install-userscript-brightgreen](../Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
 
 - 移除贊助
@@ -11,3 +13,9 @@
 - 移除右聯絡欄（整合 [FaceBullshit](../../usercss/README.md#facebullshit)）
 
 https://user-images.githubusercontent.com/5981459/169662117-3934aed2-4e8f-48fe-bae0-0e1648f9d595.mp4
+
+## CHANGELOG
+
+v1.6.2
+
+feat: Support iOS (quoid/userscripts)

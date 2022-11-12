@@ -1,4 +1,4 @@
-import { $$, $style } from '../helpers/common';
+import { $$, $getResourceText, $style } from '../helpers/common';
 
 /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
 /* cSpell:ignore posinset */
@@ -8,7 +8,8 @@ import { $$, $style } from '../helpers/common';
 推薦與以下樣式一起使用，效果更佳
 https://github.com/FlandreDaisuki/My-Browser-Extensions/tree/master/usercss#facebullshit
 */
-const faceBullshitStylesheetText = (GM_getResourceText ?? GM.getResourceText)?.('faceBullshit');
+
+const faceBullshitStylesheetText = $getResourceText('faceBullshit');
 $style(faceBullshitStylesheetText
   .replace(/@-moz-document[^{]+[{]([\s\S]+)\n[}]/g, '$1')
   .replace(/(\n\s*)if[^{]+[{]([\s\S]+?)(\1[}])/g, '$2')

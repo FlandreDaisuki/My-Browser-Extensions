@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@flandredaisuki/eslint-config': ^0.0.2
   '@rollup/plugin-commonjs': ^23.0.2
+  '@rollup/plugin-replace': ^5.0.1
   eslint: ^8.12.0
   rollup: ^3.2.5
   rollup-plugin-userscript-metablock: ^0.3.1
@@ -10,6 +11,7 @@ specifiers:
 devDependencies:
   '@flandredaisuki/eslint-config': 0.0.2_eslint@8.12.0
   '@rollup/plugin-commonjs': 23.0.2_rollup@3.2.5
+  '@rollup/plugin-replace': 5.0.1_rollup@3.2.5
   eslint: 8.12.0
   rollup: 3.2.5
   rollup-plugin-userscript-metablock: 0.3.1
@@ -78,6 +80,20 @@ packages:
       estree-walker: 2.0.2
       glob: 8.0.3
       is-reference: 1.2.1
+      magic-string: 0.26.7
+      rollup: 3.2.5
+    dev: true
+
+  /@rollup/plugin-replace/5.0.1_rollup@3.2.5:
+    resolution: {integrity: sha512-Z3MfsJ4CK17BfGrZgvrcp/l6WXoKb0kokULO+zt/7bmcyayokDaQ2K3eDJcRLCTAlp5FPI4/gz9MHAsosz4Rag==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.2_rollup@3.2.5
       magic-string: 0.26.7
       rollup: 3.2.5
     dev: true
