@@ -7,3 +7,6 @@ FμckFacebook:
 UnlockHathPerks:
 	cd userscripts/UnlockHathPerks; npx rollup -c --bundleConfigAsCjs
 	firefox userscripts/UnlockHathPerks.user.js
+CleanCoolpcEvaluate:
+	cd userscripts/CleanCoolpcEvaluate; npx rollup -c --bundleConfigAsCjs
+	firefox userscripts/CleanCoolpcEvaluate.user.js

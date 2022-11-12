@@ -1,0 +1,17 @@
+{
+  "name": "乾淨ㄉ原價屋",
+  "description": "讓我好好的選零件…",
+  "namespace": "https://flandre.in/github",
+  "version": "2022.11.13",
+  "match": [
+    "https://coolpc.com.tw/evaluate.php"
+  ],
+  "require": [
+    "https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js"
+  ],
+  "noframes": true,
+  "author": "FlandreDaisuki",
+  "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",
+  "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/CleanCoolpcEvaluate/README.md",
+  "license": "MIT"
+}

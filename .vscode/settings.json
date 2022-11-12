@@ -13,10 +13,12 @@
     "source.fixAll.eslint": true
   },
   "cSpell.words": [
+    "Coolpc",
     "fμck",
     "javdb",
     "jellyfin",
-    "metablock"
+    "metablock",
+    "noframes"
   ],
   "cSpell.ignoreWords": [
     "listitem"

@@ -1,21 +1,8 @@
-// ==UserScript==
-// @name         乾淨ㄉ原價屋
-// @namespace    https://github.com/FlandreDaisuki
-// @description  讓我好好的選零件…
-// @version      2021.05.20
-// @author       FlandreDaisuki
-// @match        *://www.coolpc.com.tw/evaluate.php
-// @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
-// @noframes
-// @license      MIT
-// ==/UserScript==
-
+import { $, $style } from '../helpers/common';
 // 推薦搭配 AdGuard Annoyances 過濾清單
 
 /* cSpell:ignore vwpro mesg Ttitle Fitem */
 /* global sentinel */
-
-const $ = (s) => document.querySelector(s);
 
 // 取消鎖右鍵
 document.body.removeAttribute('oncontextmenu');
@@ -51,9 +38,7 @@ sentinel.on(String(iframeSelectors), (iframe) => {
 });
 
 // 調整樣式
-const styleEl = document.createElement('style');
-document.body.appendChild(styleEl);
-styleEl.textContent = `
+$style(`
 body {
   overflow: auto !important;
 }
@@ -93,4 +78,4 @@ form[action="eva-excel.php"] {
 #MatchArea {
   position: absolute;
   top: 100%;
-}`;
+}`);
