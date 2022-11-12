@@ -1,8 +1,11 @@
 # Fμck Facebook
 
-## Features
+- Normal browsers
+  - [![Install-userscript-brightgreen](../Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
+- <ruby>Safari<rp>(</rp><rt>Modern IE</rt><rp>)</rp></ruby> with [quoid/userscripts](https://github.com/quoid/userscripts)
+  - [![Install-userscript-brightgreen](../Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.ios.user.js)
 
-[![Install-userscript-brightgreen](../Install-userscript-brightgreen.svg)](https://github.com/FlandreDaisuki/My-Browser-Extensions/raw/master/userscripts/FμckFacebook.user.js)
+## Features
 
 - 移除贊助
 - 移除朋友推薦
@@ -18,4 +21,4 @@ https://user-images.githubusercontent.com/5981459/169662117-3934aed2-4e8f-48fe-b
 
 v1.6.2
 
-feat: Support iOS (quoid/userscripts)
+feat: Support Safari with [quoid/userscripts](https://github.com/quoid/userscripts)
