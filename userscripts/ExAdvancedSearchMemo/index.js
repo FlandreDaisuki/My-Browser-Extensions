@@ -1,8 +1,17 @@
 import { $, $findAll, $getValue, $html, $setValue, $style } from '../helpers/common';
 
+/** @typedef {{name: string, query: string}} Memo */
+
 const NAMESPACE = 'ExAdvancedSearchMemo';
+
+/**
+ * @param {Memo[]} defaultValue
+ * @returns {Promise<Memo[]>}
+ */
 const load = (defaultValue = []) => $getValue(NAMESPACE, defaultValue);
-const save = (value = load()) => $setValue(NAMESPACE, value);
+
+/** @param {Memo[]} value */
+const save = (value) => $setValue(NAMESPACE, value);
 
 (() => {
   // cSpell: disable
@@ -21,6 +30,8 @@ const save = (value = load()) => $setValue(NAMESPACE, value);
   inputsBoxEl.classList.add('🔱-input-box');
 
   const memoLinksEl = $html('<ul class="🔱-memo-links"></ul>');
+  if (!memoLinksEl){ return; }
+
   inputsBoxEl.insertAdjacentElement('afterend', memoLinksEl);
   const loadAllMemos = async() => {
     const allMemos = await load();
@@ -35,8 +46,15 @@ const save = (value = load()) => $setValue(NAMESPACE, value);
 
     memoLinksEl.innerHTML = memoListHtmlText;
 
+    /**  @param {MouseEvent} event */
     const editMemo = async(event) => {
-      const oldName = event.target.previousElementSibling.textContent;
+      /** @type {HTMLElement | null} */
+      const targetEl = event.target;
+      if (!targetEl) { return; }
+
+      const oldName = targetEl.previousElementSibling?.textContent;
+      if (!oldName) { return; }
+
       const allMemos = await load();
       const foundRenamingMemo = allMemos.find((memo) => memo.name === oldName);
       if (!foundRenamingMemo) { return; }
@@ -106,6 +124,9 @@ $style(`
   display: flex;
   align-items: center;
 }
+.🔱-input-box #f_search {
+  width: 100%;
+}
 ul.🔱-memo-links {
   list-style: none;
 
@@ -118,7 +139,7 @@ ul.🔱-memo-links {
 ul.🔱-memo-links > li {
   display: inline-flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 4px 8px;
   border-radius: 8px;
 }

@@ -9,6 +9,11 @@
 
 ## CHANGELOG
 
+v1.0.4
+
+chore: update style
+chore: update type annotations
+
 v1.0.3
 
 fix: common.js typo

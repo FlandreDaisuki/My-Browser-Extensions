@@ -7,7 +7,7 @@
     "*://e-hentai.org/*",
     "*://exhentai.org/*"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "grant":[
     "GM_getValue",
     "GM.getValue",

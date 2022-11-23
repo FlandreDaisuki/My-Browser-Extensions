@@ -5,7 +5,7 @@
 // @author      FlandreDaisuki
 // @match       *://e-hentai.org/*
 // @match       *://exhentai.org/*
-// @version     1.0.3
+// @version     1.0.4
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/ExAdvancedSearchMemo/README.md
 // @grant       GM_getValue
@@ -17,17 +17,12 @@
   'use strict';
 
   const noop = () => {};
-
-  /** @type {(el: HTMLElement, selectors: string) => HTMLElement[]} */
   const $findAll = (el, selectors) => Array.from(el.querySelectorAll(selectors));
-
-  /** @type {(selectors: string) => HTMLElement | null} */
   const $ = (selectors) => document.querySelector(selectors);
 
-  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
   const $el = (tag, attr = {}, cb = noop) => {
     const el = document.createElement(tag);
-    if (typeof (attr) === 'string') {
+    if (typeof(attr) === 'string') {
       el.textContent = attr;
     }
     else {
@@ -37,7 +32,6 @@
     return el;
   };
 
-  /** @type {(htmlText: string) => HTMLElement} */
   const $html = (htmlText) => {
     const tmpEl = $el('div');
     tmpEl.innerHTML = htmlText;
@@ -47,7 +41,6 @@
   const $style = (stylesheet) => $el('style', stylesheet, (el) => document.head.appendChild(el));
 
   const $getValue = async(key, defaultValue) => {
-    /* global globalThis */
     if (globalThis.GM_getValue) {
       return globalThis.GM_getValue(key, defaultValue);
     }
@@ -65,9 +58,18 @@
     }
   };
 
+  /** @typedef {{name: string, query: string}} Memo */
+
   const NAMESPACE = 'ExAdvancedSearchMemo';
+
+  /**
+   * @param {Memo[]} defaultValue
+   * @returns {Promise<Memo[]>}
+   */
   const load = (defaultValue = []) => $getValue(NAMESPACE, defaultValue);
-  const save = (value = load()) => $setValue(NAMESPACE, value);
+
+  /** @param {Memo[]} value */
+  const save = (value) => $setValue(NAMESPACE, value);
 
   (() => {
     // cSpell: disable
@@ -86,6 +88,8 @@
     inputsBoxEl.classList.add('🔱-input-box');
 
     const memoLinksEl = $html('<ul class="🔱-memo-links"></ul>');
+    if (!memoLinksEl){ return; }
+
     inputsBoxEl.insertAdjacentElement('afterend', memoLinksEl);
     const loadAllMemos = async() => {
       const allMemos = await load();
@@ -100,8 +104,15 @@
 
       memoLinksEl.innerHTML = memoListHtmlText;
 
+      /**  @param {MouseEvent} event */
       const editMemo = async(event) => {
-        const oldName = event.target.previousElementSibling.textContent;
+        /** @type {HTMLElement | null} */
+        const targetEl = event.target;
+        if (!targetEl) { return; }
+
+        const oldName = targetEl.previousElementSibling?.textContent;
+        if (!oldName) { return; }
+
         const allMemos = await load();
         const foundRenamingMemo = allMemos.find((memo) => memo.name === oldName);
         if (!foundRenamingMemo) { return; }
@@ -171,6 +182,9 @@
   display: flex;
   align-items: center;
 }
+.🔱-input-box #f_search {
+  width: 100%;
+}
 ul.🔱-memo-links {
   list-style: none;
 
@@ -183,7 +197,7 @@ ul.🔱-memo-links {
 ul.🔱-memo-links > li {
   display: inline-flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 4px 8px;
   border-radius: 8px;
 }
