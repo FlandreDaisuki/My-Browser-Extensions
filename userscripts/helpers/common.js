@@ -7,7 +7,7 @@ export const $$ = (selectors) => Array.from(document.querySelectorAll(selectors)
 
 export const $el = (tag, attr = {}, cb = noop) => {
   const el = document.createElement(tag);
-  if (typeof (attr) === 'string') {
+  if (typeof(attr) === 'string') {
     el.textContent = attr;
   }
   else {
