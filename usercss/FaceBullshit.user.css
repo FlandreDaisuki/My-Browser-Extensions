@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        3.2.2
+@version        3.2.3
 @description    Beautify Facebook 2022 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -99,6 +99,12 @@
     }
     [role="banner"] + [data-isanimatedlayout="true"].x2lf9qy.x2lf9qy {
       border-right: 1px solid var(--wash);
+    }
+    [data-isanimatedlayout="true"].xv0u79y.xv0u79y {
+      left: var(--global-panel-width);
+    }
+    [data-isanimatedlayout="true"] .xylbxtu.xylbxtu {
+      max-width: initial;
     }
 
     /* 舊版 */
