@@ -56,3 +56,16 @@ export const $xhr = (details) => {
   const xhrFn = globalThis.GM_xmlhttpRequest ?? GM.xmlhttpRequest;
   return xhrFn(details);
 };
+
+export const throttle = (fn, timeout = 1000) => {
+  let locked = false;
+  return (...args) => {
+    if (!locked){
+      locked = true;
+      fn(...args);
+      setTimeout(() => {
+        locked = false;
+      }, timeout);
+    }
+  };
+};

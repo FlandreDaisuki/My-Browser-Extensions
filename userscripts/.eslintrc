@@ -13,6 +13,7 @@
     "globalThis": true
   },
   "ignorePatterns": [
-    "ExAdvancedSearchMemo.user.js"
+    "ExAdvancedSearchMemo.user.js",
+    "UnlockHathPerks.user.js"
   ]
 }

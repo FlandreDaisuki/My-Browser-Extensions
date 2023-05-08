@@ -52,3 +52,5 @@ interface GmXhrResponse {
   responseText: XMLHttpRequest['responseText'];
   context: Record<string, unknown>;
 }
+
+export function throttle<F extends Function>(fn: F, timeout?: number): F;

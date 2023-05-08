@@ -6,7 +6,7 @@
 // @description:zh-TW 解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN 解锁 Hath Perks 及增加一些小工具
 // @namespace   https://flandre.in/github
-// @version     2.2.0
+// @version     2.2.1
 // @match       https://e-hentai.org/*
 // @match       https://exhentai.org/*
 // @require     https://unpkg.com/vue@2.6.9/dist/vue.min.js
@@ -26,16 +26,12 @@
 
   const noop = () => {};
 
-  /** @type {(el: HTMLElement, selectors: string) => HTMLElement | null} */
   const $find = (el, selectors) => el.querySelector(selectors);
-
-  /** @type {(selectors: string) => HTMLElement | null} */
   const $ = (selectors) => document.querySelector(selectors);
 
-  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
   const $el = (tag, attr = {}, cb = noop) => {
     const el = document.createElement(tag);
-    if (typeof (attr) === 'string') {
+    if (typeof(attr) === 'string') {
       el.textContent = attr;
     }
     else {
@@ -46,6 +42,19 @@
   };
 
   const $style = (stylesheet) => $el('style', stylesheet, (el) => document.head.appendChild(el));
+
+  const throttle = (fn, timeout = 1000) => {
+    let locked = false;
+    return (...args) => {
+      if (!locked){
+        locked = true;
+        fn(...args);
+        setTimeout(() => {
+          locked = false;
+        }, timeout);
+      }
+    };
+  };
 
   /* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox favcat searchnav favform */
   /* cSpell:ignoreRegExp \b\.\w+\b */
@@ -167,7 +176,7 @@
       if (uhpConfig.mt) {
         // search page found results
 
-        document.addEventListener('scroll', async() => {
+        document.addEventListener('scroll', throttle(async() => {
           const anchorTop = $('table.ptb').getBoundingClientRect().top;
           const vh = window.innerHeight;
 
@@ -182,7 +191,7 @@
 
             pageState.lock = false;
           }
-        });
+        }));
       }
     })();
   }

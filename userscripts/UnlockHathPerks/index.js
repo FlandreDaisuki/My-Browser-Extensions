@@ -1,5 +1,5 @@
 
-import { $, $el, $find, $style } from '../helpers/common';
+import { $, $el, $find, $style, throttle } from '../helpers/common';
 /* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox favcat searchnav favform */
 /* cSpell:ignoreRegExp \b\.\w+\b */
 /* eslint-disable no-console */
@@ -120,7 +120,7 @@ if (location.pathname.startsWith('/g/')) {
     if (uhpConfig.mt) {
       // search page found results
 
-      document.addEventListener('scroll', async() => {
+      document.addEventListener('scroll', throttle(async() => {
         const anchorTop = $('table.ptb').getBoundingClientRect().top;
         const vh = window.innerHeight;
 
@@ -135,7 +135,7 @@ if (location.pathname.startsWith('/g/')) {
 
           pageState.lock = false;
         }
-      });
+      }));
     }
   })();
 }
