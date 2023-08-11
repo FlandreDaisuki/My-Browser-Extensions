@@ -2,11 +2,11 @@
 // @name        JWT Inspector
 // @description Inspect JWT everywhere
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.0
+// @version     1.0.1
 // @match       https://*/*
 // @require     https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js
 // @require     https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js
-// @grant       none
+// @grant       unsafeWindow
 // @noframes
 // @author      FlandreDaisuki
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
