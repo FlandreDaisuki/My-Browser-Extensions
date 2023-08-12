@@ -27,7 +27,7 @@ document.body.addEventListener('pointerup', (event) => {
   referenceEl.addEventListener('pointerenter', () => { popperEl.hidden = false; });
   referenceEl.addEventListener('pointerleave', () => { popperEl.hidden = true; });
   // eslint-disable-next-line no-alert
-  referenceEl.addEventListener('click', () => alert(jwtPayload));
+  referenceEl.addEventListener('click', () => prompt(jwtPayload, jwtPayload));
   Object.assign(referenceEl.style, {
     cursor: 'pointer',
     textDecoration: 'underline dashed currentColor 1px',

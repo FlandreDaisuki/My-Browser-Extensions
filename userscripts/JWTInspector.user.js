@@ -2,7 +2,7 @@
 // @name        JWT Inspector
 // @description Inspect JWT everywhere
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.1
+// @version     1.0.2
 // @match       https://*/*
 // @require     https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js
 // @require     https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js
@@ -44,7 +44,7 @@
     referenceEl.addEventListener('pointerenter', () => { popperEl.hidden = false; });
     referenceEl.addEventListener('pointerleave', () => { popperEl.hidden = true; });
     // eslint-disable-next-line no-alert
-    referenceEl.addEventListener('click', () => alert(jwtPayload));
+    referenceEl.addEventListener('click', () => prompt(jwtPayload, jwtPayload));
     Object.assign(referenceEl.style, {
       cursor: 'pointer',
       textDecoration: 'underline dashed currentColor 1px',

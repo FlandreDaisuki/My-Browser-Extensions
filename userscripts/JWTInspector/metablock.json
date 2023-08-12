@@ -13,7 +13,7 @@
   "grant": [
     "unsafeWindow"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "noframes": true,
   "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",
   "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md"
