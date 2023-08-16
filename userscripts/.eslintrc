@@ -14,6 +14,7 @@
   },
   "ignorePatterns": [
     "ExAdvancedSearchMemo.user.js",
-    "UnlockHathPerks.user.js"
+    "UnlockHathPerks.user.js",
+    "JWTInspector.user.js"
   ]
 }

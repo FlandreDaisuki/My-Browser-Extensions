@@ -2,8 +2,9 @@
 // @name        JWT Inspector
 // @description Inspect JWT everywhere
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.2
+// @version     1.0.3
 // @match       https://*/*
+// @exclude     https://jwt.io/*
 // @require     https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js
 // @require     https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js
 // @grant       unsafeWindow
@@ -18,13 +19,15 @@
   /* global Popper, jwt_decode */
 
   document.body.addEventListener('pointerup', (event) => {
-    const matches = event.target.textContent.match(/(\beyJ[\w-]*\.eyJ[\w-]*\.[\w-]*\b)/);
+    const eventTarget = event.target;
+    const matches = eventTarget.textContent.match(/(\beyJ[\w-]*\.eyJ[\w-]*\.[\w-]*\b)/);
     if (!matches) { return; }
-    if (event.target.dataset.tooltipId) { return; }
+    if (eventTarget.dataset.tooltipId) { return; }
+    if (eventTarget.closet('input, textarea')){ return; }
 
     const jwt = matches[0].replace(/\s/g, '');
     const tid = String(Math.random()).slice(2);
-    event.target.innerHTML = event.target.innerHTML.replace(jwt, `<span aria-describedby="tooltip" data-tooltip-id="${ tid }">${ jwt }</span>`);
+    eventTarget.innerHTML = eventTarget.innerHTML.replace(jwt, `<span aria-describedby="tooltip" data-tooltip-id="${ tid }">${ jwt }</span>`);
 
     const referenceEl = document.querySelector(`[data-tooltip-id="${ tid }"]`);
     const popperEl = document.createElement('div');

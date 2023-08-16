@@ -6,6 +6,9 @@
   "match": [
     "https://*/*"
   ],
+  "exclude": [
+    "https://jwt.io/*"
+  ],
   "require": [
     "https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js",
     "https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js"
@@ -13,7 +16,7 @@
   "grant": [
     "unsafeWindow"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "noframes": true,
   "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",
   "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md"

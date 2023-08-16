@@ -1,13 +1,15 @@
 /* global Popper, jwt_decode */
 
 document.body.addEventListener('pointerup', (event) => {
-  const matches = event.target.textContent.match(/(\beyJ[\w-]*\.eyJ[\w-]*\.[\w-]*\b)/);
+  const eventTarget = event.target;
+  const matches = eventTarget.textContent.match(/(\beyJ[\w-]*\.eyJ[\w-]*\.[\w-]*\b)/);
   if (!matches) { return; }
-  if (event.target.dataset.tooltipId) { return; }
+  if (eventTarget.dataset.tooltipId) { return; }
+  if (eventTarget.closet('input, textarea')){ return; }
 
   const jwt = matches[0].replace(/\s/g, '');
   const tid = String(Math.random()).slice(2);
-  event.target.innerHTML = event.target.innerHTML.replace(jwt, `<span aria-describedby="tooltip" data-tooltip-id="${ tid }">${ jwt }</span>`);
+  eventTarget.innerHTML = eventTarget.innerHTML.replace(jwt, `<span aria-describedby="tooltip" data-tooltip-id="${ tid }">${ jwt }</span>`);
 
   const referenceEl = document.querySelector(`[data-tooltip-id="${ tid }"]`);
   const popperEl = document.createElement('div');
