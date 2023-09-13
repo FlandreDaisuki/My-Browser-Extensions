@@ -17,3 +17,7 @@ CleanCoolpcEvaluate:
 JWTInspector:
 	cd userscripts/JWTInspector; npx rollup -c --bundleConfigAsCjs
 	firefox userscripts/JWTInspector.user.js
+
+GitHubPullRequestBranchReveal:
+	cd userscripts/GitHubPullRequestBranchReveal; npx rollup -c --bundleConfigAsCjs
+	firefox userscripts/GitHubPullRequestBranchReveal.user.js

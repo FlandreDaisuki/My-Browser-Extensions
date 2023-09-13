@@ -1,0 +1,18 @@
+{
+  "name": "GitHub Pull Request Branch Reveal",
+  "description": "Reveal branch in GitHub pull request page",
+  "namespace": "https://l.flandre.tw/github",
+  "author": "FlandreDaisuki",
+  "match": [
+    "https://github.com/*"
+  ],
+  "require": [
+    "https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js",
+    "https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js"
+  ],
+  "version": "1.0.0",
+  "noframes": true,
+  "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",
+  "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md",
+  "icon": "https://github.githubassets.com/favicons/favicon.svg"
+}
