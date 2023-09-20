@@ -2,7 +2,7 @@
 // @name        GitHub Pull Request Branch Reveal
 // @description Reveal branch in GitHub pull request page
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.0
+// @version     1.0.1
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @require     https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js
@@ -65,8 +65,14 @@
     );
 
     new ClipboardJS('code[data-clipboard-text]');
+
     $style(`
   .🐙🐱-pull-request-branches {
+    display: flex;
+    align-item: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+
     code {
       color: var(--color-prettylights-syntax-markup-inserted-text);
       background-color: var(--color-prettylights-syntax-markup-inserted-bg);

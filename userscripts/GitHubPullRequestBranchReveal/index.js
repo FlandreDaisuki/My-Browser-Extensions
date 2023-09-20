@@ -32,8 +32,14 @@ sentinel.on('a[data-ga-click="Repository, go to compare view, location:pull requ
   );
 
   new ClipboardJS('code[data-clipboard-text]');
+
   $style(`
   .🐙🐱-pull-request-branches {
+    display: flex;
+    align-item: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+
     code {
       color: var(--color-prettylights-syntax-markup-inserted-text);
       background-color: var(--color-prettylights-syntax-markup-inserted-bg);
