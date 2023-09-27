@@ -36,11 +36,12 @@ sentinel.on('a[data-ga-click="Repository, go to compare view, location:pull requ
   $style(`
   .🐙🐱-pull-request-branches {
     display: flex;
-    align-item: center;
+    align-items: center;
     gap: 0.5rem;
     padding-top: 0.25rem;
 
-    code {
+    /* FIXME: https://bugs.chromium.org/p/chromium/issues/detail?id=1427259 */
+    & code {
       color: var(--color-prettylights-syntax-markup-inserted-text);
       background-color: var(--color-prettylights-syntax-markup-inserted-bg);
       cursor: pointer;

@@ -2,9 +2,13 @@
 
 ## CHANGELOG
 
+v1.0.2
+
+- fix chromium-based browser style issue
+
 v1.0.1
 
-- first release
+- feat: update style
 
 v1.0.0
 
