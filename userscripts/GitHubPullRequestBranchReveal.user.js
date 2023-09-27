@@ -2,7 +2,7 @@
 // @name        GitHub Pull Request Branch Reveal
 // @description Reveal branch in GitHub pull request page
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.2
+// @version     1.0.3
 // @match       https://github.com/*
 // @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
 // @require     https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js
@@ -11,7 +11,7 @@
 // @noframes
 // @author      FlandreDaisuki
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
-// @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md
+// @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/GitHubPullRequestBranchReveal/README.md
 // ==/UserScript==
 (function () {
   'use strict';

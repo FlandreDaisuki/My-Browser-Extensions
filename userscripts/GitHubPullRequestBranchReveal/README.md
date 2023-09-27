@@ -2,6 +2,10 @@
 
 ## CHANGELOG
 
+v1.0.3
+
+- fix homepage url
+
 v1.0.2
 
 - fix chromium-based browser style issue

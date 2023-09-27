@@ -10,9 +10,9 @@
     "https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js",
     "https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "noframes": true,
   "supportURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/issues",
-  "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md",
+  "homepageURL": "https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/GitHubPullRequestBranchReveal/README.md",
   "icon": "https://github.githubassets.com/favicons/favicon.svg"
 }
