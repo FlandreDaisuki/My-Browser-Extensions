@@ -69,3 +69,9 @@ export const throttle = (fn, timeout = 1000) => {
     }
   };
 };
+
+export const range = (start, end) => Array.from({ length: end - start }, (_, i) => i + start);
+
+export const range0 = (end) => range(0, end);
+
+export const sum = (...args) => args.flat(Infinity).reduce((a, b) => a + b, 0);

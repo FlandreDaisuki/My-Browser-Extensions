@@ -54,3 +54,6 @@ interface GmXhrResponse {
 }
 
 export function throttle<F extends Function>(fn: F, timeout?: number): F;
+export function range(start :number, end:number): number[];
+export function range0(end): number[];
+export function sum(...args: number[]): number;
