@@ -2,26 +2,26 @@ import { $, $style } from '../helpers/common';
 // 推薦搭配 AdGuard Annoyances 過濾清單
 
 /* cSpell:ignore vwpro mesg Ttitle Fitem */
-/* global sentinel */
+/* global winkblue */
 
 // 取消鎖右鍵
 document.body.removeAttribute('oncontextmenu');
 document.body.removeAttribute('onselectstart');
 
 // 總金額預覽移到上面
-sentinel.on('#fDiv', (floatingBar) => {
-  sentinel.off('#fDiv');
+winkblue.on('#fDiv', (floatingBar) => {
+  winkblue.off('#fDiv');
   floatingBar.remove();
   $('#know').insertAdjacentElement('afterend', floatingBar);
 });
 
 // 保留輸出圖片功能
-sentinel.on('#vwpro', () => {
+winkblue.on('#vwpro', () => {
   $('#doc').classList.add('zTop');
 });
 
-sentinel.on('button[onclick="Gauze(2)"]', (imageExportCancelBtnEl) => {
-  sentinel.off('button[onclick="Gauze(2)"]');
+winkblue.on('button[onclick="Gauze(2)"]', (imageExportCancelBtnEl) => {
+  winkblue.off('button[onclick="Gauze(2)"]');
   imageExportCancelBtnEl.addEventListener('click', () => {
     $('#doc').classList.remove('zTop');
   });
@@ -33,7 +33,7 @@ const iframeSelectors = [
   'iframe[src$="eval-mesg.php"]',
 ];
 
-sentinel.on(String(iframeSelectors), (iframe) => {
+winkblue.on(String(iframeSelectors), (iframe) => {
   iframe.remove();
 });
 

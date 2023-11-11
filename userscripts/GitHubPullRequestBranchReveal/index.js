@@ -1,8 +1,8 @@
 import { $$, $style } from '../helpers/common';
 
-/* global sentinel ClipboardJS */
+/* global winkblue ClipboardJS */
 
-sentinel.on('a[data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request"]', async() => {
+winkblue.on('a[data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request"]', async() => {
   const issueListItemEls = Array.from($$('div[id^="issue_"]'));
   if ($$('.🐙🐱-pull-request-branches').length > 0) { return; }
 

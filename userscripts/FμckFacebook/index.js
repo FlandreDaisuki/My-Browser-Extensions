@@ -2,7 +2,7 @@ import { $$, $getResourceText, $style } from '../helpers/common';
 
 /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
 /* cSpell:ignore posinset */
-/* global sentinel */
+/* global winkblue */
 
 /*
 推薦與以下樣式一起使用，效果更佳
@@ -16,8 +16,8 @@ $style(faceBullshitStylesheetText
   .replace(/--chatroom-height: custom-chatroom-height;/g, '--chatroom-height: 92vh;'));
 
 /* fix: Facebook 壞壞 */
-sentinel.on('html._8ykn', (htmlEl) => {
-  // FaceBook add following rule to disable sentinel
+winkblue.on('html._8ykn', (htmlEl) => {
+  // FaceBook add following rule to disable winkblue
 
   // ._8ykn :not(.always-enable-animations){
   //   animation-duration:0 !important;
@@ -112,7 +112,7 @@ const sponsorWords = {
 
 const FEED_ROOT_SELECTOR = '[role="feed"] > div, [role="article"], [aria-posinset]';
 
-sentinel.on('svg use', (svgUseEl) => {
+winkblue.on('svg use', (svgUseEl) => {
   const sponsorSvgTextEls = $$('svg text').filter((textEl) => sponsorWords.includes(textEl.textContent));
 
   for (const sponsorSvgTextEl of sponsorSvgTextEls) {
@@ -127,7 +127,7 @@ sentinel.on('svg use', (svgUseEl) => {
   }
 });
 
-sentinel.on('span[id^="jsc_c"]', (sponsorEl) => {
+winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
   const sponsorElText = sponsorEl.textContent;
   const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
   if (!hasSponsorWord) { return; }

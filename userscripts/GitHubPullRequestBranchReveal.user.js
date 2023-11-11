@@ -2,9 +2,9 @@
 // @name        GitHub Pull Request Branch Reveal
 // @description Reveal branch in GitHub pull request page
 // @namespace   https://l.flandre.tw/github
-// @version     1.0.3
+// @version     1.0.4
 // @match       https://github.com/*
-// @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
 // @require     https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js
 // @icon        https://github.githubassets.com/favicons/favicon.svg
 // @grant       none
@@ -33,9 +33,9 @@
 
   const $style = (stylesheet) => $el('style', stylesheet, (el) => document.head.appendChild(el));
 
-  /* global sentinel ClipboardJS */
+  /* global winkblue ClipboardJS */
 
-  sentinel.on('a[data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request"]', async() => {
+  winkblue.on('a[data-ga-click="Repository, go to compare view, location:pull request list; text:New pull request"]', async() => {
     const issueListItemEls = Array.from($$('div[id^="issue_"]'));
     if ($$('.🐙🐱-pull-request-branches').length > 0) { return; }
 

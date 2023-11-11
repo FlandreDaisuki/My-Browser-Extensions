@@ -2,9 +2,9 @@
 // @name        Fμck Facebook
 // @description Remove all Facebook shit
 // @namespace   https://flandre.in/github
-// @version     1.6.2
+// @version     1.6.3
 // @match       https://*.facebook.com/*
-// @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
 // @resource    faceBullshit https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 // @grant       GM_getValue
 // @grant       GM.getValue
@@ -21,14 +21,11 @@
   'use strict';
 
   const noop = () => {};
-
-  /** @type {(selectors: string) => HTMLElement[]} */
   const $$ = (selectors) => Array.from(document.querySelectorAll(selectors));
 
-  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
   const $el = (tag, attr = {}, cb = noop) => {
     const el = document.createElement(tag);
-    if (typeof (attr) === 'string') {
+    if (typeof(attr) === 'string') {
       el.textContent = attr;
     }
     else {
@@ -42,7 +39,7 @@
 
   /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
   /* cSpell:ignore posinset */
-  /* global sentinel */
+  /* global winkblue */
 
   /*
   推薦與以下樣式一起使用，效果更佳
@@ -52,7 +49,7 @@
   const faceBullshitStylesheetText = `/* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        3.2.0
+@version        3.2.3
 @description    Beautify Facebook 2022 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -115,6 +112,17 @@
     transform: translateX(-50%);
   }
 
+  /*
+  粉專的上引導欄
+  .x6q1hpd { left: 160px; }
+  */
+  [role="banner"] > .x6q1hpd {
+    left: 240px;
+  }
+  input[role="combobox"] {
+    padding-left: 32px;
+  }
+
   footer {
     display: none;
   }
@@ -127,7 +135,7 @@
     html > body {
       --global-panel-width-expanded: 0px;
     }
-    [role="main"] {
+    h1 + [role="main"] {
       padding: 0;
       justify-content: flex-start;
       margin-left: 80px;
@@ -139,6 +147,12 @@
     }
     [role="banner"] + [data-isanimatedlayout="true"].x2lf9qy.x2lf9qy {
       border-right: 1px solid var(--wash);
+    }
+    [data-isanimatedlayout="true"].xv0u79y.xv0u79y {
+      left: var(--global-panel-width);
+    }
+    [data-isanimatedlayout="true"] .xylbxtu.xylbxtu {
+      max-width: initial;
     }
 
     /* 舊版 */
@@ -209,8 +223,8 @@
     .replace(/--chatroom-height: custom-chatroom-height;/g, '--chatroom-height: 92vh;'));
 
   /* fix: Facebook 壞壞 */
-  sentinel.on('html._8ykn', (htmlEl) => {
-    // FaceBook add following rule to disable sentinel
+  winkblue.on('html._8ykn', (htmlEl) => {
+    // FaceBook add following rule to disable winkblue
 
     // ._8ykn :not(.always-enable-animations){
     //   animation-duration:0 !important;
@@ -305,7 +319,7 @@
 
   const FEED_ROOT_SELECTOR = '[role="feed"] > div, [role="article"], [aria-posinset]';
 
-  sentinel.on('svg use', (svgUseEl) => {
+  winkblue.on('svg use', (svgUseEl) => {
     const sponsorSvgTextEls = $$('svg text').filter((textEl) => sponsorWords.includes(textEl.textContent));
 
     for (const sponsorSvgTextEl of sponsorSvgTextEls) {
@@ -320,7 +334,7 @@
     }
   });
 
-  sentinel.on('span[id^="jsc_c"]', (sponsorEl) => {
+  winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
     const sponsorElText = sponsorEl.textContent;
     const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
     if (!hasSponsorWord) { return; }

@@ -2,9 +2,9 @@
 // @name        乾淨ㄉ原價屋
 // @description 讓我好好的選零件…
 // @namespace   https://flandre.in/github
-// @version     2022.11.13
+// @version     2023.11.11
 // @match       https://coolpc.com.tw/evaluate.php
-// @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
 // @grant       none
 // @noframes
 // @author      FlandreDaisuki
@@ -16,14 +16,11 @@
   'use strict';
 
   const noop = () => {};
-
-  /** @type {(selectors: string) => HTMLElement | null} */
   const $ = (selectors) => document.querySelector(selectors);
 
-  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
   const $el = (tag, attr = {}, cb = noop) => {
     const el = document.createElement(tag);
-    if (typeof (attr) === 'string') {
+    if (typeof(attr) === 'string') {
       el.textContent = attr;
     }
     else {
@@ -38,26 +35,26 @@
   // 推薦搭配 AdGuard Annoyances 過濾清單
 
   /* cSpell:ignore vwpro mesg Ttitle Fitem */
-  /* global sentinel */
+  /* global winkblue */
 
   // 取消鎖右鍵
   document.body.removeAttribute('oncontextmenu');
   document.body.removeAttribute('onselectstart');
 
   // 總金額預覽移到上面
-  sentinel.on('#fDiv', (floatingBar) => {
-    sentinel.off('#fDiv');
+  winkblue.on('#fDiv', (floatingBar) => {
+    winkblue.off('#fDiv');
     floatingBar.remove();
     $('#know').insertAdjacentElement('afterend', floatingBar);
   });
 
   // 保留輸出圖片功能
-  sentinel.on('#vwpro', () => {
+  winkblue.on('#vwpro', () => {
     $('#doc').classList.add('zTop');
   });
 
-  sentinel.on('button[onclick="Gauze(2)"]', (imageExportCancelBtnEl) => {
-    sentinel.off('button[onclick="Gauze(2)"]');
+  winkblue.on('button[onclick="Gauze(2)"]', (imageExportCancelBtnEl) => {
+    winkblue.off('button[onclick="Gauze(2)"]');
     imageExportCancelBtnEl.addEventListener('click', () => {
       $('#doc').classList.remove('zTop');
     });
@@ -69,7 +66,7 @@
     'iframe[src$="eval-mesg.php"]',
   ];
 
-  sentinel.on(String(iframeSelectors), (iframe) => {
+  winkblue.on(String(iframeSelectors), (iframe) => {
     iframe.remove();
   });
 

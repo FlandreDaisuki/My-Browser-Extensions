@@ -2,9 +2,9 @@
 // @name        Fμck Facebook
 // @description Remove all Facebook shit
 // @namespace   https://flandre.in/github
-// @version     1.6.2
+// @version     1.6.3
 // @match       https://*.facebook.com/*
-// @require     https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
 // @resource    faceBullshit https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 // @grant       GM_getValue
 // @grant       GM.getValue
@@ -21,14 +21,11 @@
   'use strict';
 
   const noop = () => {};
-
-  /** @type {(selectors: string) => HTMLElement[]} */
   const $$ = (selectors) => Array.from(document.querySelectorAll(selectors));
 
-  /** @type {(tag: string, attr: Record<string, unknown>, cb: (el: HTMLElement) => void) => HTMLElement} */
   const $el = (tag, attr = {}, cb = noop) => {
     const el = document.createElement(tag);
-    if (typeof (attr) === 'string') {
+    if (typeof(attr) === 'string') {
       el.textContent = attr;
     }
     else {
@@ -51,7 +48,7 @@
 
   /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
   /* cSpell:ignore posinset */
-  /* global sentinel */
+  /* global winkblue */
 
   /*
   推薦與以下樣式一起使用，效果更佳
@@ -65,8 +62,8 @@
     .replace(/--chatroom-height: custom-chatroom-height;/g, '--chatroom-height: 92vh;'));
 
   /* fix: Facebook 壞壞 */
-  sentinel.on('html._8ykn', (htmlEl) => {
-    // FaceBook add following rule to disable sentinel
+  winkblue.on('html._8ykn', (htmlEl) => {
+    // FaceBook add following rule to disable winkblue
 
     // ._8ykn :not(.always-enable-animations){
     //   animation-duration:0 !important;
@@ -161,7 +158,7 @@
 
   const FEED_ROOT_SELECTOR = '[role="feed"] > div, [role="article"], [aria-posinset]';
 
-  sentinel.on('svg use', (svgUseEl) => {
+  winkblue.on('svg use', (svgUseEl) => {
     const sponsorSvgTextEls = $$('svg text').filter((textEl) => sponsorWords.includes(textEl.textContent));
 
     for (const sponsorSvgTextEl of sponsorSvgTextEls) {
@@ -176,7 +173,7 @@
     }
   });
 
-  sentinel.on('span[id^="jsc_c"]', (sponsorEl) => {
+  winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
     const sponsorElText = sponsorEl.textContent;
     const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
     if (!hasSponsorWord) { return; }

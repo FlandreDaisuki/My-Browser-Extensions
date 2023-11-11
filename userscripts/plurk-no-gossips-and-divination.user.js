@@ -4,17 +4,17 @@
 // @description    隱藏各式各樣問神、心理測驗、奇怪的跟風
 // @description:en Hide and mute any gossip and divination
 // @namespace    https://github.com/FlandreDaisuki
-// @version      0.1.5
+// @version      0.1.6
 // @author       FlandreDaisuki
 // @match        https://www.plurk.com/*
-// @require      https://unpkg.com/sentinel-js@0.0.5/dist/sentinel.js
+// @require      https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
 // @grant        none
 // @license      MIT
 // @noframes
 // ==/UserScript==
 
 /* cSpell:ignore shindanmaker */
-/* global sentinel, GLOBAL */
+/* global winkblue, GLOBAL */
 
 const hideEl = (el) => {
   el.hidden = true;
@@ -29,7 +29,7 @@ const mute = (plurk) => {
   }
 };
 
-sentinel.on('#timeline_cnt > .block_cnt > .plurk', (plurk) => {
+winkblue.on('#timeline_cnt > .block_cnt > .plurk', (plurk) => {
   const content = plurk.querySelector('.td_cnt').textContent.trim();
   const qualifierEls = [...plurk.querySelectorAll('.qualifier')];
 
