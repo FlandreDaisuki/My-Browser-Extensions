@@ -57,6 +57,7 @@ function appendToTag(title, linkItems, color = ['#0F9', '#F09']) {
 
 const magnetLinks = [];
 const pixivLinks = [];
+const fanboxLinks = [];
 
 for (const com of $$('.c6')) {
   const walker = document.createTreeWalker(com, NodeFilter.SHOW_TEXT);
@@ -68,14 +69,51 @@ for (const com of $$('.c6')) {
       magnetLinks.push(magnetLink);
     }
 
-    const pixivLink = textNode.textContent.match(/https:\/\/www\.pixiv\.net\/\S+/g);
+    const pixivLink = textNode.textContent.match(
+      /https:\/\/www\.pixiv\.net\/\S+/g
+    );
 
     if (pixivLink) {
       pixivLinks.push(pixivLink);
     }
 
+    /**
+     * To match fanbox URLS like
+     * https://lambda.fanbox.cc/
+     * https://lambda.fanbox.cc/posts/123
+     * https://fanbox.cc/@lambda
+     * https://fanbox.cc/@lambda/posts/123
+     */
+    const fanboxLink = textNode.textContent.match(
+      /(https?:\/\/(?:www\.)?[\w-]+\.fanbox\.cc|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+|https?:\/\/[\w-]+\.fanbox\.cc\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+\/posts\/\d+)/g
+    );
+
+    if (fanboxLink) {
+      fanboxLinks.push(fanboxLink);
+    }
+
     textNode = walker.nextNode();
   }
+}
+
+if (fanboxLinks.length) {
+  const linkItems = fanboxLinks.map((link) => {
+    let name;
+    if (link.includes('fanbox.cc/posts/')) {
+      // match https://lambda.fanbox.cc/posts/123
+      // match https://fanbox.cc/@lambda/posts/123
+      name = link.match(/posts\/(\d+)/)[1];
+    } else if (link.includes('fanbox.cc/@')) {
+      // match https://fanbox.cc/@lambda
+      name = link.match(/@(\S+)/)[1];
+    } else {
+      // match https://lambda.fanbox.cc/
+      name = new URL(link).hostname.match(/([\w-]+)\.fanbox\.cc/)[1];
+    }
+    return { name, link };
+  });
+
+  appendToTag('fanbox:', linkItems, ['#258fb8', '#258fb8']);
 }
 
 if (pixivLinks.length > 0) {
