@@ -85,7 +85,7 @@ for (const com of $$('.c6')) {
      * https://fanbox.cc/@lambda/posts/123
      */
     const fanboxLink = textNode.textContent.match(
-      /(https?:\/\/(?:www\.)?[\w-]+\.fanbox\.cc|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+|https?:\/\/[\w-]+\.fanbox\.cc\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+\/posts\/\d+)/g
+      /(https?:\/\/[\w-]+\.fanbox\.cc\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+|https?:\/\/(?:www\.)?[\w-]+\.fanbox\.cc)/g
     );
 
     if (fanboxLink) {
