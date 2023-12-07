@@ -4,7 +4,7 @@
 // @namespace   FlandreDaisuki
 // @author      FlandreDaisuki
 // @include     /^https?:\/\/(g\.)?e[x-]hentai.org\/g\//
-// @version     2021.04.17
+// @version     2023.12.07
 // @grant       none
 // ==/UserScript==
 
@@ -83,6 +83,8 @@ for (const com of $$('.c6')) {
      * https://lambda.fanbox.cc/posts/123
      * https://fanbox.cc/@lambda
      * https://fanbox.cc/@lambda/posts/123
+     * https://www.fanbox.cc/@lambda
+     * https://www.fanbox.cc/@lambda/posts/123
      */
     const fanboxLink = textNode.textContent.match(
       /(https?:\/\/[\w-]+\.fanbox\.cc\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+\/posts\/\d+|https?:\/\/(?:www\.)?fanbox\.cc\/@[\w-]+|https?:\/\/(?:www\.)?[\w-]+\.fanbox\.cc)/g
@@ -97,21 +99,33 @@ for (const com of $$('.c6')) {
 }
 
 if (fanboxLinks.length) {
-  const linkItems = fanboxLinks.map((link) => {
-    let name;
-    if (link.includes('fanbox.cc/posts/')) {
-      // match https://lambda.fanbox.cc/posts/123
-      // match https://fanbox.cc/@lambda/posts/123
-      name = link.match(/posts\/(\d+)/)[1];
-    } else if (link.includes('fanbox.cc/@')) {
-      // match https://fanbox.cc/@lambda
-      name = link.match(/@(\S+)/)[1];
-    } else {
-      // match https://lambda.fanbox.cc/
-      name = new URL(link).hostname.match(/([\w-]+)\.fanbox\.cc/)[1];
+  const parseUrl = (url) => {
+    /**
+     * capture groups 1 and 3 are `([-\w_]+)` to capture username in
+     *    `https://lambda.fanbox.cc`
+     *    `https://lambda.fanbox.cc/posts/123`
+     *    `https://fanbox.cc/@lambda`
+     *    `https://fanbox.cc/@lambda/posts/123`
+     * capture groups 2 and 4 are `(\d+)` to capture post number in
+     *    `https://lambda.fanbox.cc/posts/123`
+     *    `https://fanbox.cc/@lambda/posts/123`
+     */
+    const match = url.match(
+      /https?:\/\/(?:www\.)?(?:([-\w_]+)\.fanbox\.cc(?:\/posts\/(\d+))?|fanbox\.cc\/@([-\w_]+)(?:\/posts\/(\d+))?)/
+    );
+
+    if (match) {
+      const username = match[1] || match[3];
+      const postNumber = match[2] || match[4];
+      return postNumber ? `${username}:${postNumber}` : `${username}`;
     }
-    return { name, link };
-  });
+
+    return null;
+  };
+  const linkItems = fanboxLinks.map(link => ({
+    name: parseUrl(link[0]),
+    link,
+  }));
 
   appendToTag('fanbox:', linkItems, ['#258fb8', '#258fb8']);
 }
