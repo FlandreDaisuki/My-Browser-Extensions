@@ -18,7 +18,7 @@
   "require": [
     "https://unpkg.com/vue@2.6.9/dist/vue.min.js"
   ],
-  "version": "2.2.1",
+  "version": "2.2.2",
   "grant": [
     "GM_getValue",
     "GM.getValue",

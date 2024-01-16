@@ -272,6 +272,7 @@ new Vue({
 $style(`
 /* nav bar */
 #nb {
+  width: initial;
   max-width: initial;
   justify-content: center;
 }
