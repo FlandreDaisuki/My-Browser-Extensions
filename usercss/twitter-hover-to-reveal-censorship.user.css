@@ -1,0 +1,17 @@
+/* ==UserStyle==
+@name           twitter-hover-to-reveal-censorship
+@namespace      https://github.com/FlandreDaisuki
+@version        1.0.0
+@author         FlandreDaisuki
+==/UserStyle== */
+
+@-moz-document domain("twitter.com") {
+  *:has(> .r-yfv4eo + *):hover {
+    & > .r-yfv4eo {
+      filter: none;
+    }
+    & > :not(.r-yfv4eo) {
+      display: none;
+    }
+  }
+}
