@@ -2,6 +2,7 @@
   "name": "my-browser-extensions",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +23,6 @@
     "@rollup/plugin-replace": "^5.0.3",
     "eslint": "^8.51.0",
     "rollup": "^3.29.4",
-    "rollup-plugin-userscript-metablock": "^0.3.3"
+    "rollup-plugin-userscript-metablock": "^0.4.1"
   }
 }

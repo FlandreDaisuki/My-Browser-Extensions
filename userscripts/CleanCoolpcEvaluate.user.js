@@ -12,6 +12,7 @@
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/CleanCoolpcEvaluate/README.md
 // @license     MIT
 // ==/UserScript==
+
 (function () {
   'use strict';
 

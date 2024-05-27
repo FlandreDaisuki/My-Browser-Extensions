@@ -21,6 +21,7 @@
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/UnlockHathPerks/README.md
 // @license     MPLv2
 // ==/UserScript==
+
 (function () {
   'use strict';
 

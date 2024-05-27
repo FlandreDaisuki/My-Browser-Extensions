@@ -13,6 +13,7 @@
 // @supportURL  https://github.com/FlandreDaisuki/My-Browser-Extensions/issues
 // @homepageURL https://github.com/FlandreDaisuki/My-Browser-Extensions/blob/master/userscripts/JWTInspector/README.md
 // ==/UserScript==
+
 (function () {
   'use strict';
 

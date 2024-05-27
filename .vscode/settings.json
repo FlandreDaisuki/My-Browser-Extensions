@@ -10,7 +10,7 @@
   },
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "cSpell.words": [
     "Coolpc",
@@ -24,4 +24,5 @@
   "cSpell.ignoreWords": [
     "listitem"
   ],
+  "eslint.experimental.useFlatConfig": false
 }

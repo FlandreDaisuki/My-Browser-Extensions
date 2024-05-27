@@ -13,6 +13,7 @@
 // @grant       GM_setValue
 // @grant       GM.setValue
 // ==/UserScript==
+
 (function () {
   'use strict';
 

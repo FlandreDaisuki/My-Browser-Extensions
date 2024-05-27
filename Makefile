@@ -1,23 +1,23 @@
 ExAdvancedSearchMemo:
-	cd userscripts/ExAdvancedSearchMemo; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/ExAdvancedSearchMemo.user.js
+	cd userscripts/ExAdvancedSearchMemo; npx rollup -c
+	firefox-beta userscripts/ExAdvancedSearchMemo.user.js
 
 FμckFacebook:
-	cd userscripts/FμckFacebook; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/FμckFacebook.user.js
+	cd userscripts/FμckFacebook; npx rollup -c
+	firefox-beta userscripts/FμckFacebook.user.js
 
 UnlockHathPerks:
-	cd userscripts/UnlockHathPerks; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/UnlockHathPerks.user.js
+	cd userscripts/UnlockHathPerks; npx rollup -c
+	firefox-beta userscripts/UnlockHathPerks.user.js
 
 CleanCoolpcEvaluate:
-	cd userscripts/CleanCoolpcEvaluate; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/CleanCoolpcEvaluate.user.js
+	cd userscripts/CleanCoolpcEvaluate; npx rollup -c
+	firefox-beta userscripts/CleanCoolpcEvaluate.user.js
 
 JWTInspector:
-	cd userscripts/JWTInspector; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/JWTInspector.user.js
+	cd userscripts/JWTInspector; npx rollup -c
+	firefox-beta userscripts/JWTInspector.user.js
 
 GitHubPullRequestBranchReveal:
-	cd userscripts/GitHubPullRequestBranchReveal; npx rollup -c --bundleConfigAsCjs
-	firefox userscripts/GitHubPullRequestBranchReveal.user.js
+	cd userscripts/GitHubPullRequestBranchReveal; npx rollup -c
+	firefox-beta userscripts/GitHubPullRequestBranchReveal.user.js
