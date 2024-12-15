@@ -274,6 +274,7 @@ $style(`
 #nb {
   width: initial;
   max-width: initial;
+  max-height: initial;
   justify-content: center;
 }
 
@@ -308,13 +309,6 @@ input[name="favcat"] + div {
   align-items: center;
   justify-content: center;
   height: 100%;
-}
-
-/* /g/{gid}/{token} */
-div#gdt {
-  clear: initial;
-  display: flex;
-  flex-flow: wrap;
 }`);
 
 $style(`
