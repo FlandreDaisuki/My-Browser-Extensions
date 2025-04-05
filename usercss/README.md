@@ -36,9 +36,7 @@
 <details open>
   <summary>截圖預覽</summary>
 
-|![preview](FaceBullshit-v3.0.1_0.png)|
-|-|
-|![preview](FaceBullshit-v3.0.1_1.png)|
+![preview](FaceBullshit-v4.0.0.webp)
 
 </details>
 
