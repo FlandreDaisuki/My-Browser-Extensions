@@ -2,7 +2,8 @@ import { $$, $getResourceText, $style } from '../helpers/common';
 
 /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
 /* cSpell:ignore posinset */
-/* global winkblue */
+/* global Winkblue */
+const { winkblue } = Winkblue;
 
 /*
 推薦與以下樣式一起使用，效果更佳
@@ -127,7 +128,7 @@ winkblue.on('svg use', (svgUseEl) => {
   }
 });
 
-winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
+winkblue.on('span[id^="jsc_c"], [aria-posinset] [attributionsrc] span[aria-labelledby] > span', (sponsorEl) => {
   const sponsorElText = sponsorEl.textContent;
   const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
   if (!hasSponsorWord) { return; }

@@ -2,9 +2,9 @@
 // @name        Fμck Facebook
 // @description Remove all Facebook shit
 // @namespace   https://flandre.in/github
-// @version     1.6.3
+// @version     1.7.0
 // @match       https://*.facebook.com/*
-// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
+// @require     https://unpkg.com/winkblue@0.1.1/dist/winkblue.umd.js
 // @resource    faceBullshit https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 // @grant       GM_getValue
 // @grant       GM.getValue
@@ -49,7 +49,8 @@
 
   /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
   /* cSpell:ignore posinset */
-  /* global winkblue */
+  /* global Winkblue */
+  const { winkblue } = Winkblue;
 
   /*
   推薦與以下樣式一起使用，效果更佳
@@ -174,7 +175,7 @@
     }
   });
 
-  winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
+  winkblue.on('span[id^="jsc_c"], [aria-posinset] [attributionsrc] span[aria-labelledby] > span', (sponsorEl) => {
     const sponsorElText = sponsorEl.textContent;
     const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
     if (!hasSponsorWord) { return; }

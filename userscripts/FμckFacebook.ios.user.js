@@ -2,9 +2,9 @@
 // @name        Fμck Facebook
 // @description Remove all Facebook shit
 // @namespace   https://flandre.in/github
-// @version     1.6.3
+// @version     1.7.0
 // @match       https://*.facebook.com/*
-// @require     https://unpkg.com/winkblue@0.0.3/dist/winkblue.js
+// @require     https://unpkg.com/winkblue@0.1.1/dist/winkblue.umd.js
 // @resource    faceBullshit https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
 // @grant       GM_getValue
 // @grant       GM.getValue
@@ -40,7 +40,8 @@
 
   /* cSpell:ignoreRegExp \.[\w\d]{8}\b */
   /* cSpell:ignore posinset */
-  /* global winkblue */
+  /* global Winkblue */
+  const { winkblue } = Winkblue;
 
   /*
   推薦與以下樣式一起使用，效果更佳
@@ -50,8 +51,8 @@
   const faceBullshitStylesheetText = `/* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        3.2.3
-@description    Beautify Facebook 2022 layout
+@version        4.0.0
+@description    Beautify Facebook 2025 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
 @updateURL      https://raw.githubusercontent.com/FlandreDaisuki/My-Browser-Extensions/master/usercss/FaceBullshit.user.css
@@ -59,162 +60,82 @@
 @preprocessor stylus
 @var text custom-chatroom-height '小聊天室高度' 92vh
 @var checkbox no-ig '不要 instagram' 1
-@var checkbox no-left-col '不要左引導欄' 1
-@var checkbox no-right-col '不要右聊天欄' 1
-@var checkbox no-video-chat '不要視訊圈' 1
 @var checkbox no-friends-recommandation '不要推薦朋友' 1
+@var checkbox hide-non-followed-posts '隱藏未追蹤貼文' 1
 ==/UserStyle== */
 @-moz-document domain("www.facebook.com"), domain("m.facebook.com") {
-
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-
-  /* 本樣式 logo */
-  [aria-label="Facebook"][role="link"] {
-    margin: 0;
-  }
-  [aria-label="Facebook"][role="link"]::before {
-    content: 'facebullshit';
-    display: block;
-    font-size: 2rem;
-    color: var(--fb-wordmark);
-    font-family: 'Fredoka One', cursive;
-  }
-  [aria-label="Facebook"][role="link"] > svg {
-    display: none;
-  }
-  [role="navigation"] > span svg ~ div:last-child,
-  [role="navigation"] > span svg > mask > circle[r="8"] {
-    display: none;
-  }
-
-  /* m.facebook.com */
-  #viewport #root {
-    margin-left: 0;
-  }
-
-  /* 自訂聊天室高度 */
-  /*
-  .x164qtfw { right: 80px; }
-  .xixxii4 { position: fixed; }
-  .x1rgmuzj { height: 455px; }
-  */
-  .x164qtfw.xixxii4 .x1rgmuzj {
-    --chatroom-height: custom-chatroom-height;
-    height: var(--chatroom-height, 455px);
-  }
-
-  /* 舊版上引導欄 */
-  [role="banner"] [role="navigation"] > ul {
-    display: none;
-  }
-  [role="banner"] > .xmy5rp.xmy5rp {
-    width: 680px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  /*
-  粉專的上引導欄
-  .x6q1hpd { left: 160px; }
-  */
-  [role="banner"] > .x6q1hpd {
-    left: 240px;
-  }
-  input[role="combobox"] {
-    padding-left: 32px;
-  }
-
-  footer {
-    display: none;
-  }
-
-  /* 不要左引導欄 */
-  if (no-left-col) {
-    .x1mdubkq.x1mdubkq {
-      display: none;
-    }
-    html > body {
-      --global-panel-width-expanded: 0px;
-    }
-    h1 + [role="main"] {
-      padding: 0;
-      justify-content: flex-start;
-      margin-left: 80px;
-    }
-
-    /* 新版 */
-    [role="banner"] + [data-isanimatedlayout="true"].xn2luse.xn2luse {
-      width: var(--global-panel-width);
-    }
-    [role="banner"] + [data-isanimatedlayout="true"].x2lf9qy.x2lf9qy {
-      border-right: 1px solid var(--wash);
-    }
-    [data-isanimatedlayout="true"].xv0u79y.xv0u79y {
-      left: var(--global-panel-width);
-    }
-    [data-isanimatedlayout="true"] .xylbxtu.xylbxtu {
-      max-width: initial;
-    }
-
-    /* 舊版 */
-    [role="navigation"].xxc7z9f {
-      min-width: initial;
-      flex-basis: 60px;
-      border-right: 1px solid var(--wash, #3E4042);
-    }
-    [role="separator"] {
-      margin-left: 8px;
-      margin-right: 8px;
-    }
-    /* 顯示更多 */
-    [role="navigation"] h2 + div ul > li > [style],
-    [role="navigation"] h2 + div ul + [style] {
-      padding: 0 4px !important;
-    }
-    /* 左側圖片 box */
-    [role="navigation"] h2 + div ul .xv3fwf9 {
-      transform: scale(0.8);
-      margin: 0 9999px 0 0;
-    }
-    /* 你的捷徑 */
-    [role="navigation"] h2 + div .xwib8y2 {
-      height: 0;
-      opacity: 0;
+  a[aria-label="Facebook"] {
+    & > svg {
       visibility: hidden;
     }
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: var(--icon-poop);
   }
 
-  /* 不要右聊天欄 */
-  if (no-right-col) {
-    [role="complementary"] {
-      display: none;
+  /* 桌面版 layout */
+  @media screen and (min-width: 1280px) {
+    div:has( > [role="navigation"] ~ [role="main"] ~ [role="complementary"]) {
+      max-width: 100%;
+    }
+
+    /* 動態靠左 */
+    [role="main"] {
+      justify-content: flex-start;
     }
   }
 
-  /* 不要 instagram */
+  /* 右側欄 Sponsored */
+  [role="complementary"] div:has( + [data-thumb] + [data-thumb]) div:first-child:not([class]):has( + [data-visualcompletion="ignore-dynamic"]) {
+    display: none;
+  }
+
+  /* 小聊天室 root */
+  [class^="x"]:has( ~ form[action*="logout"]) > [class^="x"] > [class^="x"] {
+    right: 10rem;
+  }
+
+  /* 小聊天室 */
+  [style*="--chat-composer"] > [tabindex] > [role="none"] > div {
+    height: custom-chatroom-height;
+  }
+
   if (no-ig) {
-    div:not([style]) > [role="region"]:first-child {
+    [data-virtualized="false"]:has([data-visualcompletion="ignore-dynamic"][role="region"]) {
       display: none;
     }
 
     /* m.facebook.com */
-    #viewport #MStoriesTray {
+    [data-type="vscroller"] > [class*="otf"] + [data-type="container"] {
       display: none;
     }
   }
 
-  /* 不要視訊圈 */
-  if (no-video-chat) {
-    div[data-visualcompletion="ignore-dynamic"][class=""] {
+  if (no-friends-recommandation) {
+    div:has( > [style^="border"] + div:empty) {
+      display: none;
+    }
+
+    /* m.facebook.com */
+    [data-type="vscroller"] > [data-type="container"]:has([data-type="text"] + [data-type="container"] + [data-type="container"]) {
       display: none;
     }
   }
 
-  /* 不要推薦朋友 */
-  if(no-friends-recommandation) {
-    .x1lliihq [data-0="0"] + div[class] {
+  if (hide-non-followed-posts) {
+    /* 未追蹤貼文 */
+    [aria-posinset]:has(h4 > span:not([class]) > span:not([class]) [role="button"]) {
+      display:none;
+    }
+
+    /* 未加入社團 */
+    [aria-posinset]:has(h4 [role="button"] [role="none"]) {
       display: none;
     }
+  }
+
+  :root {
+    --icon-poop: url("data:image/webp;base64,UklGRloEAABXRUJQVlA4WAoAAAAQAAAANwAANwAAQUxQSGsBAAABkJttW1tnX0VHywjfDAzADBqABZhClxZQe1agdVRNqe7Pwdnmuv4cnO3XkSM+FoiICaDK/cfeUJMrYItbcEcANrQ47Y/w3Atjv4WXN5Qk3R/h9TdGkOpRKsqhOCpBvsyTYPuzJGoxxvkhF1wHMV3Cmt+mwWkBKmDR5E01j6WT13X4zWLAiqsE1ExcY6yCqFuBrxAqRbUc79XJvBD7IX6r888uwsM+qi/j3kDgHi9g9yFxUuuZBJGe1g+QmTq1jk5CgEGVKc5iEMrIXcrJrkhJQtQlZCVlV8RZEIYiFSVFVULdpaCkizi3YVyE4KheMX26hORAL9sNyM78kv0I2deBXtQbEH4+OvPMQ/5l8opoowEAK03HbaAnNHpsW8GqmTfNIDcTm+n+NZJ1bCSSnZv45og4nss7D0REuot7wvaCekakuBunvW/nMr7NA1OxZtuFMU7zvPft/Lzg/Pz827e9vXmep2ma4hicoecAVlA4IMgCAABQDwCdASo4ADgAPpFAm0qlo6IhpBgMALASCWQAxvHA2n4l5peNtN/1IM3hU2muwLF6T8J2BmBUiTUXpXDKGN3+r8G9JfT/ytfBZd4FMms6+TFzA4oK2/EIWA4jheiAqC1omiHNfgKn/85PS8/baEjVppCbnwTEWfaYInPlE83HzJFDAAD+/Faf/v/+A//zwBIvxM0MU0t7q6GFP0eORmpGxGqNpv74j439K9LFq3m5ZZEOjzYGABI1i/A6SovHgsuMPzT5Ff6SmRfmw35CI2Way2JOwFm+tWAbj0AO2zX/l1cOGb5LiovGZlrwGrKVznME8b7gwt0ev+fvyZffVCPD+f4ameVtxHjaGIhnH9+zpoqRo0NU9lj9Xr11G4DGomSzLD9vfUdeDKBWUEh3VKwG6d9NtyzubEidtISvhTDtRb5LXykzEDyLyo4/2sia8NMUAMZbpR99P3aAxjsymaAqZ5WNwWdAXq3GXElXGafvjiMA3yDDn31Vk9VEynBxvcZoNZ5AY3R0umSwzuuYC4Izk2Gp61l6qP+wVwB03wrdhIdnIoYQlL5sA3aChcIgoSReDRxW4XJS1nwtt848sDu0Y+RUPI4QvrvCuP60gIPtv4U8P4wSTNfdERPwybHfjR9rLrsOCMyqFFAeHkSzV5/Q6/EQm7YVYJ6BMCzQbakjyRosNGt8E2BrHmD5KFnhenTq3LnVG5z3PYM2WIIXgOlPj9TGNmlFwPNyuqMjg0Nq4bOGjg9w3ee+euyZaTJqAHFX0HLWBfAS/5sFF4FjLrN86+XdF1i8X8XZ1+1yg6vFB1OcqneUiH+Fi6x7YrbzhotZ/MGWa2lWzkNeQ9EDX3FTxsRi9FvXgHIooXwRw6vaL/1CF11ULvJXlMDCKIYNsTMF9wQiPEcstrqYnXQZUjxsc/26Ymz/IxBIHqWXEKikYBZ8jh8UqAAA");
   }
 }
 `;
@@ -335,7 +256,7 @@
     }
   });
 
-  winkblue.on('span[id^="jsc_c"]', (sponsorEl) => {
+  winkblue.on('span[id^="jsc_c"], [aria-posinset] [attributionsrc] span[aria-labelledby] > span', (sponsorEl) => {
     const sponsorElText = sponsorEl.textContent;
     const hasSponsorWord = sponsorWords.some((word) => [...word].every((ch) => sponsorElText.includes(ch)));
     if (!hasSponsorWord) { return; }
