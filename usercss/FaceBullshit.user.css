@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           FaceBullshit
 @namespace      https://github.com/FlandreDaisuki
-@version        4.0.0
+@version        4.0.1
 @description    Beautify Facebook 2025 layout
 @author         FlandreDaisuki
 @license        CC-BY-SA-4.0
@@ -62,7 +62,7 @@
   }
 
   if (no-friends-recommandation) {
-    div:has( > [style^="border"] + div:empty) {
+    div:has( > [style^="border"][style*="card-corner-radius"] + div:empty) {
       display: none;
     }
 
