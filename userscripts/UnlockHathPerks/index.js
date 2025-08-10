@@ -1,273 +1,248 @@
 
-import { $, $el, $find, $style, throttle } from '../helpers/common';
-/* cSpell:ignore navdiv navbtn exhentai adsbyjuicy searchbox favcat searchnav favform */
-/* cSpell:ignoreRegExp \b\.\w+\b */
+import { $, $$, $el, $find, $html, $style } from '../helpers/common';
+/* cSpell:ignore exhentai juicyads favcat searchnav favform */
 /* eslint-disable no-console */
-/* global Vue */
 
-// #region easy DOM
+/** @type {{abg: boolean, mt: boolean, pe: boolean, fw: boolean}} */
+const uhpConfig = (() => {
+  const _conf = Object.assign({ abg: true, mt: true, pe: true, fw: false }, GM_getValue('uhp') );
+  GM_setValue('uhp', _conf);
 
-// nav
-const nb = $('#nb');
-const navdiv = $el('div');
-const navbtn = $el('a', {
-  id: 'uhp-btn',
-  textContent: 'Unlock Hath Perks',
-});
-navbtn.addEventListener('click', () => {
-  $('#uhp-panel-container').classList.remove('hidden');
-});
-nb.appendChild(navdiv);
-navdiv.appendChild(navbtn);
-
-// panel container
-const uhpPanelContainer = $el('div', {
-  className: 'hidden',
-  id: 'uhp-panel-container',
-});
-uhpPanelContainer.addEventListener('click', () => {
-  uhpPanelContainer.classList.add('hidden');
-});
-document.body.appendChild(uhpPanelContainer);
-
-// panel
-const uhpPanel = $el('div', { id: 'uhp-panel' }, (el) => {
-  if (location.host === 'exhentai.org') {
-    el.classList.add('dark');
-  }
-  el.addEventListener('click', (ev) => ev.stopPropagation());
-});
-uhpPanelContainer.appendChild(uhpPanel);
-
-// #endregion easy DOM
-
-// #region configs and events
-
-const uhpConfig = {
-  abg: true,
-  mt: true,
-  pe: true,
-};
-
-Object.assign(uhpConfig, GM_getValue('uhp', uhpConfig));
-GM_setValue('uhp', uhpConfig);
-
-if (uhpConfig.abg) {
-  Object.defineProperty(window, 'adsbyjuicy', {
-    configurable: false,
-    enumerable: false,
-    writable: false,
-    value: Object.create(null),
+  return new Proxy(_conf, {
+    set(target, propertyKey, value){
+      const r = Reflect.set(target, propertyKey, value);
+      GM_setValue('uhp', _conf);
+      return r;
+    },
   });
+})();
+
+
+// #region Ads-Be-Gone
+if (uhpConfig.abg) {
+  $style('iframe[src*="juicyads"] { display:none !important; }');
 }
+// #endregion Ads-Be-Gone
 
-
-// More Thumbs code block
-if (location.pathname.startsWith('/g/')) {
+// #region More Thumbs
+if (uhpConfig.mt) {
   (async() => {
-    const getGalleryPageState = async(url, selectors) => {
-      const result = {
-        elements: [],
-        nextURL: null,
-      };
+    if (!location.pathname.startsWith('/g/')){ return; }
 
-      if (!url) { return result; }
+    const NEXT_PAGE_SELECTOR = '.ptt td:last-child > a';
+    const IMAGE_PARENT_SELECTOR = '#gdt';
 
-      const resp = await fetch(url, {
-        credentials: 'same-origin',
-      });
+    const imgParentEl = $(IMAGE_PARENT_SELECTOR);
+    if (!imgParentEl){ return console.error('No imgParentEl'); }
+    imgParentEl.innerHTML = '';
 
-      if (resp.ok) {
-        const html = await resp.text();
-        const docEl = (new DOMParser())
-          .parseFromString(html, 'text/html')
-          .documentElement;
-        result.elements = [...$find(docEl, selectors.parent)?.children ?? []];
+    /** @param {string} initUrl */
+    async function *newPagedImgElsGen(initUrl) {
+      let url = initUrl;
+      /** @type {HTMLElement[]} */
+      let imgEls = [];
 
-        const nextEl = $find(docEl, selectors.np);
-        result.nextURL = nextEl ? (nextEl.href || null) : null;
+      while (url) {
+        const resp = await fetch(url, { credentials: 'same-origin' });
+
+        url = '';
+        imgEls = [];
+
+        if (resp.ok) {
+          const html = await resp.text();
+          const docEl = (new DOMParser())
+            .parseFromString(html, 'text/html')
+            .documentElement;
+          imgEls = Array.from($find(docEl, IMAGE_PARENT_SELECTOR)?.children ?? []);
+
+          const nextEl = $find(docEl, NEXT_PAGE_SELECTOR);
+          url = nextEl?.href ?? '';
+        }
+
+        yield imgEls;
       }
 
-      console.log(result);
-      return result;
-    };
-
-    const selectors = {
-      np: '.ptt td:last-child > a',
-      parent: '#gdt',
-    };
-
-    const pageState = {
-      parent: $(selectors.parent),
-      locked: false,
-      nextURL: null,
-    };
-
-    const thisPage = await getGalleryPageState(location.href, selectors);
-
-    while (pageState.parent.firstChild) {
-      pageState.parent.firstChild.remove();
+      return [];
     }
 
-    thisPage.elements
-      .filter((el) => !el.classList.contains('c'))
-      .forEach((el) => pageState.parent.appendChild(el));
-    pageState.nextURL = thisPage.nextURL;
-    if (!pageState.nextURL) {
-      return;
-    }
+    const pagedImgEls = newPagedImgElsGen(location.href);
 
-    if (uhpConfig.mt) {
-      // search page found results
-
-      document.addEventListener('scroll', throttle(async() => {
-        const anchorTop = $('table.ptb').getBoundingClientRect().top;
-        const vh = window.innerHeight;
-
-        if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
-          pageState.lock = true;
-
-          const nextPage = await getGalleryPageState(pageState.nextURL, selectors);
-          nextPage.elements
-            .filter((el) => !el.classList.contains('c'))
-            .forEach((el) => pageState.parent.appendChild(el));
-          pageState.nextURL = nextPage.nextURL;
-
-          pageState.lock = false;
+    const replaceResult = async(ob) => {
+      const pagedImgElsResult = await pagedImgEls.next();
+      if (pagedImgElsResult.done) {
+        return ob.disconnect();
+      }
+      for (const imgEl of pagedImgElsResult.value) {
+        if (!imgEl.classList.contains('c')) {
+          imgParentEl.appendChild(imgEl);
         }
-      }));
-    }
+      }
+    };
+    const ob = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        replaceResult(ob);
+      }
+    });
+    await replaceResult(ob);
+    ob.observe($('table.ptb'));
   })();
 }
+// #endregion More Thumbs
 
-// Page Enlargement code block
-if ($('input[name="f_search"]') && $('.itg')) {
+// #region Page Enlargement
+if (uhpConfig.pe) {
   (async() => {
-    const getPageState = async(url, selectors) => {
-      const result = {
-        elements: [],
-        nextURL: null,
-      };
-
-      if (!url) { return result; }
-
-      const resp = await fetch(url, {
-        credentials: 'same-origin',
-      });
-
-      if (resp.ok) {
-        const html = await resp.text();
-        const docEl = (new DOMParser())
-          .parseFromString(html, 'text/html')
-          .documentElement;
-        result.elements = [...$find(docEl, selectors.parent)?.children ?? []];
-
-        const nextEl = $find(docEl, selectors.np);
-        result.nextURL = nextEl ? (nextEl.href || null) : null;
-      }
-
-      console.log(result);
-      return result;
-    };
+    if (! $('input[name="f_search"]')) { return; }
+    if (! $('.itg')) { return; }
 
     const isTableLayout = Boolean($('table.itg'));
-    const status = $el('h1', { textContent: 'Loading...', id: 'uhp-status' });
-    const selectors = {
-      np: '.ptt td:last-child > a, .searchnav a[href*="next="]',
-      parent: isTableLayout ? 'table.itg > tbody' : 'div.itg',
-    };
 
-    const pageState = {
-      parent: $(selectors.parent),
-      locked: false,
-      nextURL: null,
-    };
+    const NEXT_PAGE_SELECTOR = '.ptt td:last-child > a, .searchnav a[href*="next="]';
+    const IMAGE_PARENT_SELECTOR = isTableLayout ? 'table.itg > tbody' : 'div.itg';
 
-    const thisPage = await getPageState(location.href, selectors);
+    const imgParentEl = $(IMAGE_PARENT_SELECTOR);
+    if (!imgParentEl){ return console.error('No imgParentEl'); }
+    imgParentEl.innerHTML = '';
 
-    while (pageState.parent.firstChild) {
-      pageState.parent.firstChild.remove();
-    }
+    const statusEl = $el('h1', { textContent: 'Loading...', id: '🔓-status' });
+    $('table.ptb, .itg + .searchnav, #favform + .searchnav').replaceWith(statusEl);
 
-    thisPage.elements.forEach((el) => pageState.parent.appendChild(el));
-    pageState.nextURL = thisPage.nextURL;
-    if (!pageState.nextURL) {
-      status.textContent = 'End';
-    }
+    /** @param {string} initUrl */
+    async function *newPagedImgElsGen(initUrl) {
+      let url = initUrl;
+      /** @type {HTMLElement[]} */
+      let imgEls = [];
 
-    if (uhpConfig.pe) {
-      $('table.ptb, .itg + .searchnav, #favform + .searchnav').replaceWith(status);
+      while (url) {
+        const resp = await fetch(url, { credentials: 'same-origin' });
 
-      // search page found results
+        url = '';
+        imgEls = [];
 
-      document.addEventListener('scroll', async() => {
-        const anchorTop = status.getBoundingClientRect().top;
-        const vh = window.innerHeight;
+        if (resp.ok) {
+          const html = await resp.text();
+          const docEl = (new DOMParser())
+            .parseFromString(html, 'text/html')
+            .documentElement;
+          imgEls = Array.from($find(docEl, IMAGE_PARENT_SELECTOR)?.children ?? []);
 
-        if (anchorTop < vh * 2 && !pageState.lock && pageState.nextURL) {
-          pageState.lock = true;
-
-          const nextPage = await getPageState(pageState.nextURL, selectors);
-          nextPage.elements.forEach((el) => pageState.parent.appendChild(el));
-          pageState.nextURL = nextPage.nextURL;
-          if (!pageState.nextURL) {
-            status.textContent = 'End';
-          }
-          pageState.lock = false;
+          const nextEl = $find(docEl, NEXT_PAGE_SELECTOR);
+          url = nextEl?.href ?? '';
         }
-      });
+
+        yield imgEls;
+      }
+
+      return [];
     }
+
+    const pagedImgEls = newPagedImgElsGen(location.href);
+    const replaceResult = async(ob) => {
+      const pagedImgElsResult = await pagedImgEls.next();
+      if (pagedImgElsResult.done) {
+        statusEl.textContent = 'End';
+        return ob.disconnect();
+      }
+      for (const imgEl of pagedImgElsResult.value) {
+        imgParentEl.appendChild(imgEl);
+      }
+    };
+    const ob = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        replaceResult(ob);
+      }
+    });
+    await replaceResult(ob);
+    ob.observe(statusEl);
   })();
 }
+// #endregion Page Enlargement
 
-// #endregion configs and events
+// #region Full Width
 
+if (uhpConfig.fw) {
+  document.body.classList.add('🔓-full-width');
+}
 
-const uhpPanelTemplate = `
-<div id="uhp-panel" :class="{ dark: isExH }" @click.stop>
-  <h1>Hath Perks</h1>
-  <div>
-    <div v-for="d in HathPerks" class="option-grid">
-      <div class="material-switch">
-        <input :id="getConfId(d.abbr)" type="checkbox" v-model="conf[d.abbr]" @change="save" />
-        <label :for="getConfId(d.abbr)"></label>
+// #endregion Full Width
+
+// #region ubp dialog setup
+
+const uhpDialogEl = $el('dialog', { id: '🔓-dialog' });
+uhpDialogEl.className = (location.host === 'exhentai.org') ? 'dark' : '';
+uhpDialogEl.innerHTML = `
+  <fieldset>
+    <legend>Unlock Hath Perks</legend>
+    <div role="group">
+
+      <div class="option-grid">
+        <label class="material-switch">
+          <input type="checkbox" id="🔓-conf-abg" value="abg" />
+        </label>
+        <span class="🔓-conf-title">Ads-Be-Gone</span>
+        <span class="🔓-conf-desc">Remove ads. You can use it with adblock webextensions.</span>
       </div>
-      <span class="uhp-conf-title">{{d.title}}</span>
-      <span class="uhp-conf-desc">{{d.desc}}</span>
-    </div>
-  </div>
-</div>
-`;
 
-// eslint-disable-next-line no-new
-new Vue({
-  el: '#uhp-panel',
-  template: uhpPanelTemplate,
-  data: {
-    conf: uhpConfig,
-    HathPerks: [{
-      abbr: 'abg',
-      title: 'Ads-Be-Gone',
-      desc: 'Remove ads. You can use it with adblock webextensions.',
-    }, {
-      abbr: 'mt',
-      title: 'More Thumbs',
-      desc: 'Scroll infinitely in gallery pages.',
-    }, {
-      abbr: 'pe',
-      title: 'Paging Enlargement',
-      desc: 'Scroll infinitely in search results pages.',
-    }],
-    Others: [],
-  },
-  computed: {
-    isExH() { return location.host === 'exhentai.org'; },
-  },
-  methods: {
-    save() { GM_setValue('uhp', uhpConfig); },
-    getConfId(id) { return `ubp-conf-${ id }`; },
-  },
-});
+      <div class="option-grid">
+        <label class="material-switch">
+          <input type="checkbox" id="🔓-conf-mt" value="mt" />
+        </label>
+        <span class="🔓-conf-title">More Thumbs</span>
+        <span class="🔓-conf-desc">Scroll infinitely in gallery pages.</span>
+      </div>
+
+      <div class="option-grid">
+        <label class="material-switch">
+          <input type="checkbox" id="🔓-conf-pe" value="pe" />
+        </label>
+        <span class="🔓-conf-title">Page Enlargement</span>
+        <span class="🔓-conf-desc">Scroll infinitely in search results pages.</span>
+      </div>
+
+      <div class="option-grid">
+        <label class="material-switch">
+          <input type="checkbox" id="🔓-conf-fw" value="fw" />
+        </label>
+        <span class="🔓-conf-title">Full Width</span>
+        <span class="🔓-conf-desc">Utilize your monitor.</span>
+      </div>
+
+    </div>
+  </fieldset>
+`;
+uhpDialogEl.onclick = (evt) => {
+  if (evt.target === uhpDialogEl) {
+    uhpDialogEl.close();
+    if (uhpDialogEl.dataset.hasChanged) {
+      location.reload();
+    }
+  }
+};
+document.body.appendChild(uhpDialogEl);
+
+/** @type {HTMLInputElement[]} */
+const checkboxEls = $$('dialog#🔓-dialog input[type="checkbox"]');
+for (const checkboxEl of checkboxEls) {
+  checkboxEl.checked = uhpConfig[checkboxEl.value];
+  checkboxEl.onchange = () => {
+    uhpConfig[checkboxEl.value] = checkboxEl.checked;
+    uhpDialogEl.dataset.hasChanged = true;
+  };
+}
+
+const nb = $('#nb');
+nb.appendChild(
+  $html(`
+    <div>
+      <a id="🔓-entry" href="javascript:;">Unlock Hath Perks</a>
+    </div>
+  `),
+);
+
+$('a#🔓-entry').onclick = () => uhpDialogEl.showModal();
+// #endregion ubp dialog setup
+
+// #region override e-h style
 
 $style(`
 /* nav bar */
@@ -311,109 +286,61 @@ input[name="favcat"] + div {
   height: 100%;
 }`);
 
+// #endregion override e-h style
+
+// #region uhp style
+
 $style(`
-/* uhp */
-#uhp-btn {
-  cursor: pointer;
-}
-#uhp-panel-container {
-  position: fixed;
-  top: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(200, 200, 200, 0.7);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#uhp-panel-container.hidden {
-  visibility: hidden;
-  opacity: 0;
-}
-#uhp-panel {
-  padding: 1.2rem;
-  background-color: floralwhite;
-  border-radius: 1rem;
-  font-size: 1rem;
-  color: darkred;
-  max-width: 650px;
-}
-#uhp-panel.dark {
-  background-color: dimgray;
-  color: ghostwhite;
-}
-#uhp-panel .option-grid {
-  display: grid;
-  grid-template-columns: max-content 120px 1fr;
-  grid-gap: 0.5rem 1rem;
-  margin: 0.5rem 1rem;
-}
-#uhp-panel .option-grid > * {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#uhp-full-width-container.fullwidth,
-#uhp-full-width-container.fullwidth div.itg {
-  max-width: none;
-}
-#uhp-full-width-container div.itg {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  grid-gap: 2px;
-}
-#uhp-full-width-container div.itg.uhp-tpf-dense {
-  grid-auto-flow: dense;
-}
-#uhp-full-width-container div.id1 {
-  height: 345px;
-  float: none;
-  display: flex;
-  flex-direction: column;
-  margin: 3px auto;
-  padding: 4px 0;
-}
-#uhp-full-width-container div.id2 {
-  overflow: visible;
-  height: initial;
-  margin: 4px auto;
-}
-#uhp-full-width-container div.id3 {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.uhp-list-parent-eh tr:nth-of-type(2n+1) {
-  background-color: #EDEBDF;
-}
-.uhp-list-parent-eh tr:nth-of-type(2n+2) {
-  background-color: #F2F0E4;
-}
-.uhp-list-parent-exh tr:nth-of-type(2n+1) {
-  background-color: #363940;
-}
-.uhp-list-parent-exh tr:nth-of-type(2n+2) {
-  background-color: #4F535B;
-}
-#uhp-status {
+#🔓-status {
   text-align: center;
   font-size: 3rem;
   clear: both;
   padding: 2rem 0;
 }
 
-/* https://bootsnipp.com/snippets/featured/material-design-switch */
-.material-switch {
-  display: inline-block;
+#🔓-dialog {
+  padding: 1.2rem;
+  background-color: floralwhite;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  color: darkred;
+  max-width: 950px;
+
+  &.dark {
+    background-color: dimgray;
+    color: ghostwhite;
+  }
+
+  fieldset > legend {
+    font-size: 2rem;
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: max-content 14rem 1fr;
+    column-gap: 1rem;
+    padding: 0.5rem 1rem;
+    align-items: center;
+  }
 }
 
-.material-switch > input[type="checkbox"] {
+.🔓-full-width :where(#gdt, div.ido) {
+  max-width: initial !important;
+  margin: 0 1rem !important;
+}
+
+@supports (display:grid) {
+  .🔓-full-width .gld {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Modified https://bootsnipp.com/snippets/featured/material-design-switch */
+label.material-switch > input[type="checkbox"] {
   display: none;
 }
 
-.material-switch > input[type="checkbox"] + label {
+label.material-switch {
   display: inline-block;
   position: relative;
   margin: 6px;
@@ -424,9 +351,10 @@ $style(`
   background-color: rgb(0, 0, 0);
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease-in-out;
+  cursor: pointer;
 }
 
-.material-switch > input[type="checkbox"] + label::after {
+label.material-switch::after {
   position: absolute;
   top: -4px;
   left: -4px;
@@ -439,26 +367,14 @@ $style(`
   transition: all 0.3s ease-in-out;
 }
 
-.material-switch > input[type="checkbox"]:checked + label {
+label.material-switch:has(> input[type="checkbox"]:checked) {
   background-color: #0e0;
   opacity: 0.7;
 }
 
-.material-switch > input[type="checkbox"]:checked + label::after {
+label.material-switch:has(> input[type="checkbox"]:checked)::after {
   background-color: inherit;
   left: 20px;
-}
-.material-switch > input[type="checkbox"]:disabled + label::after {
-  content: "\\f023";
-  line-height: 24px;
-  font-size: 0.8em;
-  font-family: FontAwesome;
-  color: initial;
 }`);
 
-$el('link', {
-  href: 'https://use.fontawesome.com/releases/v5.8.0/css/all.css',
-  rel: 'stylesheet',
-  integrity: 'sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y',
-  crossOrigin: 'anonymous',
-}, (el) => document.head.appendChild(el));
+// #endregion uhp style
