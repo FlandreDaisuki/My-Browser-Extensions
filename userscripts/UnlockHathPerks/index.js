@@ -1,5 +1,5 @@
 
-import { $, $$, $el, $find, $html, $style } from '../helpers/common';
+import { $, $$, $el, $find, $html, $style, sleep } from '../helpers/common';
 /* cSpell:ignore exhentai juicyads favcat searchnav favform */
 /* eslint-disable no-console */
 
@@ -78,12 +78,16 @@ if (uhpConfig.mt) {
         }
       }
     };
-    const ob = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        replaceResult(ob);
+    let isIntersecting = false;
+    const ob = new IntersectionObserver(async(entries) => {
+      isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting) {
+        do {
+          await replaceResult(ob);
+          await sleep(300);
+        } while (isIntersecting);
       }
     });
-    await replaceResult(ob);
     ob.observe($('table.ptb'));
   })();
 }
@@ -147,12 +151,16 @@ if (uhpConfig.pe) {
         imgParentEl.appendChild(imgEl);
       }
     };
-    const ob = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        replaceResult(ob);
+    let isIntersecting = false;
+    const ob = new IntersectionObserver(async(entries) => {
+      isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting) {
+        do {
+          await replaceResult(ob);
+          await sleep(300);
+        } while (isIntersecting);
       }
     });
-    await replaceResult(ob);
     ob.observe(statusEl);
   })();
 }

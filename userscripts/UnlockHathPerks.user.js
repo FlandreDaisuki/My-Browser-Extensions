@@ -6,7 +6,7 @@
 // @description:zh-TW 解鎖 Hath Perks 及增加一些小工具
 // @description:zh-CN 解锁 Hath Perks 及增加一些小工具
 // @namespace   https://flandre.in/github
-// @version     3.0.0
+// @version     3.0.1
 // @match       https://e-hentai.org/*
 // @match       https://exhentai.org/*
 // @icon        https://i.imgur.com/JsU0vTd.png
@@ -47,6 +47,8 @@
   };
 
   const $style = (stylesheet) => $el('style', stylesheet, (el) => document.head.appendChild(el));
+
+  const sleep = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
   /* cSpell:ignore exhentai juicyads favcat searchnav favform */
   /* eslint-disable no-console */
@@ -126,12 +128,16 @@
           }
         }
       };
-      const ob = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          replaceResult(ob);
+      let isIntersecting = false;
+      const ob = new IntersectionObserver(async(entries) => {
+        isIntersecting = entries[0].isIntersecting;
+        if (isIntersecting) {
+          do {
+            await replaceResult(ob);
+            await sleep(300);
+          } while (isIntersecting);
         }
       });
-      await replaceResult(ob);
       ob.observe($('table.ptb'));
     })();
   }
@@ -195,12 +201,16 @@
           imgParentEl.appendChild(imgEl);
         }
       };
-      const ob = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          replaceResult(ob);
+      let isIntersecting = false;
+      const ob = new IntersectionObserver(async(entries) => {
+        isIntersecting = entries[0].isIntersecting;
+        if (isIntersecting) {
+          do {
+            await replaceResult(ob);
+            await sleep(300);
+          } while (isIntersecting);
         }
       });
-      await replaceResult(ob);
       ob.observe(statusEl);
     })();
   }
