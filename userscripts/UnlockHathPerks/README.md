@@ -14,8 +14,6 @@
     - [Paging Enlargement](#paging-enlargement-1)
     - [Full Width](#full-width-1)
 
-🤔：還在想要不要做/Think to do or not
-
 ## 解鎖 Hath Perks [中文]
 
 給沒有 Hath 的人用的(模擬的) Hath Perks。僅支援以下瀏覽器：
