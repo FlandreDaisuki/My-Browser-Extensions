@@ -334,12 +334,13 @@ $style(`
 
 .🔓-full-width :where(#gdt, div.ido) {
   max-width: initial !important;
-  margin: 0 1rem !important;
+  margin: 1rem !important;
 }
 
 @supports (display:grid) {
   .🔓-full-width .gld {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
   }
 }
 
