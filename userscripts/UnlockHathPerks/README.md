@@ -8,11 +8,13 @@
   - [解鎖 Hath Perks \[中文\]](#解鎖-hath-perks-中文)
     - [Ads-Be-Gone](#ads-be-gone)
     - [More Thumbs](#more-thumbs)
+      - [Comment Panel](#comment-panel)
     - [Paging Enlargement](#paging-enlargement)
     - [Full Width](#full-width)
   - [Unlock Hath Perks \[English\]](#unlock-hath-perks-english)
     - [Ads-Be-Gone](#ads-be-gone-1)
     - [More Thumbs](#more-thumbs-1)
+      - [Comment Panel](#comment-panel-1)
     - [Paging Enlargement](#paging-enlargement-1)
     - [Full Width](#full-width-1)
 
@@ -29,6 +31,10 @@
 ### More Thumbs
 
 打開本本之後可以無限載入。
+
+#### Comment Panel
+
+顯示懸浮面板，讓你暫停縮圖載入並直接閱讀評論。關閉此選項時，會自動載入所有剩餘的縮圖。關閉 More Thumbs 時，此子選項也會停用。
 
 ### Paging Enlargement
 
@@ -53,6 +59,10 @@ Nothing special, you can use `uBlock Origin` instead.
 ### More Thumbs
 
 Infinitely load in gallery.
+
+#### Comment Panel
+
+Shows floating controls that pause thumbnail loading and jump to the comments. When it is disabled, all remaining thumbnails load automatically. This sub-option is disabled when More Thumbs is off.
 
 ### Paging Enlargement
 

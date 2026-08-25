@@ -1,9 +1,12 @@
 import { $, $$, $el, $find, $html, $style, sleep } from '../common.js';
 /* cSpell:ignore exhentai juicyads favcat searchnav favform */
 
-/** @type {{abg: boolean, mt: boolean, pe: boolean, fw: boolean}} */
+/** @type {{abg: boolean, mt: boolean, mtcp: boolean, pe: boolean, fw: boolean}} */
 const uhpConfig = (() => {
-  const _conf = Object.assign({ abg: true, mt: true, pe: true, fw: false }, GM_getValue('uhp'));
+  const _conf = Object.assign(
+    { abg: true, mt: true, mtcp: true, pe: true, fw: false },
+    GM_getValue('uhp'),
+  );
   GM_setValue('uhp', _conf);
 
   return new Proxy(_conf, {
@@ -36,30 +39,38 @@ if (uhpConfig.mt) {
     if (!imgParentEl) { return console.error('No imgParentEl'); }
 
     const paginationEl = $('table.ptb');
-    const commentsAnchorEl = $('a[name="comments"]');
     if (!paginationEl) { return console.error('No paginationEl'); }
-    if (!commentsAnchorEl) { return console.error('No commentsAnchorEl'); }
 
     const initialNextEl = $(NEXT_PAGE_SELECTOR);
     const initialNextUrl = initialNextEl?.href ?? '';
 
-    const commentCount = $$('#cdiv > .c1').length;
-    const moreThumbsControlsEl = $el('div', {
-      className: (location.host === 'exhentai.org') ? 'dark' : '',
-      id: '🔓-more-thumbs-controls',
-    });
-    moreThumbsControlsEl.innerHTML = `
-      <span id="🔓-more-thumbs-status" aria-live="polite"></span>
-      <button id="🔓-view-comments" type="button">
-        Comments${commentCount ? ` (${commentCount})` : ''} ↓
-      </button>
-      <button id="🔓-resume-thumbs" type="button" hidden>Resume thumbs ↑</button>
-    `;
-    document.body.appendChild(moreThumbsControlsEl);
+    let commentsAnchorEl;
+    let moreThumbsControlsEl;
+    let statusEl;
+    let viewCommentsEl;
+    let resumeThumbsEl;
+    if (uhpConfig.mtcp) {
+      commentsAnchorEl = $('a[name="comments"]');
+      if (!commentsAnchorEl) { return console.error('No commentsAnchorEl'); }
 
-    const statusEl = $('#🔓-more-thumbs-status');
-    const viewCommentsEl = $('#🔓-view-comments');
-    const resumeThumbsEl = $('#🔓-resume-thumbs');
+      const commentCount = $$('#cdiv > .c1').length;
+      moreThumbsControlsEl = $el('div', {
+        className: (location.host === 'exhentai.org') ? 'dark' : '',
+        id: '🔓-more-thumbs-controls',
+      });
+      moreThumbsControlsEl.innerHTML = `
+        <span id="🔓-more-thumbs-status" aria-live="polite"></span>
+        <button id="🔓-view-comments" type="button">
+          Comments${commentCount ? ` (${commentCount})` : ''} ↓
+        </button>
+        <button id="🔓-resume-thumbs" type="button" hidden>Resume thumbs ↑</button>
+      `;
+      document.body.appendChild(moreThumbsControlsEl);
+
+      statusEl = $('#🔓-more-thumbs-status');
+      viewCommentsEl = $('#🔓-view-comments');
+      resumeThumbsEl = $('#🔓-resume-thumbs');
+    }
 
     const isCommentHash = (hash) => (
       hash === '#comments'
@@ -76,7 +87,7 @@ if (uhpConfig.mt) {
       .filter((imgEl) => !imgEl.classList.contains('c'))
       .length;
 
-    let isPaused = isCommentHash(location.hash);
+    let isPaused = uhpConfig.mtcp && isCommentHash(location.hash);
     let hasMore = Boolean(initialNextUrl);
     let isIntersecting = false;
     let isLoading = false;
@@ -86,6 +97,7 @@ if (uhpConfig.mt) {
     let ob;
 
     const updateControls = () => {
+      if (!uhpConfig.mtcp) { return; }
       if (loadFailed) {
         moreThumbsControlsEl.dataset.state = 'error';
         statusEl.textContent = `Stopped · ${getThumbCount()} thumbnails`;
@@ -160,7 +172,7 @@ if (uhpConfig.mt) {
       updateControls();
       try {
         while (true) {
-          if (!isIntersecting || isPaused || !hasMore) { break; }
+          if (isPaused || !hasMore || (uhpConfig.mtcp && !isIntersecting)) { break; }
           await appendNextPage();
           updateControls();
           if (!isPaused && hasMore) {
@@ -176,7 +188,7 @@ if (uhpConfig.mt) {
       finally {
         isLoading = false;
         if (!hasMore) {
-          ob.disconnect();
+          ob?.disconnect();
         }
         updateControls();
       }
@@ -186,13 +198,6 @@ if (uhpConfig.mt) {
       if (isLoading || isPaused || !hasMore) { return; }
       currentLoadPromise = loadVisiblePages();
     };
-
-    ob = new IntersectionObserver((entries) => {
-      isIntersecting = entries[0].isIntersecting;
-      if (isIntersecting) {
-        startLoading();
-      }
-    });
 
     const pauseAndViewComments = async (targetEl, behavior = 'smooth') => {
       const intent = ++navigationIntent;
@@ -215,20 +220,32 @@ if (uhpConfig.mt) {
       paginationEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
-    viewCommentsEl.onclick = () => pauseAndViewComments(commentsAnchorEl);
-    resumeThumbsEl.onclick = resumeMoreThumbs;
-    window.addEventListener('hashchange', () => {
-      if (isCommentHash(location.hash)) {
-        pauseAndViewComments(getCommentHashTarget(), 'auto');
-      }
-    });
+    if (uhpConfig.mtcp) {
+      ob = new IntersectionObserver((entries) => {
+        isIntersecting = entries[0].isIntersecting;
+        if (isIntersecting) {
+          startLoading();
+        }
+      });
 
-    updateControls();
-    if (isPaused) {
-      requestAnimationFrame(() => pauseAndViewComments(getCommentHashTarget(), 'auto'));
+      viewCommentsEl.onclick = () => pauseAndViewComments(commentsAnchorEl);
+      resumeThumbsEl.onclick = resumeMoreThumbs;
+      window.addEventListener('hashchange', () => {
+        if (isCommentHash(location.hash)) {
+          pauseAndViewComments(getCommentHashTarget(), 'auto');
+        }
+      });
+
+      updateControls();
+      if (isPaused) {
+        requestAnimationFrame(() => pauseAndViewComments(getCommentHashTarget(), 'auto'));
+      }
+      else if (hasMore) {
+        ob.observe(paginationEl);
+      }
     }
-    else if (hasMore) {
-      ob.observe(paginationEl);
+    else {
+      startLoading();
     }
   })();
 }
@@ -341,6 +358,14 @@ uhpDialogEl.innerHTML = `
         <span class="🔓-conf-desc">Scroll infinitely in gallery pages.</span>
       </div>
 
+      <div class="option-grid sub-option">
+        <label class="material-switch">
+          <input type="checkbox" id="🔓-conf-mtcp" value="mtcp" />
+        </label>
+        <span class="🔓-conf-title">Comment Panel</span>
+        <span class="🔓-conf-desc">Pause thumbnail loading and jump to comments from a floating panel.</span>
+      </div>
+
       <div class="option-grid">
         <label class="material-switch">
           <input type="checkbox" id="🔓-conf-pe" value="pe" />
@@ -372,13 +397,21 @@ document.body.appendChild(uhpDialogEl);
 
 /** @type {HTMLInputElement[]} */
 const checkboxEls = $$('dialog#🔓-dialog input[type="checkbox"]');
+const moreThumbsCheckboxEl = $('#🔓-conf-mt');
+const commentPanelCheckboxEl = $('#🔓-conf-mtcp');
+const syncMoreThumbsOptions = () => {
+  commentPanelCheckboxEl.disabled = !moreThumbsCheckboxEl.checked;
+};
+
 for (const checkboxEl of checkboxEls) {
   checkboxEl.checked = uhpConfig[checkboxEl.value];
   checkboxEl.onchange = () => {
     uhpConfig[checkboxEl.value] = checkboxEl.checked;
     uhpDialogEl.dataset.hasChanged = true;
+    syncMoreThumbsOptions();
   };
 }
+syncMoreThumbsOptions();
 
 const nb = $('#nb');
 nb.appendChild(
@@ -589,6 +622,14 @@ $style(`
     padding: 0.5rem 1rem;
     align-items: center;
   }
+
+  .option-grid.sub-option {
+    margin-left: 2rem;
+  }
+
+  .option-grid:has(input:disabled) {
+    opacity: 0.45;
+  }
 }
 
 .🔓-full-width :where(#gdt, div.ido) {
@@ -620,6 +661,10 @@ label.material-switch {
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease-in-out;
   cursor: pointer;
+}
+
+label.material-switch:has(> input[type="checkbox"]:disabled) {
+  cursor: not-allowed;
 }
 
 label.material-switch::after {
